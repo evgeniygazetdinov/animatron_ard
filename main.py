@@ -9,8 +9,8 @@ import random
 port  = '/dev/ttyACM0'
 
 board = Arduino(port)
-board = Board
+iter8 = py
 while True:
     board.servo_config(7,200,100,30,90)
 
-    
+
