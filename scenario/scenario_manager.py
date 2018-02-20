@@ -1,9 +1,4 @@
 
-#!/usr/bin/python3
-# -*- coding: utf-8 -*-
-
-
-
 from PyQt5.QtWidgets import (QWidget, QSlider,
                              QLabel, QApplication,
                              QPushButton)
@@ -22,8 +17,9 @@ class Example(QWidget):
         self.paused = False
         self.playing = False
         self.vol = 0
-        self.sec= 00
-        self.minutes =00
+        self.sec= 0
+        self.minutes =0
+        self.position = 0
         self.primary_time =''
         self.final_time = ''
     def initUI(self):
@@ -37,7 +33,7 @@ class Example(QWidget):
         sld.valueChanged[int].connect(self.get_value)
 
         loud = QSlider(Qt.Vertical,self)
-        loud.setGeometry(150,20,200,40)
+        loud.setGeometry(150,20,200,20)
         loud.valueChanged[int].connect(self.loudness)
 
         pybutton = QPushButton('get value', self)
@@ -55,7 +51,7 @@ class Example(QWidget):
         stop_music.move(10,100)
         stop_music.resize(100,32)
 
-        time_label = QLabel('',self)
+        time_label = QLabel(,self)
         time_label.move(220,20)
 
 
@@ -90,9 +86,9 @@ class Example(QWidget):
     def play_music(self):
         self.playing = True
         self.conventer_durability()
-        self.doAction()
+        self.getPosition()
         pygame.init()
-        pygame.mixer.music.load('/home/qbc/Downloads/c.mp3')
+        pygame.mixer.music.load('/Users/evgeshakrasava/PycharmProjects/c.mp3')
         pygame.mixer.music.play(0)
 
 
@@ -124,18 +120,17 @@ class Example(QWidget):
 
 
     def conventer_durability(self):
-        tag = TinyTag.get('/home/qbc/Downloads/c.mp3')
+        tag = TinyTag.get('/Users/evgeshakrasava/PycharmProjects/c.mp3')
         value = tag.duration
         minutes = str(int((value// 60) % 60))
         sec = str(int(value % 60))
         print(minutes+':'+sec)
-
+        self.minutes = minutes
+        self.sec =  sec
 
     def getPosition(self):
-        if self.playing == True:
-            position = pygame.mixer.music.get_pos()
-            return self.conventer_durability(position)
-        return "00:00"
+        print(self.minutes)
+        print(self.sec)
 
     def doAction(self):
         if self.play_music:
@@ -150,9 +145,6 @@ class Example(QWidget):
 
 
 ###################################################################
-
-
-
 
 
 
