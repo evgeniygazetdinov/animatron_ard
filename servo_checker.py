@@ -1,8 +1,8 @@
-
+'''
 import tkinter
 import pyfirmata
 import time
-from main import port2,port
+from config import *
 'file contain methods for using servo'
 board = pyfirmata.Arduino(port2)
 left = board.get_pin('d:8:s')
@@ -48,7 +48,7 @@ tkinter.mainloop()
 
 
 
-'''
+
 class SampleApp(tk.Tk):
 
     def __init__(self):
@@ -65,3 +65,10 @@ w = SampleApp()
 w.mainloop()
 
 '''
+
+from pygame import mixer
+
+file = '/home/qbc/Downloads/vdad.mp3'
+mixer.init()
+mixer.music.load(file)
+mixer.music.play()
