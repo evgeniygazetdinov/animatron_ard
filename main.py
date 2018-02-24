@@ -1,6 +1,7 @@
-import  tkinter as Tkinter
-from tkinter import ttk
+
+from tkinter import *
 import tkinter as tk
+from tkinter import ttk
 
 import pygame
 from tinytag import TinyTag
@@ -10,103 +11,135 @@ import time
 
 class Demo1:
 
-
-
-
-
-
-    def __init__(self, master):
-        ##########
-        self.position = 0
-        self.playing = False
-        self.paused = False
-        self.port1 = '/Users/evgeshakrasava/PycharmProjects/c.mp3'
-        self.port2 = '/home/qbc/Downloads/c.mp3'
-
-        ##########
-        self.pr_time = 0
-        self.fin_time = 0
-        self.min = 0
-        self.sec = 0
-        self.value =1
-        ##########
-
-        self.master = master
-        self.master.geometry('640x480')
-        self.frame = tk.Frame(self.master)
-        self.button1 = tk.Button(self.frame, text = 'servo_config', width = 25, command = self.new_window)
-        self.button1.pack()
-        self.frame.pack()
-        self.scale = Tkinter.Scale(orient='horizontal', from_=0.9, to=180.5, command=self.print_value)
-        self.scale.pack()
-
-        self.p_bar = ttk.Progressbar(self.frame, orient='horizontal', length=200)
-        self.p_bar.config(mode='determinate', maximum=self.fin_time, value=1)
-        self.p_bar.pack()
-
-        self.b = Tkinter.Button(self.frame, text="play", command=self.play_music)
-        self.b.pack()
-
-        self.pause = Tkinter.Button(self.frame, text='pause/unpause', command=self.pause)
-        self.pause.pack()
-
-
-        self.m_time = ttk.Label(self.frame,text =self.min)
-        self.m_time.pack()
-        self.m_time.configure(text="%2.2d:%2.2d" % (self.min,self.sec))
-
-
-
-
-
-    def play_music(self):
-            self.conventer_durability()
-            self.p_bar.start(1000)
-            pygame.init()
-            pygame.mixer.music.load(self.port2)
-            pygame.mixer.music.play()
-
-
-
-    def pause(self):
-        pygame.init()
-        self.playing = False
-        self.p_bar.stop()
-        if self.paused:
-            pygame.mixer.music.unpause()
+        def __init__(self, master):
+            ##########
+            self.position = 0
+            self.playing = False
             self.paused = False
-        else:
-            self.paused = True
-            pygame.mixer.music.pause()
+            self.port1 = '/Users/evgeshakrasava/PycharmProjects/c.mp3'
+            self.port2 = '/home/qbc/Downloads/c.mp3'
+
+            ##########
+            self.pr_time = 0
+            self.fin_time = 0
+            self.min = 0
+            self.sec = 0
+            self.value =1
+            self.info = ''
+            ##########
+
+            self.master = master
+            self.master.geometry('300x200')
+
+            self.frame = tk.Frame(self.master)
+            self.frame.pack()
+
+            self.button1 = tk.Button(self.frame, text = 'servo_config', width = 25, command = self.new_window)
+            self.button1.pack()
 
 
-    def new_window(self):
-        self.newWindow = tk.Toplevel(self.master)
-        self.app = Demo2(self.newWindow)
-
-
-    def update_clock(self):
-        now = time.strftime("%H:%M:%S")
-        self.label.configure(text=now)
-        self.root.after(1000, self.update_clock)
-
-
-
-
-    def conventer_durability(self):
-        tag = TinyTag.get(self.port2)
-        self.fin_time = tag.duration
-        self.fin_time = int(self.fin_time)
-        minutes = self.fin_time / 60
-        sec = self.fin_time % 60
-        self.minutes = minutes
-        self.sec = sec
+            self.scale = ttk.Scale(orient='horizontal', from_=0.01, to=0.88,command = self.loud).pack()
 
 
 
-    def print_value(self):
-        print(self.value)
+            self.p_bar = ttk.Progressbar(self.frame, orient='horizontal', length=200)
+            self.p_bar.pack()
 
+
+            self.b = ttk.Button(self.frame, text="play/replay", command=self.play_music)
+            self.b.pack()
+
+            self.pause = ttk.Button(self.frame, text='pause/unpause', command=self.pause)
+            self.pause.pack()
+
+            self.loop_butt = ttk .Button(self.frame,text ='loop',command =self.loop).pack()
+
+            self.m_time = ttk.Label(self.frame,text ='')
+            self.m_time.pack()
+
+
+
+
+        def play_music(self):
+            self.playing = True
+            pygame.init()
+            pygame.mixer.music.load(self.port1)
+            pygame.mixer.music.set_volume(0)#set volume on zero before play
+            pygame.mixer.music.play()
+            self.conventer_durability()
+
+
+            if self.playing == True:
+                self.p_bar.config(mode='determinate', maximum=self.fin_time, value=1)
+                self.p_bar.start(1000)
+                self.conventer_durability()
+                self._on_scale()
+
+
+
+
+
+        def _on_scale(self):
+            #initialize time track
+            time = int(pygame.mixer.music.get_pos() / 1000)
+            m, s = divmod(time, 60)
+            h, m = divmod(m, 60)
+            self.m_time.configure(text="%2.2d:%2.2d" % (m,s))
+            self.frame.after(1000, self._on_scale)
+
+        def update_timeslider(self, _=None):
+            time = (pygame.mixer.music.get_pos() / 1000)
+            timeslider.set(time)
+            self.after(10, self.update_timeslider)
+
+
+        def pause(self):
+            pygame.init()
+            self.playing = False
+
+            if self.paused:
+
+                pygame.mixer.music.unpause()
+                self.paused = False
+            else:
+                self.p_bar.stop()
+                self.paused = True
+                pygame.mixer.music.pause()
+
+
+        def loud(self,value):
+            pygame.mixer.music.set_volume((float(value)))#put on pygame module value from scale widget
+
+        def loop(self):
+            pygame.mixer.music.stop()
+            pygame.mixer.music.play(-1, 0.0)
+
+
+        def conventer_durability(self):
+            tag = TinyTag.get(self.port1)
+            self.fin_time = tag.duration
+            self.fin_time = int(self.fin_time)
+            minutes = self.fin_time / 60
+            sec = self.fin_time % 60
+
+
+
+
+
+        def new_window(self):
+            self.newWindow = tk.Toplevel(self.master)
+            self.app = Demo2(self.newWindow)
+
+
+
+
+
+        def print_value(self):
+            print(self.value)
+
+
+        def createsound_path(self):
+            pass
 
 
 
@@ -116,34 +149,68 @@ class Demo1:
 class Demo2:
     def __init__(self, master):
         self.master = master
-        self.master.geometry('640x480')
+        self.master.geometry('800x400')
         self.frame = tk.Frame(self.master)
-        self.frame.config(height=5000 ,width=1200)
-        self.servo1 =100
-        self.servo2 = 50
-        self.servo3 = 700
-        self.servo4 = 30
+        servo_n = [ 'servo_1','servo_2','servo_3',
+                    'servo_4','servo_5','servo_6',
+                    'servo_7','servo_8','servo_9',]
+
+        self.lab_ser_1 = ttk.Label(self.master, text='servo-driver_1,choose driver and angle ').grid(row=0,column=1)
+        self.check_1 = ttk.Combobox(self.master, textvariable=servo_n).grid(row=1,column=1)
+        self.angle_box1 = ttk.Entry(self.master, width=3).grid(row=2,column=1)
+
+        self.lab_ser_2 = ttk.Label(self.master, text='servo-driver_2,choose driver and angle ').grid(row=4,column=1)
+        self.check_2 = ttk.Combobox(self.master, textvariable=servo_n).grid(row=5,column=1)
+        self.angle_box2 =ttk.Entry(self.master,width=3).grid(row=6,column=1)
+
+        self.lab_ser_3 = ttk.Label(self.master, text='servo-driver_3,choose driver and angle ').grid(row=8,column=1)
+        self.check_3 = ttk.Combobox(self.master, textvariable=servo_n).grid(row=9,column=1)
+        self.angle_box3 = ttk.Entry(self.master, width=3).grid(row=10,column=1)
+
+        self.lab_ser_4 = ttk.Label(self.master, text='servo-driver_4,choose driver and angle ').grid(row=0,column=2)
+        self.check_4 = ttk.Combobox(self.master, textvariable=servo_n).grid(row=1,column=2)
+        self.angle_box4 = ttk.Entry(self.master, width=3).grid(row=2,column=2)
+
+        self.lab_ser_5 = ttk.Label(self.master, text='servo-driver_5,choose driver and angle ').grid(row=4,column=2)
+        self.check_5 = ttk.Combobox(self.master, textvariable=servo_n).grid(row=5,column=2)
+        self.angle_box5 = ttk.Entry(self.master, width=3).grid(row=6,column=2)
+
+        self.lab_ser_6 = ttk.Label(self.master, text='servo-driver_6,choose driver and angle ').grid(row=8,column=2)
+        self.check_6 = ttk.Combobox(self.master, textvariable=servo_n).grid(row=9,column=2)
+        self.angle_box6 = ttk.Entry(self.master, width=3).grid(row=10,column=2)
+
+        self.lab_ser_7 = ttk.Label(self.master, text='servo-driver_7,choose driver and angle ').grid(row=0,column=3)
+        self.check_7 = ttk.Combobox(self.master, textvariable=servo_n).grid(row=1,column=3)
+        self.angle_box7 = ttk.Entry(self.master, width=3).grid(row=2,column=3)
+
+        self.lab_ser_8 = ttk.Label(self.master, text='servo-driver_8,choose driver and angle ').grid(row=4,column=3)
+        self.check_8 = ttk.Combobox(self.master, textvariable=servo_n).grid(row=5,column=3)
+        self.angle_box8 = ttk.Entry(self.master, width=3).grid(row=6,column=3)
+
+        self.lab_ser_9 = ttk.Label(self.master, text='servo-driver_9,choose driver and angle ').grid(row=8,column=3)
+        self.check_9 = ttk.Combobox(self.master, textvariable=servo_n).grid(row=9,column=3)
+        self.angle_box9 = ttk.Entry(self.master, width=3).grid(row=10,column=3)
+
+
+        self.button = ttk.Button(self.master,text ='pull value',command= self.take_angle_box_answer).grid(row=13,column=2)
+
+        self.preview = ttk.Button(self.master,text = "preview").grid(row = 14 ,column=2)
+
+        self.add_position = ttk.Button(self.master, text="add action").grid(row=16, column=2)
 
 
 
 
-        self.servo_box2 = ttk.Combobox(self.master, textvariable=self.servo1)
-        self.servo_box2.grid(row = 0,column = 2)
 
-        self.servo_box3 = ttk.Combobox(self.master,textvariable =self.servo2)
-        self.servo_box3.grid(row = 1,column = 2)
 
-        self.servo_box4 = ttk.Combobox(self.master, textvariable=self.servo3)
-        self.servo_box4.grid(row = 5,column = 3)
 
-        self.servo_box5 = ttk.Combobox(self.master, textvariable=self.servo4)
-        self.servo_box5.grid(row = 2,column = 3)
+    def take_angle_box_answer(self):
+        answer = self.angle_box1.get()
+        print(answer)
 
-        self.labelframe = ttk.LabelFrame(self.frame, text="This is a LabelFrame")
-        self.labelframe.grid(row = 2,column = 3)
 
-        self.left = ttk.Label(self.labelframe, text="Inside the LabelFrame")
-        self.left.grid(row = 8,column = 5)
+
+
 
 
 
@@ -153,6 +220,8 @@ class Demo2:
     def take(self):
         x=self.servo_box3.get()
         print(x)
+
+
 def main():
     root = tk.Tk()
     root.title("SERVO_M")
@@ -161,3 +230,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
