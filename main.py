@@ -25,7 +25,7 @@ class Demo1:
         self.min = 0
         self.sec = 0
         self.value =1
-        self.volume = 0.1
+        self.volume = 0.001
         self.info = ''
         ##########
 
@@ -39,8 +39,8 @@ class Demo1:
         self.button1.pack()
 
 
-        self.scale = ttk.Scale(orient='horizontal', from_=0.01, to=100,)
-        self.scale.pack()
+        self.scale = ttk.Scale(orient='horizontal', from_=0.01, to=0.9,command = self.loud).pack()
+
 
 
         self.p_bar = ttk.Progressbar(self.frame, orient='horizontal', length=200)
@@ -70,15 +70,14 @@ class Demo1:
             self.p_bar.config(mode='determinate', maximum=self.fin_time, value=1)
             self.p_bar.start(1000)
             self.loud()
-            self._on_scale()
 
-
+    '''
     def _on_scale(self):
         value = int(value)
         self.minutes = value/60
         self.sec = value%60
         self.m_time.configure(text="%2.2d:%2.2d" % (self.minutes, self.seconds))
-
+    '''
 
     def pause(self):
         pygame.init()
@@ -93,8 +92,8 @@ class Demo1:
             self.paused = True
             pygame.mixer.music.pause()
 
-    def loud(self):
-        pygame.mixer.music.set_volume(self.volume)
+    def loud(self,value):
+        pygame.mixer.music.set_volume((float(value)))
 
 
 
@@ -194,7 +193,6 @@ class Demo2:
     def take_angle_box_answer(self):
         answer = self.angle_box1.get()
         print(answer)
-
 
 
 
