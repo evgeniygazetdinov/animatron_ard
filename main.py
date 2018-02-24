@@ -11,121 +11,122 @@ import time
 
 class Demo1:
 
-    def __init__(self, master):
-        ##########
-        self.position = 0
-        self.playing = False
-        self.paused = False
-        self.port1 = '/Users/evgeshakrasava/PycharmProjects/c.mp3'
-        self.port2 = '/home/qbc/Downloads/c.mp3'
-
-        ##########
-        self.pr_time = 0
-        self.fin_time = 0
-        self.min = 0
-        self.sec = 0
-        self.value =1
-        self.volume = 0.001
-        self.info = ''
-        ##########
-
-        self.master = master
-        self.master.geometry('300x200')
-
-        self.frame = tk.Frame(self.master)
-        self.frame.pack()
-
-        self.button1 = tk.Button(self.frame, text = 'servo_config', width = 25, command = self.new_window)
-        self.button1.pack()
-
-
-        self.scale = ttk.Scale(orient='horizontal', from_=0.01, to=0.9,command = self.loud).pack()
-
-
-
-        self.p_bar = ttk.Progressbar(self.frame, orient='horizontal', length=200)
-        self.p_bar.pack()
-
-
-        self.b = ttk.Button(self.frame, text="play/replay", command=self.play_music)
-        self.b.pack()
-
-        self.pause = ttk.Button(self.frame, text='pause/unpause', command=self.pause)
-        self.pause.pack()
-
-
-        self.m_time = ttk.Label(self.frame,text =self.min)
-        self.m_time.pack()
-
-    def play_music(self):
-        self.playing = True
-        self.conventer_durability()
-
-        pygame.init()
-        pygame.mixer.music.load(self.port1)
-        pygame.mixer.music.play()
-
-
-        if self.playing == True:
-            self.p_bar.config(mode='determinate', maximum=self.fin_time, value=1)
-            self.p_bar.start(1000)
-            self.loud()
-
-    '''
-    def _on_scale(self):
-        value = int(value)
-        self.minutes = value/60
-        self.sec = value%60
-        self.m_time.configure(text="%2.2d:%2.2d" % (self.minutes, self.seconds))
-    '''
-
-    def pause(self):
-        pygame.init()
-        self.playing = False
-
-        if self.paused:
-            self.playing = True
-            pygame.mixer.music.unpause()
+        def __init__(self, master):
+            ##########
+            self.position = 0
+            self.playing = False
             self.paused = False
-        else:
+            self.port1 = '/Users/evgeshakrasava/PycharmProjects/c.mp3'
+            self.port2 = '/home/qbc/Downloads/c.mp3'
 
-            self.paused = True
-            pygame.mixer.music.pause()
+            ##########
+            self.pr_time = 0
+            self.fin_time = 0
+            self.min = 0
+            self.sec = 0
+            self.value =1
+            self.info = ''
+            ##########
 
-    def loud(self,value):
-        pygame.mixer.music.set_volume((float(value)))
+            self.master = master
+            self.master.geometry('300x200')
 
+            self.frame = tk.Frame(self.master)
+            self.frame.pack()
 
-
-    def conventer_durability(self):
-        tag = TinyTag.get(self.port1)
-        self.fin_time = tag.duration
-        self.fin_time = int(self.fin_time)
-        minutes = self.fin_time / 60
-        sec = self.fin_time % 60
-        self.minutes = minutes
-        self.sec = sec
-
-
-
-
+            self.button1 = tk.Button(self.frame, text = 'servo_config', width = 25, command = self.new_window)
+            self.button1.pack()
 
 
-
-    def new_window(self):
-        self.newWindow = tk.Toplevel(self.master)
-        self.app = Demo2(self.newWindow)
+            self.scale = ttk.Scale(orient='horizontal', from_=0.01, to=0.88,command = self.loud).pack()
 
 
 
+            self.p_bar = ttk.Progressbar(self.frame, orient='horizontal', length=200)
+            self.p_bar.pack()
 
 
-    def print_value(self):
-        print(self.value)
+            self.b = ttk.Button(self.frame, text="play/replay", command=self.play_music)
+            self.b.pack()
+
+            self.pause = ttk.Button(self.frame, text='pause/unpause', command=self.pause)
+            self.pause.pack()
 
 
-    def createsound_path(self):
-        pass
+            self.m_time = ttk.Label(self.frame,text ='')
+            self.m_time.pack()
+
+        def play_music(self):
+            self.playing = True
+            self.conventer_durability()
+
+            pygame.init()
+            pygame.mixer.music.load(self.port1)
+            pygame.mixer.music.set_volume(0)#set volume on zero before play
+            pygame.mixer.music.play()
+
+
+            if self.playing == True:
+                self.p_bar.config(mode='determinate', maximum=self.fin_time, value=1)
+                self.p_bar.start(1000)
+                self._on_scale()
+
+
+
+        def _on_scale(self):
+            value = pygame.mixer.music.get_pos()
+            minutes = value/60
+            sec = value%60
+            self.m_time.configure(text="%2.2d:%2.2d" % (minutes,sec))
+            self.frame.after(1000, self._on_scale())
+
+        def pause(self):
+            pygame.init()
+            self.playing = False
+
+            if self.paused:
+                self.playing = True
+                pygame.mixer.music.unpause()
+                self.paused = False
+            else:
+
+                self.paused = True
+                pygame.mixer.music.pause()
+
+        def loud(self,value):
+            pygame.mixer.music.set_volume((float(value)))#put on pygame module value from scale widget
+
+
+
+        def conventer_durability(self):
+            tag = TinyTag.get(self.port1)
+            self.fin_time = tag.duration
+            self.fin_time = int(self.fin_time)
+            minutes = self.fin_time / 60
+            sec = self.fin_time % 60
+            self.minutes = minutes
+            self.sec = sec
+
+
+
+
+
+
+
+        def new_window(self):
+            self.newWindow = tk.Toplevel(self.master)
+            self.app = Demo2(self.newWindow)
+
+
+
+
+
+        def print_value(self):
+            print(self.value)
+
+
+        def createsound_path(self):
+            pass
 
 
 
