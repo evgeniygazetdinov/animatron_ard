@@ -1,8 +1,8 @@
 
 from tkinter import *
 import tkinter as tk
-from tkinter import ttk
-
+from tkinter import ttk,messagebox
+import os
 import pygame
 from tinytag import TinyTag
 import time
@@ -38,7 +38,7 @@ class Demo1:
             self.button1.pack()
 
 
-            self.scale = ttk.Scale(orient='horizontal', from_=0.01, to=0.88,command = self.loud).pack()
+            self.scale = ttk.Scale(orient='horizontal', from_=0.01, to=0.9,command = self.loud).pack()
 
 
 
@@ -52,50 +52,83 @@ class Demo1:
             self.pause = ttk.Button(self.frame, text='pause/unpause', command=self.pause)
             self.pause.pack()
 
+            self.loop_butt = ttk .Button(self.frame,text ='loop',command =self.loop).pack()
+
+            self.open_new = ttk. Button(self.frame,text = 'open',command = self.add).pack()
+
 
             self.m_time = ttk.Label(self.frame,text ='')
             self.m_time.pack()
 
+
+
+
         def play_music(self):
             self.playing = True
-            self.conventer_durability()
-
             pygame.init()
             pygame.mixer.music.load(self.port1)
             pygame.mixer.music.set_volume(0)#set volume on zero before play
+
+
             pygame.mixer.music.play()
+            self.conventer_durability()
 
 
             if self.playing == True:
-                self.p_bar.config(mode='determinate', maximum=self.fin_time, value=1)
-                self.p_bar.start(1000)
+              #  self.p_bar.config(mode='determinate', maximum=self.fin_time, value=1)
+               # self.p_bar.start(1000)
+                self.conventer_durability()
                 self._on_scale()
+
+        def directorychooser(self):
+            directory = askdirectory()
+            os.chdir(directory)
+            for files in os.listdir(directory):
+                if files.endswith(".mp3"):
+                    realdir = os.path.realpath(files)
+                    playlist.append(files)
+                    print(files)
+            pygame.mixer.init()
+            pygame.mixer.music.load(playlist[0])
+            self.update_currentsong()
+
 
 
 
         def _on_scale(self):
-            value = pygame.mixer.music.get_pos()
-            minutes = value/60
-            sec = value%60
-            self.m_time.configure(text="%2.2d:%2.2d" % (minutes,sec))
-            self.frame.after(1000, self._on_scale())
+            #initialize time track
+            time = int(pygame.mixer.music.get_pos() / 1000)
+            m, s = divmod(time, 60)
+            h, m = divmod(m, 60)
+            self.m_time.configure(text="%2.2d:%2.2d" % (m,s))
+            self.frame.after(1000, self._on_scale)
+
+        def update_timeslider(self, _=None):
+            time = (pygame.mixer.music.get_pos() / 1000)
+            timeslider.set(time)
+            self.after(10, self.update_timeslider)
+
 
         def pause(self):
             pygame.init()
             self.playing = False
 
             if self.paused:
-                self.playing = True
+
                 pygame.mixer.music.unpause()
                 self.paused = False
             else:
-
+                self.p_bar.stop()
                 self.paused = True
                 pygame.mixer.music.pause()
+
 
         def loud(self,value):
             pygame.mixer.music.set_volume((float(value)))#put on pygame module value from scale widget
 
+        def loop(self):
+            pygame.mixer.music.stop()
+            pygame.mixer.music.play(-1, 0.0)
 
 
         def conventer_durability(self):
@@ -104,12 +137,17 @@ class Demo1:
             self.fin_time = int(self.fin_time)
             minutes = self.fin_time / 60
             sec = self.fin_time % 60
-            self.minutes = minutes
-            self.sec = sec
 
-
-
-
+        def add(self):
+            file = ttk.askopenfilenames(initialdir='C:/Users/babbu/Downloads')
+            songsTuple = self.frame.splitlist(file)  # turn user's opened filenames into tuple
+            songsList = list(songsTuple)  # convert to list
+            # Add the full filename of songto playlist list, and a shortened version to the listBox
+            for song in songsList:
+                playlist.append(song);
+                tempArray = song.split('/')
+                songShort = tempArray[len(tempArray) - 1]
+                self.playlistbox.insert(END, songShort)
 
 
 
@@ -143,39 +181,43 @@ class Demo2:
                     'servo_7','servo_8','servo_9',]
 
         self.lab_ser_1 = ttk.Label(self.master, text='servo-driver_1,choose driver and angle ').grid(row=0,column=1)
-        self.check_1 = ttk.Combobox(self.master, textvariable=servo_n).grid(row=1,column=1)
+        self.check_1 = ttk.Combobox(self.master, value=servo_n).grid(row=1,column=1)
         self.angle_box1 = ttk.Entry(self.master, width=3).grid(row=2,column=1)
 
+
+
+
         self.lab_ser_2 = ttk.Label(self.master, text='servo-driver_2,choose driver and angle ').grid(row=4,column=1)
-        self.check_2 = ttk.Combobox(self.master, textvariable=servo_n).grid(row=5,column=1)
+        self.check_2 = ttk.Combobox(self.master, value=servo_n).grid(row=5,column=1)
         self.angle_box2 =ttk.Entry(self.master,width=3).grid(row=6,column=1)
 
+
         self.lab_ser_3 = ttk.Label(self.master, text='servo-driver_3,choose driver and angle ').grid(row=8,column=1)
-        self.check_3 = ttk.Combobox(self.master, textvariable=servo_n).grid(row=9,column=1)
+        self.check_3 = ttk.Combobox(self.master, value=servo_n).grid(row=9,column=1)
         self.angle_box3 = ttk.Entry(self.master, width=3).grid(row=10,column=1)
 
         self.lab_ser_4 = ttk.Label(self.master, text='servo-driver_4,choose driver and angle ').grid(row=0,column=2)
-        self.check_4 = ttk.Combobox(self.master, textvariable=servo_n).grid(row=1,column=2)
+        self.check_4 = ttk.Combobox(self.master, value=servo_n).grid(row=1,column=2)
         self.angle_box4 = ttk.Entry(self.master, width=3).grid(row=2,column=2)
 
         self.lab_ser_5 = ttk.Label(self.master, text='servo-driver_5,choose driver and angle ').grid(row=4,column=2)
-        self.check_5 = ttk.Combobox(self.master, textvariable=servo_n).grid(row=5,column=2)
+        self.check_5 = ttk.Combobox(self.master, value=servo_n).grid(row=5,column=2)
         self.angle_box5 = ttk.Entry(self.master, width=3).grid(row=6,column=2)
 
         self.lab_ser_6 = ttk.Label(self.master, text='servo-driver_6,choose driver and angle ').grid(row=8,column=2)
-        self.check_6 = ttk.Combobox(self.master, textvariable=servo_n).grid(row=9,column=2)
+        self.check_6 = ttk.Combobox(self.master, value=servo_n).grid(row=9,column=2)
         self.angle_box6 = ttk.Entry(self.master, width=3).grid(row=10,column=2)
 
         self.lab_ser_7 = ttk.Label(self.master, text='servo-driver_7,choose driver and angle ').grid(row=0,column=3)
-        self.check_7 = ttk.Combobox(self.master, textvariable=servo_n).grid(row=1,column=3)
+        self.check_7 = ttk.Combobox(self.master, value=servo_n).grid(row=1,column=3)
         self.angle_box7 = ttk.Entry(self.master, width=3).grid(row=2,column=3)
 
         self.lab_ser_8 = ttk.Label(self.master, text='servo-driver_8,choose driver and angle ').grid(row=4,column=3)
-        self.check_8 = ttk.Combobox(self.master, textvariable=servo_n).grid(row=5,column=3)
+        self.check_8 = ttk.Combobox(self.master, value=servo_n).grid(row=5,column=3)
         self.angle_box8 = ttk.Entry(self.master, width=3).grid(row=6,column=3)
 
         self.lab_ser_9 = ttk.Label(self.master, text='servo-driver_9,choose driver and angle ').grid(row=8,column=3)
-        self.check_9 = ttk.Combobox(self.master, textvariable=servo_n).grid(row=9,column=3)
+        self.check_9 = ttk.Combobox(self.master, value=servo_n).grid(row=9,column=3)
         self.angle_box9 = ttk.Entry(self.master, width=3).grid(row=10,column=3)
 
 
