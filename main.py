@@ -2,10 +2,20 @@
 from tkinter import *
 import tkinter as tk
 from tkinter import ttk,messagebox
+
+
 import os
 import pygame
 from tinytag import TinyTag
 import time
+import serial.tools.list_ports
+import pyfirmata
+
+
+
+
+
+
 
 
 
@@ -68,29 +78,16 @@ class Demo1:
             pygame.init()
             pygame.mixer.music.load(self.port1)
             pygame.mixer.music.set_volume(0)#set volume on zero before play
+            pygame.mixer.music.play(-1,0.0)
 
-
-            pygame.mixer.music.play()
-            self.conventer_durability()
 
 
             if self.playing == True:
-              #  self.p_bar.config(mode='determinate', maximum=self.fin_time, value=1)
-               # self.p_bar.start(1000)
+                self.p_bar.config(mode='determinate', maximum=self.fin_time, value=1)
+                self.p_bar.start(1000)
                 self.conventer_durability()
                 self._on_scale()
 
-        def directorychooser(self):
-            directory = askdirectory()
-            os.chdir(directory)
-            for files in os.listdir(directory):
-                if files.endswith(".mp3"):
-                    realdir = os.path.realpath(files)
-                    playlist.append(files)
-                    print(files)
-            pygame.mixer.init()
-            pygame.mixer.music.load(playlist[0])
-            self.update_currentsong()
 
 
 
@@ -102,12 +99,12 @@ class Demo1:
             h, m = divmod(m, 60)
             self.m_time.configure(text="%2.2d:%2.2d" % (m,s))
             self.frame.after(1000, self._on_scale)
-
+        '''
         def update_timeslider(self, _=None):
             time = (pygame.mixer.music.get_pos() / 1000)
             timeslider.set(time)
             self.after(10, self.update_timeslider)
-
+        '''
 
         def pause(self):
             pygame.init()
@@ -150,7 +147,6 @@ class Demo1:
                 self.playlistbox.insert(END, songShort)
 
 
-
         def new_window(self):
             self.newWindow = tk.Toplevel(self.master)
             self.app = Demo2(self.newWindow)
@@ -176,49 +172,59 @@ class Demo2:
         self.master = master
         self.master.geometry('800x400')
         self.frame = tk.Frame(self.master)
-        servo_n = [ 'servo_1','servo_2','servo_3',
-                    'servo_4','servo_5','servo_6',
-                    'servo_7','servo_8','servo_9',]
-
-        self.lab_ser_1 = ttk.Label(self.master, text='servo-driver_1,choose driver and angle ').grid(row=0,column=1)
-        self.check_1 = ttk.Combobox(self.master, value=servo_n).grid(row=1,column=1)
-        self.angle_box1 = ttk.Entry(self.master, width=3).grid(row=2,column=1)
-
-
-
-
-        self.lab_ser_2 = ttk.Label(self.master, text='servo-driver_2,choose driver and angle ').grid(row=4,column=1)
-        self.check_2 = ttk.Combobox(self.master, value=servo_n).grid(row=5,column=1)
-        self.angle_box2 =ttk.Entry(self.master,width=3).grid(row=6,column=1)
+        self.port3 = []
+        self.angles = []
+        self.an_left_e = 0
+        self.an_right_e = 0
+        self.an_right_sholder = 0
+        self.an_right_hand = 0
+        self.an_left_hand = 0
+        self.an_left_leg = 0
+        self.an_right_leg = 0
 
 
-        self.lab_ser_3 = ttk.Label(self.master, text='servo-driver_3,choose driver and angle ').grid(row=8,column=1)
-        self.check_3 = ttk.Combobox(self.master, value=servo_n).grid(row=9,column=1)
-        self.angle_box3 = ttk.Entry(self.master, width=3).grid(row=10,column=1)
 
-        self.lab_ser_4 = ttk.Label(self.master, text='servo-driver_4,choose driver and angle ').grid(row=0,column=2)
-        self.check_4 = ttk.Combobox(self.master, value=servo_n).grid(row=1,column=2)
-        self.angle_box4 = ttk.Entry(self.master, width=3).grid(row=2,column=2)
 
-        self.lab_ser_5 = ttk.Label(self.master, text='servo-driver_5,choose driver and angle ').grid(row=4,column=2)
-        self.check_5 = ttk.Combobox(self.master, value=servo_n).grid(row=5,column=2)
-        self.angle_box5 = ttk.Entry(self.master, width=3).grid(row=6,column=2)
+        self.lab_ser_1 = ttk.Label(self.master, text='глаз левый ').grid(row=0,column=1)
+        self.angle_box1 = ttk.Entry(self.master, width=3)
+        self.check_1 = ttk.Button(self.master, text='add angle',command = self.take_left_e).grid(row=2, column=1)
+        self.angle_box1.grid(row=1, column=1)
 
-        self.lab_ser_6 = ttk.Label(self.master, text='servo-driver_6,choose driver and angle ').grid(row=8,column=2)
-        self.check_6 = ttk.Combobox(self.master, value=servo_n).grid(row=9,column=2)
-        self.angle_box6 = ttk.Entry(self.master, width=3).grid(row=10,column=2)
+        self.lab_ser_2 = ttk.Label(self.master, text='глаз правый').grid(row=4,column=1)
+        self.angle_box2 =ttk.Entry(self.master,width=3)
+        self.check_2 = ttk.Button(self.master, text='add angle',command = self.take_right_e).grid(row=6,column=1)
+        self.angle_box2.grid(row=5, column=1)
 
-        self.lab_ser_7 = ttk.Label(self.master, text='servo-driver_7,choose driver and angle ').grid(row=0,column=3)
-        self.check_7 = ttk.Combobox(self.master, value=servo_n).grid(row=1,column=3)
-        self.angle_box7 = ttk.Entry(self.master, width=3).grid(row=2,column=3)
 
-        self.lab_ser_8 = ttk.Label(self.master, text='servo-driver_8,choose driver and angle ').grid(row=4,column=3)
-        self.check_8 = ttk.Combobox(self.master, value=servo_n).grid(row=5,column=3)
-        self.angle_box8 = ttk.Entry(self.master, width=3).grid(row=6,column=3)
+        self.lab_ser_3 = ttk.Label(self.master, text='плечо правое').grid(row=8,column=1)
+        self.angle_box3 = ttk.Entry(self.master, width=3)
+        self.check_3 = ttk.Button(self.master, text='add angle',command= self.take_right_sholder).grid(row=10, column=1)
+        self.angle_box3.grid(row=9, column=1)
 
-        self.lab_ser_9 = ttk.Label(self.master, text='servo-driver_9,choose driver and angle ').grid(row=8,column=3)
-        self.check_9 = ttk.Combobox(self.master, value=servo_n).grid(row=9,column=3)
-        self.angle_box9 = ttk.Entry(self.master, width=3).grid(row=10,column=3)
+
+
+
+        self.lab_ser_4 = ttk.Label(self.master, text='рука правая').grid(row=0,column=2)
+        self.angle_box4 = ttk.Entry(self.master, width=3)
+        self.check_4 = ttk.Button(self.master, text='add angle',command = self.take_right_hand).grid(row=2, column=2)
+        self.angle_box4.grid(row=1, column=2)
+
+
+
+        self.lab_ser_5 = ttk.Label(self.master, text='рука левая').grid(row=4,column=2)
+        self.angle_box5 = ttk.Entry(self.master, width=3)
+        self.check_5 = ttk.Button(self.master, text='add angle',command= self.take_left_hand).grid(row=6, column=2)
+        self.angle_box5.grid(row=5, column=2)
+
+        self.lab_ser_6 = ttk.Label(self.master, text='нога левая').grid(row=8,column=2)
+        self.angle_box6 = ttk.Entry(self.master, width=3)
+        self.check_6 = ttk.Button(self.master, text='add angle',command= self.take_left_leg).grid(row=10, column=2)
+        self.angle_box6.grid(row=9, column=2)
+
+        self.lab_ser_7 = ttk.Label(self.master, text='нога правая ').grid(row=0,column=3)
+        self.angle_box7 = ttk.Entry(self.master, width=3)
+        self.check_7 = ttk.Button(self.master, text='add angle',command= self.take_right_leg).grid(row=2,column=3)
+        self.angle_box7.grid(row=1, column=3)
 
 
         self.button = ttk.Button(self.master,text ='pull value',command= self.take_angle_box_answer).grid(row=13,column=2)
@@ -228,17 +234,105 @@ class Demo2:
         self.add_position = ttk.Button(self.master, text="add action").grid(row=16, column=2)
 
 
-
+        self.port_selector = ttk.Combobox(self.master,textvariable = self.port3)
+        self.port_selector.grid(row=11, column=3)
+        self.but_init = ttk.Button(self.master,text = 'initports',command = self.arduino_port_indit).grid(row= 12,column=3)
 
 
 
 
     def take_angle_box_answer(self):
-        answer = self.angle_box1.get()
-        print(answer)
+
+        '''ANSWERS BY PULL VALUE'''
+        an_left_e = self.angle_box1.get()
+        an_right_e = self.angle_box2.get()
+        an_right_sholder = self.angle_box3.get()
+        an_right_hand = self.angle_box4.get()
+        an_left_hand = self.angle_box5.get()
+        an_left_leg = self.angle_box6.get()
+        an_right_leg = self.angle_box7.get()
+
+        self.angles.append(int(an_left_e))
+        self.angles.append(int(an_right_e))
+        self.angles.append(int(an_right_sholder))
+        self.angles.append(int(an_right_hand))
+        self.angles.append(int(an_left_hand))
+        self.angles.append(int(an_left_leg))
+        self.angles.append(int(an_right_leg))
+        print(self.angles)
+
+
+    def pin_init(self):
+        #init pin ardiuno
+
+        port = '/dev/ttyACM0'
+        port2 = '/dev/ttyUSB0'
+        board = pyfirmata.Arduino(port2)
+
+        sholder_right = board.get_pin('d:7:s')
+        left_leg = board.get_pin('d:4:s')
+        right_leg = board.get_pin('d:5:s')
+        left_hand = board.get_pin('d:6:s')
+        right_hand = board.get_pin('d:3:s')
+        right_e = board.get_pin('d:8:s')
+        left_e = board.get_pin('d:9:s')
 
 
 
+
+
+
+
+
+    '''take each angle'''
+
+
+    def take_left_e(self):
+        left_e_angle=self.angle_box1.get()
+        print('left angle is ' + left_e_angle)
+    def take_right_e(self):
+        right_e_angle = self.angle_box2.get()
+        print('right eye angle is '+right_e_angle)
+    def take_right_sholder(self):
+        right_sholder_angle = self.angle_box3.get()
+        print('right sholder angle is ' + right_sholder_angle)
+    def take_right_hand(self):
+        right_hand_angle = self.angle_box4.get()
+        print('right hand angle is ' + right_hand_angle)
+    def take_left_hand(self):
+        left_hand_angle = self.angle_box5.get()
+        print('left hand angle is ' + left_hand_angle)
+    def take_right_leg(self):
+        right_leg_angle = self.angle_box6.get()
+        print('right leg angle is ' + right_leg_angle)
+    def take_left_leg(self):
+        left_leg_angle = self.angle_box6.get()
+        print('left leg angle is ' +  left_leg_angle)
+
+
+    def arduino_port_indit(self):
+
+        ports = list(serial.tools.list_ports.comports())
+        for p in ports:
+            self.port3.append(str(p))
+            self.port_selector = ttk.Combobox(self.master,values =self.port3)
+
+
+
+
+
+    def just_one_action(self):
+
+        self.angles
+
+
+
+
+
+
+
+    def word_limiter(self):
+        pass
 
 
 
@@ -254,9 +348,9 @@ class Demo2:
 def main():
     root = tk.Tk()
     root.title("SERVO_M")
+
     app = Demo1(root)
     root.mainloop()
 
 if __name__ == '__main__':
     main()
-
