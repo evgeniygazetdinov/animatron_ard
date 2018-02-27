@@ -1,4 +1,5 @@
 
+
 from tkinter import *
 import tkinter as tk
 from tkinter import ttk,messagebox
@@ -231,25 +232,18 @@ class Demo2:
 
         self.button = ttk.Button(self.master,text ='pull value',command= self.take_angle_box_answer).grid(row=13,column=2)
 
-        self.preview = ttk.Button(self.master,text = "preview",command =self.just_one_action2).grid(row = 14 ,column=2)
+        #self.preview = ttk.Button(self.master,text = "preview",command =self.just_one_action2).grid(row = 14 ,column=2)
 
-        self.add_position = ttk.Button(self.master, text="add action",command = self.just_one_action2).grid(row=16, column=2)
+        #self.add_position = ttk.Button(self.master, text="add action",command = self.just_one_action2).grid(row=16, column=2)
 
 
-        self.time_scale = ttk.Scale(self.master,orient='horizontal',length = 450, from_=0.01, to=4.50,command = self.time_lapse)
-        self.time_scale.grid(row=22, column=4)
+        self.time_scale = ttk.Scale(self.master,orient='horizontal',length = 450, from_=0.00, to=4.50,command = self.time_lapse)
+        self.time_scale.grid(row=22, column=2)
 
 
         self.port_selector = ttk.Combobox(self.master,textvariable = self.port3)
         self.port_selector.grid(row=11, column=3)
-        self.but_init = ttk.Button(self.master,text = 'initports',command = self.arduino_port_indit).grid(row= 12,column=3)
-
-
-
-
-
-
-
+       # self.but_init = ttk.Button(self.master,text = 'initports',command = self.arduino_port_indit).grid(row= 12,column=2)
 
 
     def take_angle_box_answer(self):
@@ -354,7 +348,9 @@ class Demo2:
 
 
 
-
+    '''
+    
+    #mind this stuff after    
     def just_one_action(self):
         dict(self.pins)
         self.pin_init()
@@ -364,7 +360,7 @@ class Demo2:
                 self.actions.append(str(pin)+'.write(%d)'%angl)
                 print(self.actions)
 
-
+    '''
 
 
 
