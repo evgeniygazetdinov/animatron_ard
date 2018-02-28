@@ -144,7 +144,7 @@ class Demo2:
         self.pins = []
         self.actions = []
         self.values =0
-        self.temp_varibal= []
+        self.temp_varibal= [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
         ##########angles from window######################
         self.left_eye = 0
@@ -219,7 +219,7 @@ class Demo2:
 
 
 
-        self.button = ttk.Button(self.master, text='pull value', command=self.view)
+        self.button = ttk.Button(self.master, text='pull value',command =self.write_position)
         self.button.grid(row=13,column=2)
 
         # self.preview = ttk.Button(self.master,text = "preview",command =self.just_one_action2).grid(row = 14 ,column=2)
@@ -227,7 +227,7 @@ class Demo2:
         self.add_position = ttk.Button(self.master, text="add action",command = self.pin_init).grid(row=16, column=2)
 
         self.time_scale = ttk.Scale(self.master, orient='horizontal', length=450, from_=0.00, to=4.50,
-                                    command=self.time_lapse)
+                                    command=self.take_position)
         self.time_scale.grid(row=22, column=2)
 
 
@@ -278,7 +278,7 @@ class Demo2:
         self.left_leg = board.get_pin('d:4:s')
         self.right_leg = board.get_pin('d:5:s')
         '''
-
+        self.time_lapse()
         l_e_nine_pin = board.get_pin('d:9:s')
         r_e_eight_pin = board.get_pin('d:8:s')
         sh_r_seven_pin = board.get_pin('d:7:s')
@@ -296,13 +296,16 @@ class Demo2:
         l_l_four_pin.write(self.temp_varibal[-1][-4])
         r_l_five_pin.write(self.temp_varibal[-1][-3])
 
+    def take_position(self, value):
+        self.values = value
+
 
     '''take each angle'''
 
-    def time_lapse(self,value):  # time scaling
+    def time_lapse(self):  # time scaling
         # temp variable is value for  obtain time scale and save first number is time, after value of angles
 
-        self.temp_varibal.append([value])  # add double list for time
+        self.temp_varibal.append([self.values])  # add double list for time
         self.temp_varibal[-1].append(self.left_eye.get())#each angel from each window
         self.temp_varibal[-1].append(self.right_e.get())
         self.temp_varibal[-1].append(self.right_sholder.get())
@@ -313,13 +316,19 @@ class Demo2:
         self.temp_varibal[-1].append(self.reserved_1.get())
         self.temp_varibal[-1].append(self.reserved_2.get())
         print(self.temp_varibal[-1])
-    
+
+    def write_position(self):
+            position = open('test.txt', 'a')
+            position.write(str(self.temp_varibal[-1]))
+            position.write('\n')
+            position.close()
+
+
     def view(self):
-        print(self.temp_varibal[-1])
+        print(self.temp_varibal[1])
 
 
-
-
+    # obtain value another way
 
 
 
