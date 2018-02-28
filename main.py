@@ -219,21 +219,22 @@ class Demo2:
 
 
 
-        self.button = ttk.Button(self.master, text='pull value', command=self.time_lapse)
+        self.button = ttk.Button(self.master, text='pull value', command=self.view)
         self.button.grid(row=13,column=2)
 
         # self.preview = ttk.Button(self.master,text = "preview",command =self.just_one_action2).grid(row = 14 ,column=2)
 
-        self.add_position = ttk.Button(self.master, text="add action",command = self.time_lapse).grid(row=16, column=2)
+        self.add_position = ttk.Button(self.master, text="add action",command = self.pin_init).grid(row=16, column=2)
 
         self.time_scale = ttk.Scale(self.master, orient='horizontal', length=450, from_=0.00, to=4.50,
-                                    command=self.print_values)
+                                    command=self.time_lapse)
         self.time_scale.grid(row=22, column=2)
 
 
         self.port =StringVar()
         self.port_selector = ttk.Combobox(self.master, textvariable=self.port)
         self.port_selector.grid(row=11, column=3)
+        self.port_b = ttk.Button(self.master,text ='init',command = self.arduino_port_indit).grid(row=13, column=3)
 
     # self.but_init = ttk.Button(self.master,text = 'initports',command = self.arduino_port_indit).grid(row= 12,column=2)
 
@@ -241,15 +242,12 @@ class Demo2:
 
    ################################main func with angles########################
 
-
-    def refresh_angle(self):
-        self.left_eye.get()
-
-
-
     def arduino_port_indit(self):
         self.ports = list(serial.tools.list_ports.comports())
-        self.port_selector = ttk.Combobox(self.master, values=self.ports)
+
+        self.port_selector = ttk.Combobox(self.master, textvariable=self.ports)
+
+
     '''
     #mind this stuff after    
     def just_one_action(self):
@@ -262,59 +260,16 @@ class Demo2:
                 print(self.actions)
     '''
 
-    def take_angle(self):
-        pass
-
-
-
-
-
-    def word_limiter(self):
-        pass
-
     def close_windows(self):
         self.master.destroy()
-    '''
-    def take(self):
-        x = self.servo_box3.get()
-        print(x)
 
-    def take_left_e(self):
-        left_e_angle = self.angle_box1.get()
-        print('left angle is ' + left_e_angle)
-
-    def take_right_e(self):
-        right_e_angle = self.angle_box2.get()
-        print('right eye angle is ' + right_e_angle)
-
-    def take_right_sholder(self):
-        right_sholder_angle = self.angle_box3.get()
-        print('right sholder angle is ' + right_sholder_angle)
-
-    def take_right_hand(self):
-        right_hand_angle = self.angle_box4.get()
-        print('right hand angle is ' + right_hand_angle)
-
-    def take_left_hand(self):
-        left_hand_angle = self.angle_box5.get()
-        print('left hand angle is ' + left_hand_angle)
-
-    def take_right_leg(self):
-        right_leg_angle = self.angle_box6.get()
-        print('right leg angle is ' + right_leg_angle)
-
-    def take_left_leg(self):
-        left_leg_angle = self.angle_box6.get()
-        print('left leg angle is ' + left_leg_angle)
-
-    '''
     def pin_init(self):
         # init pin ardiuno
-
         port = '/dev/ttyACM0'
         port2 = '/dev/ttyUSB0'
         board = pyfirmata.Arduino(port2)
-
+        #############important info#########
+        '''
         self.right_e = board.get_pin('d:8:s')
         self.left_e = board.get_pin('d:9:s')
         self.sholder_right = board.get_pin('d:7:s')
@@ -322,54 +277,48 @@ class Demo2:
         self.left_hand = board.get_pin('d:6:s')
         self.left_leg = board.get_pin('d:4:s')
         self.right_leg = board.get_pin('d:5:s')
+        '''
 
-        
-        self.pins.append(right_e)
-        self.pins.append(left_e)
-        self.pins.append(sholder_right)
-        self.pins.append(right_hand)
-        self.pins.append(left_hand)
-        self.pins.append(left_leg)
-        self.pins.append(right_leg)
+        l_e_nine_pin = board.get_pin('d:9:s')
+        r_e_eight_pin = board.get_pin('d:8:s')
+        sh_r_seven_pin = board.get_pin('d:7:s')
+        r_h_three_pin = board.get_pin('d:3:s')
+        l_h_six_pin = board.get_pin('d:6:s')
+        l_l_four_pin = board.get_pin('d:4:s')
+        r_l_five_pin = board.get_pin('d:5:s')
+
+        #take each angle on port arduino
+        l_e_nine_pin.write(self.temp_varibal[-1][-9])
+        r_e_eight_pin.write(self.temp_varibal[-1][-8])
+        sh_r_seven_pin.write(self.temp_varibal[-1][-7])
+        r_h_three_pin.write(self.temp_varibal[-1][-6])
+        l_h_six_pin.write(self.temp_varibal[-1][-5])
+        l_l_four_pin.write(self.temp_varibal[-1][-4])
+        r_l_five_pin.write(self.temp_varibal[-1][-3])
 
 
     '''take each angle'''
 
-    def time_lapse(self):  # time scaling
+    def time_lapse(self,value):  # time scaling
         # temp variable is value for  obtain time scale and save first number is time, after value of angles
 
-        self.take_angle_box_answer()
-        self.temp_varibal.append(float(self.values))  # add double list for time
-        self.temp_varibal.append(self.left_eye.get())
-        self.temp_varibal.append(self.right_e.get())
-        self.temp_varibal.append(self.right_sholder.get())
-        self.temp_varibal.append(self.right_hand.get())
-        self.temp_varibal.append(self.left_hand.get())
-        self.temp_varibal.append(self.left_leg.get())
-        self.temp_varibal.append(self.right_leg.get())
-        self.temp_varibal.append(self.reserved_1.get())
-        self.temp_varibal.append(self.reserved_2.get())
-
-
-        print(self.temp_varibal)
-
-    def print_values(self, value):
-        self.values = value
+        self.temp_varibal.append([value])  # add double list for time
+        self.temp_varibal[-1].append(self.left_eye.get())#each angel from each window
+        self.temp_varibal[-1].append(self.right_e.get())
+        self.temp_varibal[-1].append(self.right_sholder.get())
+        self.temp_varibal[-1].append(self.right_hand.get())
+        self.temp_varibal[-1].append(self.left_hand.get())
+        self.temp_varibal[-1].append(self.left_leg.get())
+        self.temp_varibal[-1].append(self.right_leg.get())
+        self.temp_varibal[-1].append(self.reserved_1.get())
+        self.temp_varibal[-1].append(self.reserved_2.get())
+        print(self.temp_varibal[-1])
+    
+    def view(self):
+        print(self.temp_varibal[-1])
 
 
 
-
-
-
-
-
-
-
-    def take_angle_box_answer(self):
-
-        '''ANSWERS BY PULL VALUE'''
-
-        pass
 
 
 
