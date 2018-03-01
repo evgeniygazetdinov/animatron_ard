@@ -145,7 +145,7 @@ class Demo2:
         self.actions = []
         self.values =0
         self.temp_varibal= [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-
+        self.SAVING = False
         ##########angles from window######################
         self.left_eye = 0
         self.right_e = 0
@@ -298,7 +298,7 @@ class Demo2:
 
     def take_position(self, value):
         self.values = value
-
+        self.write_position()
 
     '''take each angle'''
 
