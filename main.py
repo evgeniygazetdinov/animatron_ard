@@ -144,8 +144,8 @@ class Demo2:
         self.pins = []
         self.actions = []
         self.values =0
-        self.temp_varibal= []
-
+        self.temp_varibal= ['', 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        self.SAVING = False
         ##########angles from window######################
         self.left_eye = 0
         self.right_e = 0
@@ -219,7 +219,7 @@ class Demo2:
 
 
 
-        self.button = ttk.Button(self.master, text='pull value', command=self.time_lapse)
+        self.button = ttk.Button(self.master, text='pull value')
         self.button.grid(row=13,column=2)
 
         # self.preview = ttk.Button(self.master,text = "preview",command =self.just_one_action2).grid(row = 14 ,column=2)
@@ -265,9 +265,8 @@ class Demo2:
 
     def pin_init(self):
         # init pin ardiuno
-
         port = '/dev/ttyACM0'
-        port2 = '/dev/ttyUSB1'
+        port2 = '/dev/ttyUSB0'
         board = pyfirmata.Arduino(port2)
         #############important info#########
         '''
@@ -279,7 +278,7 @@ class Demo2:
         self.left_leg = board.get_pin('d:4:s')
         self.right_leg = board.get_pin('d:5:s')
         '''
-
+        self.time_lapse()
         l_e_nine_pin = board.get_pin('d:9:s')
         r_e_eight_pin = board.get_pin('d:8:s')
         sh_r_seven_pin = board.get_pin('d:7:s')
@@ -297,6 +296,9 @@ class Demo2:
         l_l_four_pin.write(self.temp_varibal[-1][-4])
         r_l_five_pin.write(self.temp_varibal[-1][-3])
 
+    def take_position(self, value):
+        self.values = value
+        self.write_position()
 
     '''take each angle'''
 
@@ -313,16 +315,25 @@ class Demo2:
         self.temp_varibal[-1].append(self.right_leg.get())
         self.temp_varibal[-1].append(self.reserved_1.get())
         self.temp_varibal[-1].append(self.reserved_2.get())
-        print(self.temp_varibal[-1][-9])
+        print(self.temp_varibal[-1])
 
-    def take_position(self, value):
-        self.values = value
+    def write_position(self):
+            position = open('log.txt', 'a')
+            position.write(str(self.temp_varibal[-1]))
+            position.write('\n')
+            position.close()
+            self.clear_posit()
+
+    def clear_posit(self):
+        uniqlines = set(open('log.txt','r').readlines())
+
+        bar = open('result.txt', 'w+').writelines(set(uniqlines))
 
 
 
 
-
-
+    def view(self):
+        print(self.temp_varibal[1])
 
 
 
