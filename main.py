@@ -8,7 +8,7 @@ from tinytag import TinyTag
 import time
 import serial.tools.list_ports
 import pyfirmata
-
+from itertools import groupby
 
 class Demo1:
 
@@ -219,7 +219,7 @@ class Demo2:
 
 
 
-        self.button = ttk.Button(self.master, text='pull value')
+        self.button = ttk.Button(self.master, text='pull value',command =self.play_position)
         self.button.grid(row=13,column=2)
 
         # self.preview = ttk.Button(self.master,text = "preview",command =self.just_one_action2).grid(row = 14 ,column=2)
@@ -325,16 +325,17 @@ class Demo2:
             self.clear_posit()
 
     def clear_posit(self):
-        uniqlines = set(open('log.txt','r').readlines())
+        with open('log.txt', 'r') as res:
+            with open('results.txt', 'w') as file:
+                file.writelines(line + '\n' for line, _ in groupby(res))
 
-        bar = open('result.txt', 'w+').writelines(set(uniqlines))
-
-
+    def play_position(self):
+        self.frame.after(1000,self.view())
 
 
     def view(self):
-        print(self.temp_varibal[1])
-
+        ok=+1
+        print(ok)
 
 
 
