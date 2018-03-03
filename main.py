@@ -226,7 +226,7 @@ class Demo2:
 
         self.add_position = ttk.Button(self.master, text="add action",command = self.pin_init).grid(row=16, column=2)
 
-        self.time_scale = ttk.Scale(self.master, orient='horizontal', length=450, from_=0.00, to=4.50,
+        self.time_scale = ttk.Scale(self.master,orient='horizontal',length=450, from_=0.00, to=4.50,resolution=0.5,
                                     command=self.take_position)
         self.time_scale.grid(row=22, column=2)
 
@@ -241,7 +241,6 @@ class Demo2:
 
 
    ################################main func with angles########################
-
     def arduino_port_indit(self):
         self.ports = list(serial.tools.list_ports.comports())
 
@@ -267,7 +266,8 @@ class Demo2:
         # init pin ardiuno
         port = '/dev/ttyACM0'
         port2 = '/dev/ttyUSB0'
-        board = pyfirmata.Arduino(port2)
+        port3 = '/dev/cu.usbmodem1421'
+        board = pyfirmata.Arduino(port3)
         #############important info#########
         '''
         self.right_e = board.get_pin('d:8:s')
@@ -296,8 +296,10 @@ class Demo2:
         l_l_four_pin.write(self.temp_varibal[-1][-4])
         r_l_five_pin.write(self.temp_varibal[-1][-3])
 
-    def take_position(self, value):
-        self.values = value
+    def take_position(self,value):
+        self.values = self.time_scale.get()
+        self.temp_varibal.append([0.0,0,0,0,0,0,0,0,0])
+        self.time_lapse()
         self.write_position()
 
     '''take each angle'''
@@ -306,7 +308,7 @@ class Demo2:
         # temp variable is value for  obtain time scale and save first number is time, after value of angles
 
         self.temp_varibal.append([self.values])  # add double list for time
-        self.temp_varibal[-1].append(self.left_eye.get())#each angel from each window
+        self.temp_varibal[-1].append(self.left_eye.get())#each angle from each window
         self.temp_varibal[-1].append(self.right_e.get())
         self.temp_varibal[-1].append(self.right_sholder.get())
         self.temp_varibal[-1].append(self.right_hand.get())
@@ -318,11 +320,13 @@ class Demo2:
         print(self.temp_varibal[-1])
 
     def write_position(self):
-            position = open('log.txt', 'a')
-            position.write(str(self.temp_varibal[-1]))
-            position.write('\n')
-            position.close()
-            self.clear_posit()
+        position = open('results.txt', 'a')
+        position.write('\n')
+        position.write(str(self.temp_varibal[-1]))
+        position.write('\n')
+        position.close()
+
+
 
     def clear_posit(self):
         with open('log.txt', 'r') as res:
@@ -330,12 +334,19 @@ class Demo2:
                 file.writelines(line + '\n' for line, _ in groupby(res))
 
     def play_position(self):
-        self.frame.after(1000,self.view())
+        #change scale function on play
+        '''
+        self.time_scale = ttk.Scale(self.frame20)
+        self.time_scale.grid(row=22, column=2)
+        '''
+        with open('results.txt','r') as pos:
+            line = pos.readline()
+            print(line)
 
 
-    def view(self):
-        ok=+1
-        print(ok)
+
+
+
 
 
 
