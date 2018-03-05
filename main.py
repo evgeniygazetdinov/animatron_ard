@@ -8,7 +8,7 @@ from tinytag import TinyTag
 import time
 import serial.tools.list_ports
 import pyfirmata
-
+from itertools import groupby
 
 class Demo1:
 
@@ -144,7 +144,7 @@ class Demo2:
         self.pins = []
         self.actions = []
         self.values =0
-        self.temp_varibal= [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        self.temp_varibal= ['', 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.SAVING = False
         ##########angles from window######################
         self.left_eye = 0
@@ -156,6 +156,15 @@ class Demo2:
         self.right_leg = 0
         self.reserved_1 = 0
         self.reserved_2 = 0
+        #################VALUES FOR TIMER##################################
+        self.timer = False
+        self.default_seconds =0
+        self.timer_seconds = self.default_seconds
+
+
+
+
+
 
 
         self.lab_ser_1 = ttk.Label(self.master, text='глаз левый ').grid(row=0, column=1)
@@ -216,36 +225,42 @@ class Demo2:
         self.angle_box7 = ttk.Entry(self.master, textvariable=self.reserved_2, width=3)
         self.angle_box7.grid(row=9, column=3)
 
+        self.play_butt = ttk.Button(self.master,text = '>',command =self.timer_tick).grid(row = 12 ,column= 2)
+        self.stop_butt = ttk.Button(self.master,text = '||',command =self.timer_start_pause).grid()
 
-
-
-        self.button = ttk.Button(self.master, text='pull value',command =self.write_position)
+        self.button = ttk.Button(self.master, text='pull value',command =self.play_position)
         self.button.grid(row=13,column=2)
 
         # self.preview = ttk.Button(self.master,text = "preview",command =self.just_one_action2).grid(row = 14 ,column=2)
 
         self.add_position = ttk.Button(self.master, text="add action",command = self.pin_init).grid(row=16, column=2)
 
-        self.time_scale = ttk.Scale(self.master, orient='horizontal', length=450, from_=0.00, to=4.50,
+        self.time_scale = ttk.Scale(self.master,orient='horizontal',length=450, from_=0.00, to=4.50,
                                     command=self.take_position)
         self.time_scale.grid(row=22, column=2)
 
-
+        #port for arduino
         self.port =StringVar()
         self.port_selector = ttk.Combobox(self.master, textvariable=self.port)
         self.port_selector.grid(row=11, column=3)
         self.port_b = ttk.Button(self.master,text ='init',command = self.arduino_port_indit).grid(row=13, column=3)
+        #show timer
+        self.label_time = ttk.Label(self.master)
+        self.label_time.grid(row = 15,column =2)
+
+
+
 
     # self.but_init = ttk.Button(self.master,text = 'initports',command = self.arduino_port_indit).grid(row= 12,column=2)
 
 
 
    ################################main func with angles########################
-
     def arduino_port_indit(self):
         self.ports = list(serial.tools.list_ports.comports())
-
-        self.port_selector = ttk.Combobox(self.master, textvariable=self.ports)
+        for p in self.ports:
+            self.port = p
+        self.port_selector = ttk.Combobox(self.master, textvariable=self.port)
 
 
     '''
@@ -267,7 +282,8 @@ class Demo2:
         # init pin ardiuno
         port = '/dev/ttyACM0'
         port2 = '/dev/ttyUSB0'
-        board = pyfirmata.Arduino(port2)
+        port3 = '/dev/cu.usbmodem1421'
+        board = pyfirmata.Arduino(port3)
         #############important info#########
         '''
         self.right_e = board.get_pin('d:8:s')
@@ -296,17 +312,18 @@ class Demo2:
         l_l_four_pin.write(self.temp_varibal[-1][-4])
         r_l_five_pin.write(self.temp_varibal[-1][-3])
 
-    def take_position(self, value):
-        self.values = value
+    def take_position(self,value):
+        self.temp_varibal.append([0.0,0,0,0,0,0,0,0,0])
+        self.time_lapse()
         self.write_position()
 
     '''take each angle'''
 
     def time_lapse(self):  # time scaling
         # temp variable is value for  obtain time scale and save first number is time, after value of angles
-
+        self.values = self.time_scale.get()
         self.temp_varibal.append([self.values])  # add double list for time
-        self.temp_varibal[-1].append(self.left_eye.get())#each angel from each window
+        self.temp_varibal[-1].append(self.left_eye.get())#each angle from each window
         self.temp_varibal[-1].append(self.right_e.get())
         self.temp_varibal[-1].append(self.right_sholder.get())
         self.temp_varibal[-1].append(self.right_hand.get())
@@ -316,19 +333,67 @@ class Demo2:
         self.temp_varibal[-1].append(self.reserved_1.get())
         self.temp_varibal[-1].append(self.reserved_2.get())
         print(self.temp_varibal[-1])
-
+    #######################play_section#############################
     def write_position(self):
-            position = open('test.txt', 'a')
-            position.write(str(self.temp_varibal[-1]))
-            position.write('\n')
-            position.close()
+        time.sleep(0.08)
+        position = open('results.txt', 'a')
+        position.write('\n')
+        position.write(str(self.temp_varibal[-1]))
+        position.write('\n')
+        position.close()
 
 
-    def view(self):
-        print(self.temp_varibal[1])
+
+    def clear_posit(self):
+        with open('log.txt', 'r') as res:
+            with open('results.txt', 'w') as file:
+                file.writelines(line + '\n' for line, _ in groupby(res))
+
+    def play_position(self):
+        #change scale function on play
+        '''
+        self.time_scale = ttk.Scale(self.frame20)
+        self.time_scale.grid(row=22, column=2)
+        '''
+        #here just save position on txt file
+        f = open("results.txt", "r")
+        s = f.read()
+        f.close()
+        f = open("play_results.txt", "w")
+        lines = s.split()
+        f.write('\n'.join(lines[::1]))#if yo want some another sequence put -
+        f.close()
+        #here read info into him
+        position= open("play_results.txt",'r')
+        f=position.readline()
+        'just time f[-1][1:-30])'
+        # just example print(round(float(f[-1][1:-30]),2))
+        for i in range(round(float(f))):
+            print(round(float(f[-1][1:-30]),2))
 
 
-    # obtain value another way
+
+    def show_timer(self):
+        '''отобразить таймер'''
+        m = self.timer_seconds // 60
+        s = self.timer_seconds - m * 60
+        self.label_time['text'] = '%02d:%02d' % (m, s)
+
+    def timer_tick(self):
+        self.label_time.after(1000, self.timer_tick)  # перезапустить через 1 сек
+        # увеличить таймер
+        self.timer_seconds += 1
+        self.show_timer()
+    def timer_start_pause(self):
+        self.timer = False
+        self.timer = not self.timer  # работа или пауза
+        '''if self.timer:
+            self.timer_tick()
+        '''
+    #####################################################################
+
+
+
 
 
 
