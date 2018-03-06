@@ -9,6 +9,9 @@ import time
 import serial.tools.list_ports
 import pyfirmata
 from itertools import groupby
+import sqlite3
+
+
 
 class Demo1:
 
@@ -160,7 +163,7 @@ class Demo2:
         self.timer = False
         self.default_seconds =0
         self.timer_seconds = self.default_seconds
-
+        self.exist_posistion = []
 
 
 
@@ -226,17 +229,16 @@ class Demo2:
         self.angle_box7.grid(row=9, column=3)
 
         self.play_butt = ttk.Button(self.master,text = '>',command =self.timer_tick).grid(row = 12 ,column= 2)
-        self.stop_butt = ttk.Button(self.master,text = '||',command =self.timer_start_pause).grid()
 
-        self.button = ttk.Button(self.master, text='pull value',command =self.play_position)
+
+        self.button = ttk.Button(self.master, text='pull value',command =self.back_position)
         self.button.grid(row=13,column=2)
 
         # self.preview = ttk.Button(self.master,text = "preview",command =self.just_one_action2).grid(row = 14 ,column=2)
 
         self.add_position = ttk.Button(self.master, text="add action",command = self.pin_init).grid(row=16, column=2)
-
-        self.time_scale = ttk.Scale(self.master,orient='horizontal',length=450, from_=0.00, to=4.50,
-                                    command=self.take_position)
+        self.write = ttk.Button(self.master, text='write', command=self.take_position).grid(row =17,column= 2)
+        self.time_scale = ttk.Scale(self.master,orient='horizontal',length=450, from_=0.00, to=4.50)
         self.time_scale.grid(row=22, column=2)
 
         #port for arduino
@@ -312,7 +314,7 @@ class Demo2:
         l_l_four_pin.write(self.temp_varibal[-1][-4])
         r_l_five_pin.write(self.temp_varibal[-1][-3])
 
-    def take_position(self,value):
+    def take_position(self):
         self.temp_varibal.append([0.0,0,0,0,0,0,0,0,0])
         self.time_lapse()
         self.write_position()
@@ -322,7 +324,7 @@ class Demo2:
     def time_lapse(self):  # time scaling
         # temp variable is value for  obtain time scale and save first number is time, after value of angles
         self.values = self.time_scale.get()
-        self.temp_varibal.append([self.values])  # add double list for time
+        self.temp_varibal.append([round(self.values,2)])  # add double list for time
         self.temp_varibal[-1].append(self.left_eye.get())#each angle from each window
         self.temp_varibal[-1].append(self.right_e.get())
         self.temp_varibal[-1].append(self.right_sholder.get())
@@ -332,45 +334,33 @@ class Demo2:
         self.temp_varibal[-1].append(self.right_leg.get())
         self.temp_varibal[-1].append(self.reserved_1.get())
         self.temp_varibal[-1].append(self.reserved_2.get())
-        print(self.temp_varibal[-1])
+        #print(self.temp_varibal[-1])
     #######################play_section#############################
     def write_position(self):
-        time.sleep(0.08)
-        position = open('results.txt', 'a')
-        position.write('\n')
-        position.write(str(self.temp_varibal[-1]))
-        position.write('\n')
-        position.close()
+        conn = sqlite3.connect('position')
+        cursor = conn.cursor()
+        cursor.executescript("""
+         insert into `positions` values (%d, %d, %d, %d, %d, %d, %d, %d,%d,%d) 
+        """%(self.temp_varibal[-1][-10],self.temp_varibal[-1][-9],self.temp_varibal[-1][-8],self.temp_varibal[-1][-7],
+                    self.temp_varibal[-1][-6], self.temp_varibal[-1][-5],self.temp_varibal[-1][-4],self.temp_varibal[-1][-3],
+                    self.temp_varibal[-1][-2],self.temp_varibal[-1][-1]))
 
+        
+        
+    def back_position(self):
+        conn = sqlite3.connect('position')
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM `positions` order by `time` ASC")
+        pos= cursor.fetchall()
 
+        print(pos[-1][-10])
 
-    def clear_posit(self):
-        with open('log.txt', 'r') as res:
-            with open('results.txt', 'w') as file:
-                file.writelines(line + '\n' for line, _ in groupby(res))
-
+  
     def play_position(self):
-        #change scale function on play
-        '''
-        self.time_scale = ttk.Scale(self.frame20)
-        self.time_scale.grid(row=22, column=2)
-        '''
-        #here just save position on txt file
-        f = open("results.txt", "r")
-        s = f.read()
-        f.close()
-        f = open("play_results.txt", "w")
-        lines = s.split()
-        f.write('\n'.join(lines[::1]))#if yo want some another sequence put -
-        f.close()
-        #here read info into him
-        position= open("play_results.txt",'r')
-        f=position.readline()
-        'just time f[-1][1:-30])'
-        # just example print(round(float(f[-1][1:-30]),2))
-        for i in range(round(float(f))):
-            print(round(float(f[-1][1:-30]),2))
-
+        for p in range(pos[1][-10],pos[-1][-10]):
+            p == self.timer_seconds
+    def sort_time_from(self,i):
+        return i[n]
 
 
     def show_timer(self):
@@ -379,14 +369,15 @@ class Demo2:
         s = self.timer_seconds - m * 60
         self.label_time['text'] = '%02d:%02d' % (m, s)
 
+
     def timer_tick(self):
-        self.label_time.after(1000, self.timer_tick)  # перезапустить через 1 сек
+        self.label_time.after(1000, self.timer_tick)
         # увеличить таймер
         self.timer_seconds += 1
         self.show_timer()
     def timer_start_pause(self):
         self.timer = False
-        self.timer = not self.timer  # работа или пауза
+        self.timer = not self.timer
         '''if self.timer:
             self.timer_tick()
         '''
