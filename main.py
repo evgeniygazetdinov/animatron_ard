@@ -8,10 +8,9 @@ from tinytag import TinyTag
 import time
 import serial.tools.list_ports
 import pyfirmata
-from itertools import groupby
+
 import sqlite3
-
-
+from more_itertools import numeric_range
 
 class Demo1:
 
@@ -315,9 +314,9 @@ class Demo2:
         r_l_five_pin.write(self.temp_varibal[-1][-3])
 
     def take_position(self):
-        self.temp_varibal.append([0.0,0,0,0,0,0,0,0,0])
-        self.time_lapse()
-        self.write_position()
+        self.temp_varibal.append([0.0,0,0,0,0,0,0,0,0])#first list
+        self.time_lapse()#take all values from window
+        self.write_position()#write sql
 
     '''take each angle'''
 
@@ -334,8 +333,8 @@ class Demo2:
         self.temp_varibal[-1].append(self.right_leg.get())
         self.temp_varibal[-1].append(self.reserved_1.get())
         self.temp_varibal[-1].append(self.reserved_2.get())
-        #print(self.temp_varibal[-1])
-    #######################play_section#############################
+        print(self.temp_varibal[-1])
+
     def write_position(self):
         conn = sqlite3.connect('position')
         cursor = conn.cursor()
@@ -350,19 +349,21 @@ class Demo2:
     def back_position(self):
         conn = sqlite3.connect('position')
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM `positions` order by `time` ASC")
+        cursor.execute("SELECT * FROM `positions` order by `time` ")
         pos= cursor.fetchall()
+        print(pos)
 
-        print(pos[-1][-10])
 
-  
+    '''
     def play_position(self):
-        for p in range(pos[1][-10],pos[-1][-10]):
-            p == self.timer_seconds
+        for p in numeric_range(pos[1][-10],pos[-1][-10]):
+            #if p*60 == self.timer_seconds *60
+
     def sort_time_from(self,i):
         return i[n]
+    '''
 
-
+    #######################play_section#############################
     def show_timer(self):
         '''отобразить таймер'''
         m = self.timer_seconds // 60
