@@ -11,7 +11,8 @@ import pyfirmata
 
 import sqlite3
 from more_itertools import numeric_range
-
+import pymysql
+import decimal
 class Demo1:
 
     def __init__(self, master):
@@ -115,7 +116,7 @@ class Demo1:
         sec = self.fin_time % 60
 
     def add(self):
-        file = ttk.askopenfilenames(initialdir='C:/Users/babbu/Downloads')
+        file = ttk.askopenfilenames(initialdir='qbc/Downloads')
         songsTuple = self.frame.splitlist(file)  # turn user's opened filenames into tuple
         songsList = list(songsTuple)  # convert to list
         # Add the full filename of songto playlist list, and a shortened version to the listBox
@@ -230,7 +231,7 @@ class Demo2:
         self.play_butt = ttk.Button(self.master,text = '>',command =self.timer_tick).grid(row = 12 ,column= 2)
 
 
-        self.button = ttk.Button(self.master, text='pull value',command =self.back_position)
+        self.button = ttk.Button(self.master, text='pull value',command =self.play_position)
         self.button.grid(row=13,column=2)
 
         # self.preview = ttk.Button(self.master,text = "preview",command =self.just_one_action2).grid(row = 14 ,column=2)
@@ -284,7 +285,7 @@ class Demo2:
         port = '/dev/ttyACM0'
         port2 = '/dev/ttyUSB0'
         port3 = '/dev/cu.usbmodem1421'
-        board = pyfirmata.Arduino(port3)
+        board = pyfirmata.Arduino(port2)
         #############important info#########
         '''
         self.right_e = board.get_pin('d:8:s')
@@ -354,16 +355,48 @@ class Demo2:
         print(pos)
 
 
-    '''
+
     def play_position(self):
-        for p in numeric_range(pos[1][-10],pos[-1][-10]):
-            #if p*60 == self.timer_seconds *60
+
+        port = '/dev/ttyACM0'
+        port2 = '/dev/ttyUSB0'
+        port3 = '/dev/cu.usbmodem1421'
+        board = pyfirmata.Arduino(port2)
+        l_e_nine_pin = board.get_pin('d:9:s')
+        r_e_eight_pin = board.get_pin('d:8:s')
+        sh_r_seven_pin = board.get_pin('d:7:s')
+        r_h_three_pin = board.get_pin('d:3:s')
+        l_h_six_pin = board.get_pin('d:6:s')
+        l_l_four_pin = board.get_pin('d:4:s')
+        r_l_five_pin = board.get_pin('d:5:s')
+        res_1_ten_pin = board.get_pin('d:10:s')
+        res_2_eleven_pin = board.get_pin('d:11:s')
+
+        conn = sqlite3.connect('position')
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM `positions` order by `time` ")
+        pos = cursor.fetchall()
+        print(pos)
+        start = decimal(str(pos[1][-10]))
+        stop = decimal(str(pos[1][-10])
+        for p in numeric_range(start,stop):
+            if p*60 == self.timer_seconds *60:
+                l_e_nine_pin.write(self.temp_varibal[p][-9])
+                r_e_eight_pin.write(self.temp_varibal[p][-8])
+                sh_r_seven_pin.write(self.temp_varibal[p][-7])
+                r_h_three_pin.write(self.temp_varibal[p][-6])
+                l_h_six_pin.write(self.temp_varibal[p][-5])
+                l_l_four_pin.write(self.temp_varibal[p][-4])
+                r_l_five_pin.write(self.temp_varibal[p][-3])
+                res_1_ten_pin.write(self.temp_varibal[p][-2])
+                res_2_eleven_pin.write(self.temp_varibal[p][-1])
 
     def sort_time_from(self,i):
         return i[n]
-    '''
+
 
     #######################play_section#############################
+
     def show_timer(self):
         '''отобразить таймер'''
         m = self.timer_seconds // 60
