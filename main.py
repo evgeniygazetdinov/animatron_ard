@@ -6,9 +6,8 @@ import os
 import pygame
 from tinytag import TinyTag
 import time
-import serial.tools.list_ports
 import pyfirmata
-
+import threading
 import sqlite3
 
 
@@ -165,6 +164,9 @@ class Demo2:
         self.default_seconds = 0
         self.timer_seconds = self.default_seconds
         self.exist_posistion = []
+        ################## loop  ###########################################
+        self.old_time = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+
 
         self.lab_ser_1 = ttk.Label(self.master, text='глаз левый ').grid(row=0, column=1)
         self.left_eye = IntVar()
@@ -211,15 +213,16 @@ class Demo2:
         self.angle_box7 = ttk.Entry(self.master, textvariable=self.reserved_2, width=3)
         self.angle_box7.grid(row=9, column=3)
 
-        self.play_butt = ttk.Button(self.master, text='>', command=self.timer_tick).grid(row=12, column=2)
+        self.play_butt = ttk.Button(self.master, text='>', command=self.some_play).grid(row=12, column=2)
 
-        self.button = ttk.Button(self.master, text='pull value', command=self.play_position)
+        self.button = ttk.Button(self.master, text='pull value')
         self.button.grid(row=13, column=2)
 
         # self.preview = ttk.Button(self.master,text = "preview",command =self.just_one_action2).grid(row = 14 ,column=2)
 
         self.add_position = ttk.Button(self.master, text="add action", command=self.pin_init).grid(row=16, column=2)
-        self.write = ttk.Button(self.master, text='write', command=self.take_position).grid(row=17, column=2)
+        self.write = ttk.Button(self.master, text='write',command = self.write_position) .grid(row=17, column=2)
+
         self.time_scale = ttk.Scale(self.master, orient='horizontal', length=450, from_=0, to=180)
         self.time_scale.grid(row=22, column=2)
 
@@ -232,6 +235,11 @@ class Demo2:
         self.label_time = ttk.Label(self.master)
         self.label_time.grid(row=15, column=2)
 
+        #write section
+
+
+
+
     # self.but_init = ttk.Button(self.master,text = 'initports',command = self.arduino_port_indit).grid(row= 12,column=2)
 
     ################################main func with angles########################
@@ -242,7 +250,7 @@ class Demo2:
         self.port_selector = ttk.Combobox(self.master, textvariable=self.port)
 
     '''
-    #mind this stuff after    
+    #mind this stuff after
     def just_one_action(self):
         dict(self.pins)
         self.pin_init()
@@ -255,6 +263,9 @@ class Demo2:
 
     def close_windows(self):
         self.master.destroy()
+
+
+
 
     def pin_init(self):
         # init pin ardiuno
@@ -313,71 +324,100 @@ class Demo2:
         print(self.temp_varibal[-1])
 
     def write_position(self):
+        self.time_lapse()
         conn = sqlite3.connect('position.dms')
         cursor = conn.cursor()
         cursor.executescript("""
-         insert into `positions` values (%d, %d, %d, %d, %d, %d, %d, %d,%d,%d) 
+         insert into `positions` values (%d, %d, %d, %d, %d, %d, %d, %d,%d,%d)
         """ % (
-        self.temp_varibal[-1][-10], self.temp_varibal[-1][-9], self.temp_varibal[-1][-8], self.temp_varibal[-1][-7],
-        self.temp_varibal[-1][-6], self.temp_varibal[-1][-5], self.temp_varibal[-1][-4], self.temp_varibal[-1][-3],
+        self.temp_varibal[-1][-10], self.temp_varibal[-1][-9],
+        self.temp_varibal[-1][-8], self.temp_varibal[-1][-7],
+        self.temp_varibal[-1][-6], self.temp_varibal[-1][-5],
+        self.temp_varibal[-1][-4], self.temp_varibal[-1][-3],
         self.temp_varibal[-1][-2], self.temp_varibal[-1][-1]))
 
     def back_position(self):
+        # take all from data base
         conn = sqlite3.connect('position.dms')
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM `positions` order by `time` ")
         self.exist_posistion = cursor.fetchall()
 
 
-    def play_position(self):
+    def sorting(self):
+        while True:
+            self.back_position()
+            for p in self.exist_posistion:
+                print()
+                if p[0]== (self.timer_seconds):
+                    port = '/dev/ttyACM0'
+                    port2 = '/dev/ttyUSB0'
+                    port3 = '/dev/cu.usbmodem1421'
+                    board = pyfirmata.Arduino(port3)
+                    l_e_nine_pin = board.get_pin('d:9:s')
+                    r_e_eight_pin = board.get_pin('d:8:s')
+                    sh_r_seven_pin = board.get_pin('d:7:s')
+                    r_h_three_pin = board.get_pin('d:3:s')
+                    l_h_six_pin = board.get_pin('d:6:s')
+                    l_l_four_pin = board.get_pin('d:4:s')
+                    r_l_five_pin = board.get_pin('d:5:s')
+                    res_1_ten_pin = board.get_pin('d:10:s')
+                    res_2_eleven_pin = board.get_pin('d:11:s')
+                    i = 0
+                    #
+                    while self.old_time != p:
+                        for x in self.old_time:
+                            print(self.old_time)
+                            #x from oldtime p from newtime
+                            i+=0
+                            if  p[1] != x[1]:
+                                l_e_nine_pin.write(i)
+                                print(l_e_nine_pin.read())
+                            if p[2] != x[2]:
+                                r_e_eight_pin.write(i)
+                            if p[3] != x[3]:
+                                sh_r_seven_pin.write(i)
+                            if p[4] != x[4]:
+                                l_h_six_pin.write(i)
+                            if p[5] != x[5]:
+                                r_h_three_pin.write(i)
+                            if p[6] != x[6]:
+                                l_l_four_pin.write(i)
+                            if p[7] != x[7]:
+                                r_l_five_pin.write(i)
+                            if p[8] != x[8]:
+                                res_1_ten_pin.write(i)
+                            if p[9] != x[9]:
+                                res_2_eleven_pin.write(i)
+                            else:
+                                self.old_time.append(p)
 
-        # port = '/dev/ttyACM0'
-        # port2 = '/dev/ttyUSB0'
-        # port3 = '/dev/cu.usbmodem1421'
-        # board = pyfirmata.Arduino(port2)
-        # l_e_nine_pin = board.get_pin('d:9:s')
-        # r_e_eight_pin = board.get_pin('d:8:s')
-        # sh_r_seven_pin = board.get_pin('d:7:s')
-        # r_h_three_pin = board.get_pin('d:3:s')
-        # l_h_six_pin = board.get_pin('d:6:s') TODO
-        # l_l_four_pin = board.get_pin('d:4:s')
-        # r_l_five_pin = board.get_pin('d:5:s')
-        # res_1_ten_pin = board.get_pin('d:10:s')
-        # res_2_eleven_pin = board.get_pin('d:11:s')
 
-        conn = sqlite3.connect('position.dms')
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM `positions` order by `time` ")
-        self.exist_posistion = cursor.fetchall()
-        for p in self.exist_posistion:
-            print(self.timer_seconds)
-            if p[0] == self.timer_seconds:
-                print('ura')
-                # l_e_nine_pin.write(self.temp_varibal[p][-9])
-                # r_e_eight_pin.write(self.temp_varibal[p][-8])
-                # sh_r_seven_pin.write(self.temp_varibal[p][-7])
-                # r_h_three_pin.write(self.temp_varibal[p][-6])
-                # l_h_six_pin.write(self.temp_varibal[p][-5])
-                # l_l_four_pin.write(self.temp_varibal[p][-4])
-                # r_l_five_pin.write(self.temp_varibal[p][-3])
-                # res_1_ten_pin.write(self.temp_varibal[p][-2])
-                # res_2_eleven_pin.write(self.temp_varibal[p][-1])
+
+    def some_play(self):
+        t1 = threading.Thread(target= self.sorting)
+        t2 = threading.Thread(target=self.timer_tick)
+        t2.start()
+        t1.start()
+
+
 
 
     #######################play_section#############################
 
     def show_timer(self):
-        '''отобразить таймер'''
+        #just only show
         m = self.timer_seconds // 60
         s = self.timer_seconds - m * 60
         self.label_time['text'] = '%02d:%02d' % (m, s)
 
     def timer_tick(self):
+
         self.label_time.after(1000, self.timer_tick)
         # увеличить таймер
         self.timer_seconds += 1
         self.show_timer()
-
+        print(self.timer_seconds)
     def timer_start_pause(self):
         self.timer = False
         self.timer = not self.timer
