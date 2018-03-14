@@ -36,7 +36,7 @@ def main():
 
     combobox.bind('<<ComboboxSelected>>', Get_Selected)
     button = tkinter.Button(frameBtn, text=u"-- Моя кнопка --")  # создаём кнопку
-    button["command"] = lambda: _Btn(combobox.current())
+    button["command"] = lambda: _Bt2n(combobox.current())
     button.pack()
     hWin.mainloop()
 
