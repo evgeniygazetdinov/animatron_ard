@@ -9,7 +9,7 @@ import time
 import pyfirmata
 import threading
 import sqlite3
-
+import serial
 
 
 
@@ -164,9 +164,6 @@ class Demo2:
         self.default_seconds = 0
         self.timer_seconds = self.default_seconds
         self.exist_posistion = []
-        ################## loop  ###########################################
-        self.old_time = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-
 
         self.lab_ser_1 = ttk.Label(self.master, text='глаз левый ').grid(row=0, column=1)
         self.left_eye = IntVar()
@@ -348,13 +345,14 @@ class Demo2:
         while True:
             self.back_position()
             for p in self.exist_posistion:
-                print()
-                if p[0]== (self.timer_seconds):
+                if (p[0]-5)== (self.timer_seconds):
+                    print('one iteration')
                     port = '/dev/ttyACM0'
-                    port2 = '/dev/ttyUSB0'
+                    port2 = '/dev/ttyUSB1'
                     port3 = '/dev/cu.usbmodem1421'
-                    board = pyfirmata.Arduino(port3)
+                    board = pyfirmata.Arduino(port2)
                     l_e_nine_pin = board.get_pin('d:9:s')
+
                     r_e_eight_pin = board.get_pin('d:8:s')
                     sh_r_seven_pin = board.get_pin('d:7:s')
                     r_h_three_pin = board.get_pin('d:3:s')
@@ -363,34 +361,36 @@ class Demo2:
                     r_l_five_pin = board.get_pin('d:5:s')
                     res_1_ten_pin = board.get_pin('d:10:s')
                     res_2_eleven_pin = board.get_pin('d:11:s')
-                    i = 0
-                    #
-                    while self.old_time != p:
-                        for x in self.old_time:
-                            print(self.old_time)
-                            #x from oldtime p from newtime
-                            i+=0
-                            if  p[1] != x[1]:
-                                l_e_nine_pin.write(i)
-                                print(l_e_nine_pin.read())
-                            if p[2] != x[2]:
-                                r_e_eight_pin.write(i)
-                            if p[3] != x[3]:
-                                sh_r_seven_pin.write(i)
-                            if p[4] != x[4]:
-                                l_h_six_pin.write(i)
-                            if p[5] != x[5]:
-                                r_h_three_pin.write(i)
-                            if p[6] != x[6]:
-                                l_l_four_pin.write(i)
-                            if p[7] != x[7]:
-                                r_l_five_pin.write(i)
-                            if p[8] != x[8]:
-                                res_1_ten_pin.write(i)
-                            if p[9] != x[9]:
-                                res_2_eleven_pin.write(i)
-                            else:
-                                self.old_time.append(p)
+                    #rebuild after
+
+
+
+                    for i in range(p[1]):
+                        time.sleep(0.1)
+                        l_e_nine_pin.write(i)
+                        r_e_eight_pin.write(i)
+
+                    # for i in range(p[2]):
+                    #     r_e_eight_pin.write(p[2])
+                    # for i in range(p[3]):
+                    #     sh_r_seven_pin.write(i)
+                    # for i in range(p[4]):
+                    #     r_h_three_pin.write(i)
+                    # for i in range(p[5]):
+                    #     l_h_six_pin.write(i)
+                    # for i in range(p[6]):
+                    #     l_l_four_pin.write(i)
+                    # for i in range(p[7]):
+                    #     r_l_five_pin.write(i)
+                    # for i in range(p[8]):
+                    #     res_1_ten_pin.write(i)
+                    # for i in range(p[9]):
+                    #     res_2_eleven_pin.write(i)
+
+
+
+
+
 
 
 
