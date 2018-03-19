@@ -9,7 +9,7 @@ import time
 import pyfirmata
 import threading
 import sqlite3
-
+import sys
 
 
 
@@ -157,9 +157,18 @@ class Demo2:
         self.timer = False
         self.default_seconds = 0
         self.timer_seconds = self.default_seconds
-        self.sql_servo_1 = []
-        self.sql_time=[]
-        ################## loop  ###########################################
+        self.sql_time=0
+        self.sql_servo_1 = 0
+        self.sql_servo_2 = 0
+        self.sql_servo_3 = 0
+        self.sql_servo_4 = 0
+        self.sql_servo_5 = 0
+        self.sql_servo_6 = 0
+        self.sql_servo_7 = 0
+        self.sql_servo_8 = 0
+        self.sql_servo_9 = 0
+
+
 
 
 
@@ -208,7 +217,7 @@ class Demo2:
         self.angle_box7 = ttk.Entry(self.master, textvariable=self.reserved_2, width=3)
         self.angle_box7.grid(row=9, column=3)
 
-        # self.play_butt = ttk.Button(self.master, text='>', command=self.some_play).grid(row=12, column=2)
+        self.play_butt = ttk.Button(self.master, text='clear', command=self.clear_strings).grid(row=12, column=2)
 
         self.button = ttk.Button(self.master, text='show',command =self.write_to_h)
         self.button.grid(row=13, column=2)
@@ -261,25 +270,110 @@ class Demo2:
         insert into `servo_9` values (%d)
         """ % (self.reserved_2.get()))#servo_9
 
+    def clear_strings(self):
+        f = open('template.h','r')
+        o = open('Val.h', 'w')
+        while 1:
+            line = f.readline()
+            if not line: break
+            line = line.replace('(', '')
+            line = line.replace(')', '')
+            line = line.replace(',,', ',')
+            line = line.replace('[][]','[]')
+            line = line.replace('{[]}','{}')
+            line = line.replace('{[','{')
+            line = line.replace(']}','}')
+            line = line.replace(')]};','')
+            #
+            # line = line.replace('int RhandArray[] = {[(0,), (0,), (0,), (0,), (9,)]}','')
+            # line = line.replace('int LLegArray[] = {[(0,), (0,), (0,), (0,), (9,)]};','')
+            # line = line.replace('int RLegArray[] = {[(0,), (0,), (0,), (9,)]};','')
+            # line = line.replace('int RLegArray[] = {[(0,), (0,), (0,), (9,)]};','')
+            # line = line.replace('int AssArray[] = {[(0,), (0,), (0,), (9,)]};','')
+            # line = line.replace('int KeyArray[] = {[]};','')
+            o.write(line)
+
+        o.close()
+
+
+
+
     def write_to_h(self):
         # take all from data base
         conn = sqlite3.connect('position.dms')
         cursor = conn.cursor()
-        # cursor.execute("SELECT * FROM `time` order by  `time_pos` ")
-        cursor.execute("SELECT * FROM `servo_1` order by  `servo1_pos` ")
+        #time
+        cursor.execute("SELECT * FROM `time` order by  `time_pos` ")
         self.sql_time = cursor.fetchall()
-        # self.sql_servo_1 = cursor.fetchall()
-        with open('Val.h','a+') as file:
-
-            file.writelines('int time_play={')
-            file.writelines(self.sql_time)
-            file.writelines()
-
-
-            file.writelines('int key[] = {')
+        #speed
+        cursor.execute("SELECT * FROM `speed` order by  `servo_speed` ")
+        self.sql_time = cursor.fetchall()
+        # servo_1
+        cursor.execute("SELECT * FROM `servo_1` order by  `servo1_pos` ")
+        self.sql_servo_1 =cursor.fetchall()
+        # servo_2
+        cursor.execute("SELECT * FROM `servo_2` order by  `servo2_pos` ")
+        self.sql_servo_2 = cursor.fetchall()
+        # servo_3
+        cursor.execute("SELECT * FROM `servo_3` order by  `servo3_pos` ")
+        self.sql_servo_3 = cursor.fetchall()
+        # servo_4
+        cursor.execute("SELECT * FROM `servo_4` order by  `servo4_pos` ")
+        self.sql_servo_4 = cursor.fetchall()
+        # servo_5
+        cursor.execute("SELECT * FROM `servo_5` order by  `servo5_pos` ")
+        self.sql_servo_5= cursor.fetchall()
+        # servo_6
+        cursor.execute("SELECT * FROM `servo_6` order by  `servo6_pos` ")
+        self.sql_servo_6 = cursor.fetchall()
+        # servo_7
+        cursor.execute("SELECT * FROM `servo_7` order by  `servo7_pos` ")
+        self.sql_servo_7 = cursor.fetchall()
+        # servo_8
+        cursor.execute("SELECT * FROM `servo_8` order by  `servo8_pos` ")
+        self.sql_servo_8 = cursor.fetchall()
+        # servo_9
+        cursor.execute("SELECT * FROM `servo_9` order by  `servo9_pos` ")
+        self.sql_servo_9 = cursor.fetchall()
+        with open('template.h','w') as file:
+            file.writelines('int time_play=1;\n')
+            file.writelines('int speed_row[] = {')
             file.writelines(str(self.sql_servo_1))
-            file.writelines('}\n')
-            file.close()
+            file.writelines('};\n')
+            file.writelines('int LEyeArray[][] = {')
+            file.writelines(str(self.sql_servo_1))
+            file.writelines('};\n')
+            file.writelines('int REyeArray[] = {')
+            file.writelines(str(self.sql_servo_2))
+            file.writelines('};\n')
+            file.writelines('int LArmArray[] = {')
+            file.writelines(str(self.sql_servo_3))
+            file.writelines('};\n')
+            file.writelines('int RArmArray[] = {')
+            file.writelines(str(self.sql_servo_4))
+            file.writelines('};\n')
+            file.writelines('int LhandArray[] = {')
+            file.writelines(str(self.sql_servo_5))
+            file.writelines('};\n')
+            file.writelines('int RhandArray[] = {')
+            file.writelines(str(self.sql_servo_6))
+            file.writelines('};\n')
+            file.writelines('int LLegArray[] = {')
+            file.writelines(str(self.sql_servo_7))
+            file.writelines('};\n')
+            file.writelines('int RLegArray[] = {')
+            file.writelines(str(self.sql_servo_8))
+            file.writelines('};\n')
+            file.writelines('int AssArray[] = {')
+            file.writelines(str(self.sql_servo_9))
+            file.writelines('};\n')
+            file.writelines('int KeyArray[] = {')
+            file.writelines(str(self.sql_time))
+            file.writelines('};\n')
+        self.clear_strings()
+
+
+
 
 
 
