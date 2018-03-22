@@ -1,15 +1,13 @@
 from tkinter import *
 import tkinter as tk
-from tkinter import ttk, messagebox
-
+from tkinter import ttk
 import os
+import pyfirmata
 import pygame
 from tinytag import TinyTag
-import time
-import pyfirmata
-import threading
-import sqlite3
-import sys
+from main_window import *
+
+
 
 
 
@@ -34,7 +32,7 @@ class Demo1:
 
         self.master = master
         self.master.geometry('300x200')
-
+        self.master.title('плеер')
         self.frame = tk.Frame(self.master)
         self.frame.pack()
 
@@ -137,251 +135,6 @@ class Demo1:
         pass
 
 
-class Demo2:
-    def __init__(self, master):
-        self.master = master
-        self.master.geometry('800x400')
-        self.frame = tk.Frame(self.master)
-
-        ##########angles from window######################
-        self.left_eye = 0
-        self.right_e = 0
-        self.right_sholder = 0
-        self.right_hand = 0
-        self.left_hand = 0
-        self.left_leg = 0
-        self.right_leg = 0
-        self.reserved_1 = 0
-        self.reserved_2 = 0
-        #################VALUES FOR TIMER##################################
-        self.timer = False
-        self.default_seconds = 0
-        self.timer_seconds = self.default_seconds
-        self.sql_time=0
-        self.sql_servo_1 = 0
-        self.sql_servo_2 = 0
-        self.sql_servo_3 = 0
-        self.sql_servo_4 = 0
-        self.sql_servo_5 = 0
-        self.sql_servo_6 = 0
-        self.sql_servo_7 = 0
-        self.sql_servo_8 = 0
-        self.sql_servo_9 = 0
-
-
-
-
-
-        self.lab_ser_1 = ttk.Label(self.master, text='глаз левый ').grid(row=0, column=1)
-        self.left_eye = IntVar()
-        self.angle_box1 = ttk.Entry(self.master, textvariable=self.left_eye, width=3)
-        self.angle_box1.grid(row=1, column=1)
-
-        self.lab_ser_2 = ttk.Label(self.master, text='глаз правый').grid(row=4, column=1)
-        self.right_e = IntVar()
-        self.angle_box2 = ttk.Entry(self.master, textvariable=self.right_e, width=3)
-        self.angle_box2.grid(row=5, column=1)
-
-        self.lab_ser_3 = ttk.Label(self.master, text='плечо правое').grid(row=8, column=1)
-        self.right_sholder = IntVar()
-        self.angle_box3 = ttk.Entry(self.master, textvariable=self.right_sholder, width=3)
-        self.angle_box3.grid(row=9, column=1)
-
-        self.lab_ser_4 = ttk.Label(self.master, text='рука правая').grid(row=0, column=2)
-        self.right_hand = IntVar()
-        self.angle_box4 = ttk.Entry(self.master, textvariable=self.right_hand, width=3)
-        self.angle_box4.grid(row=1, column=2)
-
-        self.lab_ser_5 = ttk.Label(self.master, text='рука левая').grid(row=4, column=2)
-        self.left_hand = IntVar()
-        self.angle_box5 = ttk.Entry(self.master, textvariable=self.left_hand, width=3)
-        self.angle_box5.grid(row=5, column=2)
-
-        self.lab_ser_6 = ttk.Label(self.master, text='нога левая').grid(row=8, column=2)
-        self.left_leg = IntVar()
-        self.angle_box6 = ttk.Entry(self.master, textvariable=self.left_leg, width=3)
-        self.angle_box6.grid(row=9, column=2)
-
-        self.lab_ser_7 = ttk.Label(self.master, text='нога правая ').grid(row=0, column=3)
-        self.right_leg = IntVar()
-        self.angle_box7 = ttk.Entry(self.master, textvariable=self.right_leg, width=3)
-        self.angle_box7.grid(row=1, column=3)
-
-        self.lab_ser_8 = ttk.Label(self.master, text='reserved_1 ').grid(row=4, column=3)
-        self.reserved_1 = IntVar()
-        self.angle_box7 = ttk.Entry(self.master, textvariable=self.reserved_1, width=3)
-        self.angle_box7.grid(row=5, column=3)
-
-        self.lab_ser_9 = ttk.Label(self.master, text='reserved_2 ').grid(row=8, column=3)
-        self.reserved_2 = IntVar()
-        self.angle_box7 = ttk.Entry(self.master, textvariable=self.reserved_2, width=3)
-        self.angle_box7.grid(row=9, column=3)
-
-        self.play_butt = ttk.Button(self.master, text='clear', command=self.clear_strings).grid(row=12, column=2)
-
-        self.button = ttk.Button(self.master, text='show',command =self.write_to_h)
-        self.button.grid(row=13, column=2)
-
-
-
-        self.write = ttk.Button(self.master, text='sql',command = self.write_position) .grid(row=17, column=2)
-
-        self.time_scale = ttk.Scale(self.master, orient='horizontal', length=400, from_=0, to=180)
-        self.time_scale.grid(row=19, column=2,pady=14)
-        self.speed_slider =  ttk.Scale(self.master,orient = "vertical", length =100,from_ = 0 ,to =30).grid(row=17,column =7,sticky = 'ws')
-
-
-        self.label_time = ttk.Label(self.master)
-        self.label_time.grid(row=15, column=2)
-
-
-    def write_position(self):
-        #on sql
-        conn = sqlite3.connect('position.dms')
-        cursor = conn.cursor()
-        cursor.executescript("""
-         insert into `time` values (%d)
-        """ % (round(self.time_scale.get())))#time
-        cursor.executescript("""
-        insert into `servo_2` values (%d)
-        """ % (self.left_eye.get()))#servo_1
-        cursor.executescript("""
-        insert into `servo_1` values (%d)
-        """ % (self.right_e.get()))#servo_2
-        cursor.executescript("""
-        insert into `servo_3` values (%d)
-        """ % (self.right_sholder.get()))#servo_3
-        cursor.executescript("""
-        insert into `servo_4` values (%d)
-        """ % (self.left_hand.get()))#servo_4
-        cursor.executescript("""
-        insert into `servo_5` values (%d)
-        """ % (self.right_hand.get()))#servo_5
-        cursor.executescript("""
-        insert into `servo_6` values (%d)
-        """ % (self.right_leg.get()))# servo_6
-        cursor.executescript("""
-        insert into `servo_7` values (%d)
-        """ % (self.left_leg.get()))# servo_7
-        cursor.executescript("""
-        insert into `servo_8` values (%d)
-        """ % (self.reserved_1.get()))#servo_8
-        cursor.executescript("""
-        insert into `servo_9` values (%d)
-        """ % (self.reserved_2.get()))#servo_9
-
-    def clear_strings(self):
-        f = open('template.h','r')
-        o = open('Val.h', 'w')
-        while 1:
-            line = f.readline()
-            if not line: break
-            line = line.replace('(', '')
-            line = line.replace(')', '')
-            line = line.replace(',,', ',')
-            line = line.replace('[][]','[]')
-            line = line.replace('{[]}','{}')
-            line = line.replace('{[','{')
-            line = line.replace(']}','}')
-            line = line.replace(')]};','')
-            #
-            # line = line.replace('int RhandArray[] = {[(0,), (0,), (0,), (0,), (9,)]}','')
-            # line = line.replace('int LLegArray[] = {[(0,), (0,), (0,), (0,), (9,)]};','')
-            # line = line.replace('int RLegArray[] = {[(0,), (0,), (0,), (9,)]};','')
-            # line = line.replace('int RLegArray[] = {[(0,), (0,), (0,), (9,)]};','')
-            # line = line.replace('int AssArray[] = {[(0,), (0,), (0,), (9,)]};','')
-            # line = line.replace('int KeyArray[] = {[]};','')
-            o.write(line)
-
-        o.close()
-
-
-
-
-    def write_to_h(self):
-        # take all from data base
-        conn = sqlite3.connect('position.dms')
-        cursor = conn.cursor()
-        #time
-        cursor.execute("SELECT * FROM `time` order by  `time_pos` ")
-        self.sql_time = cursor.fetchall()
-        #speed
-        cursor.execute("SELECT * FROM `speed` order by  `servo_speed` ")
-        self.sql_time = cursor.fetchall()
-        # servo_1
-        cursor.execute("SELECT * FROM `servo_1` order by  `servo1_pos` ")
-        self.sql_servo_1 =cursor.fetchall()
-        # servo_2
-        cursor.execute("SELECT * FROM `servo_2` order by  `servo2_pos` ")
-        self.sql_servo_2 = cursor.fetchall()
-        # servo_3
-        cursor.execute("SELECT * FROM `servo_3` order by  `servo3_pos` ")
-        self.sql_servo_3 = cursor.fetchall()
-        # servo_4
-        cursor.execute("SELECT * FROM `servo_4` order by  `servo4_pos` ")
-        self.sql_servo_4 = cursor.fetchall()
-        # servo_5
-        cursor.execute("SELECT * FROM `servo_5` order by  `servo5_pos` ")
-        self.sql_servo_5= cursor.fetchall()
-        # servo_6
-        cursor.execute("SELECT * FROM `servo_6` order by  `servo6_pos` ")
-        self.sql_servo_6 = cursor.fetchall()
-        # servo_7
-        cursor.execute("SELECT * FROM `servo_7` order by  `servo7_pos` ")
-        self.sql_servo_7 = cursor.fetchall()
-        # servo_8
-        cursor.execute("SELECT * FROM `servo_8` order by  `servo8_pos` ")
-        self.sql_servo_8 = cursor.fetchall()
-        # servo_9
-        cursor.execute("SELECT * FROM `servo_9` order by  `servo9_pos` ")
-        self.sql_servo_9 = cursor.fetchall()
-        with open('template.h','w') as file:
-            file.writelines('int time_play=1;\n')
-            file.writelines('int speed_row[] = {')
-            file.writelines(str(self.sql_servo_1))
-            file.writelines('};\n')
-            file.writelines('int LEyeArray[][] = {')
-            file.writelines(str(self.sql_servo_1))
-            file.writelines('};\n')
-            file.writelines('int REyeArray[] = {')
-            file.writelines(str(self.sql_servo_2))
-            file.writelines('};\n')
-            file.writelines('int LArmArray[] = {')
-            file.writelines(str(self.sql_servo_3))
-            file.writelines('};\n')
-            file.writelines('int RArmArray[] = {')
-            file.writelines(str(self.sql_servo_4))
-            file.writelines('};\n')
-            file.writelines('int LhandArray[] = {')
-            file.writelines(str(self.sql_servo_5))
-            file.writelines('};\n')
-            file.writelines('int RhandArray[] = {')
-            file.writelines(str(self.sql_servo_6))
-            file.writelines('};\n')
-            file.writelines('int LLegArray[] = {')
-            file.writelines(str(self.sql_servo_7))
-            file.writelines('};\n')
-            file.writelines('int RLegArray[] = {')
-            file.writelines(str(self.sql_servo_8))
-            file.writelines('};\n')
-            file.writelines('int AssArray[] = {')
-            file.writelines(str(self.sql_servo_9))
-            file.writelines('};\n')
-            file.writelines('int KeyArray[] = {')
-            file.writelines(str(self.sql_time))
-            file.writelines('};\n')
-        self.clear_strings()
-
-
-
-
-
-
-
-
-
-
-    #####################################################################
 
 
 def main():
