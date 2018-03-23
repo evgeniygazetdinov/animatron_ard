@@ -8,6 +8,8 @@ from subprocess  import call,PIPE,Popen
 import shutil
 from sketchbooks.SW.run_servo import compiling
 from db_input import *
+from tkinter.messagebox import showinfo
+
 
 
 class Demo2:
@@ -15,7 +17,11 @@ class Demo2:
         self.master = master
         self.master.geometry('800x400')
         self.frame = tk.Frame(self.master)
+        self.master.grid_rowconfigure(0, weight=0)
+        self.master.grid_columnconfigure(0, weight=0)
         self.master.title('серво менеджер')
+
+
         ##########angles from window######################
         self.left_eye = 0
         self.right_e = 0
@@ -43,23 +49,35 @@ class Demo2:
         self.sql_speed = 0
         self.speed =0
         self.time = 0
-        ########variables for change standart time##########
+        #########values for changer default databases#########
         self.current_name_db = ''
         self.path = 'position.dms'
-
-        ########variables for loop################
-
+        ######## additional loop variables ##################
+        self.loop_sec_entry1=0
+        self.loop_sec_entry2=0
+        self.loop_sec_entry3=0
+        self.loop_sec_entry4=0
+        self.loop_sec_entry5=0
+        self.loop_sec_entry6=0
+        self.loop_sec_entry7=0
+        self.loop_sec_entry8=0
+        self.loop_sec_entry9=0
+        self.loop_int_entry1 = 0
+        self.loop_int_entry2 = 0
+        self.loop_int_entry3 = 0
+        self.loop_int_entry4 = 0
+        self.loop_int_entry5 = 0
+        self.loop_int_entry6 = 0
+        self.loop_int_entry7 = 0
+        self.loop_int_entry8 = 0
+        self.loop_int_entry9 = 0
 
 
         self.lab_ser_1 = ttk.Label(self.master, text='глаз левый ').grid(row=0, column=1)
         self.left_eye = IntVar()
         self.angle_box1 = ttk.Entry(self.master, textvariable=self.left_eye, width=3)
         self.angle_box1.grid(row=1, column=1)
-        self.loop_l_e = ttk.Checkbutton(self.master,command=self.new_w_onf).grid(row=1, column=2,sticky='NW')
-
-
-
-
+        self.loop_l_e = ttk.Checkbutton(self.master,command=self.check_loop_1).grid(row=0, column=2,sticky=W)
 
 
 
@@ -67,42 +85,35 @@ class Demo2:
         self.right_e = IntVar()
         self.angle_box2 = ttk.Entry(self.master, textvariable=self.right_e, width=3)
         self.angle_box2.grid(row=5, column=1)
-        self.loop_r_e = ttk.Checkbutton(self.master,command=self.new_w_onf).grid(row=5, column=2, sticky='W', )
-
-
-
+        self.loop_r_e = ttk.Checkbutton(self.master,command=self.check_loop_2).grid(row=4, column=2, sticky=W)
 
 
         self.lab_ser_3 = ttk.Label(self.master, text='плечо правое').grid(row=8, column=1)
         self.right_sholder = IntVar()
         self.angle_box3 = ttk.Entry(self.master, textvariable=self.right_sholder, width=3)
         self.angle_box3.grid(row=9, column=1)
-        self.loop_r_s = ttk.Checkbutton(self.master, command=self.new_w_onf).grid(row=9, column=2, sticky='W', )
+        self.loop_r_s = ttk.Checkbutton(self.master, command=self.check_loop_3).grid(row=8, column=2, sticky="ns")
 
 
-
-
-        self.lab_ser_4 = ttk.Label(self.master, text='рука правая').grid(row=0, column=2)
+        self.lab_ser_4 = ttk.Label(self.master, text='рука правая').grid(row=0, column=2,padx=5)
         self.right_hand = IntVar()
         self.angle_box4 = ttk.Entry(self.master, textvariable=self.right_hand, width=3)
         self.angle_box4.grid(row=1, column=2)
-        self.loop_r_h = ttk.Checkbutton(self.master, command=self.new_w_onf).grid(row=1, column=2, sticky='W', )
+        self.loop_r_h = ttk.Checkbutton(self.master, command=self.check_loop_4).grid(row=0,column=2,padx=15)
 
 
-
-        self.lab_ser_5 = ttk.Label(self.master, text='рука левая').grid(row=4, column=2)
+        self.lab_ser_5 = ttk.Label(self.master, text='рука левая').grid(row=4, column=2,padx=5)
         self.left_hand = IntVar()
         self.angle_box5 = ttk.Entry(self.master, textvariable=self.left_hand, width=3)
         self.angle_box5.grid(row=5, column=2)
+        self.loop_r_l = ttk.Checkbutton(self.master, command=self.check_loop_5).grid(row=4,column=2,padx=15)
 
 
-
-
-        self.lab_ser_6 = ttk.Label(self.master, text='нога левая').grid(row=8, column=2)
+        self.lab_ser_6 = ttk.Label(self.master, text='нога левая').grid(row=8, column=2,padx=5)
         self.left_leg = IntVar()
         self.angle_box6 = ttk.Entry(self.master, textvariable=self.left_leg, width=3)
         self.angle_box6.grid(row=9, column=2)
-
+        self.loop_l_l = ttk.Checkbutton(self.master, command=self.check_loop_6).grid(row=8,column=0, rowspan=3,)
 
 
 
@@ -140,7 +151,7 @@ class Demo2:
         self.write = ttk.Button(self.master, text='удалить все значения',command = self.create_new) .grid(row=15, column=2,)
         self.time_label = ttk.Label(self.master, text="время").grid(row=18, column=2, sticky='ws', padx=0)
 
-        self.time_scale = ttk.Scale(self.master, orient='horizontal', length=400, from_=0, to=180,command =self.printime )
+        self.time_scale = ttk.Scale(self.master, orient='horizontal',length=400, from_=0, to=180,command =self.printime )
         self.time_scale.grid(row=19, column=2,pady=10)
         #digit near "время"
         self.time_digit = ttk.Label(self.master)
@@ -159,7 +170,7 @@ class Demo2:
 
         self.new = ttk.Button(self.master,text="новый сценарий",command = self.new_data).grid(row =1,column =8)
 
-        self.window_curr = ttk.Button(self.master,text="выбрать сценарий",command = self.choose_db).grid(row =3,column =8,sticky = 'e')
+        # self.window_curr = ttk.Button(self.master,text="выбрать сценарий",command = self.choose_db).grid(row =3,column =8,sticky = 'e')
 
         self.window_db = Listbox(self.master,width=25,height=3)
         self.window_db.grid(row=15,column=8,sticky= 'w')
@@ -366,7 +377,6 @@ class Demo2:
     def deleteall(self):
         conn = sqlite3.connect('position.dms')
         cursor = conn.cursor()
-
         # cursor.execute('drop table `time`')
         # cursor.execute('drop table `speed`')
         # cursor.execute('drop table `servo_1`')
@@ -403,37 +413,251 @@ class Demo2:
         self.newWindow = tk.Toplevel(self.master)
         self.app = new_base(self.newWindow)
 
-    def new_w_onf(self):
-        self.newonfWindow = tk.Toplevel(self.master)
-        self.newonfWindow.geometry('150x120')
-        self.newonfWindow.title('цикл')
-        self.first_label = ttk.Label(self.newonfWindow, text='первый',borderwidth=3).grid(row=1,column=1)
-
-        self.loop_entry1 = IntVar()
-        self.loop_le1 = ttk.Entry(self.newonfWindow, textvariable=self.loop_entry1, width=4)
-        self.loop_le1.grid(row=1, column=2)
+    #each func for each window
 
 
+    def check_loop_1(self):
+        newonfWindow = tk.Toplevel(self.master)
+        newonfWindow.geometry('150x120')
+        newonfWindow.title('цикл_1')
+        first_label = ttk.Label(newonfWindow, text='первый', borderwidth=3).grid(row=1, column=1)
+        self.left_eye = IntVar()
+        loop_le1 = ttk.Entry(newonfWindow, textvariable=self.left_eye, width=4)
+        loop_le1.grid(row=1, column=2)
+        self.loop_sec_entry1 =IntVar()
+        second_label = ttk.Label(newonfWindow, text='второй', borderwidth=3).grid(row=2, column=1)
+        loop_le2 = ttk.Entry(newonfWindow, textvariable=self.loop_sec_entry1, width=4)
+        loop_le2.grid(row=2, column=2)
+        self.loop_int_entry1 = IntVar()
+        interval_label = ttk.Label(newonfWindow, text='интервал', borderwidth=3).grid(row=3, column=1)
+        loop_le_int = ttk.Entry(newonfWindow, textvariable=self.loop_int_entry1, width=4)
+        loop_le_int.grid(row=3, column=2)
 
-        self.second_label = ttk.Label(self.newonfWindow, text='второй',borderwidth=3).grid(row=2,column=1)
-        self.loop_le2 = ttk.Entry(self.newonfWindow, textvariable='e', width=4)
-        self.loop_le2.grid(row=2, column=2)
-
-        self.interval_label = ttk.Label(self.newonfWindow, text='интервал', borderwidth=3).grid(row=3, column=1)
-        self.loop_le_int = ttk.Entry(self.newonfWindow, textvariable='e', width=4)
-        self.loop_le_int.grid(row=3, column=2)
-
-        self.ok_b = ttk.Button(self.newonfWindow, text='oк', command=self.loop_to_sql)
-        self.ok_b.grid(row=4, column=1)
-
-        self.cancell_but = ttk.Button(self.newonfWindow, text='отмена', command=self.cancell)
-        self.cancell_but.grid(row=5, column=1)
+        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql)
+        ok_b.grid(row=4, column=1)
+        cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda :newonfWindow.destroy())
+        cancell_but.grid(row=5, column=1)
 
 
+    def check_loop_2(self):
+        newonfWindow = tk.Toplevel(self.master)
+        newonfWindow.geometry('150x120')
+        newonfWindow.title('цикл_2')
+        first_label = ttk.Label(newonfWindow, text='первый', borderwidth=3).grid(row=1, column=1)
+        self.right_eye = IntVar()
+        loop_le1 = ttk.Entry(newonfWindow, textvariable=self.right_eye, width=4)
+        loop_le1.grid(row=1, column=2)
+        self.loop_sec_entry2 = IntVar()
+        second_label = ttk.Label(newonfWindow, text='второй', borderwidth=3).grid(row=2, column=1)
+        loop_le2 = ttk.Entry(newonfWindow, textvariable=self.loop_sec_entry2, width=4)
+        loop_le2.grid(row=2, column=2)
+        self.loop_int_entry2 = IntVar()
+        interval_label = ttk.Label(newonfWindow, text='интервал', borderwidth=3).grid(row=3, column=1)
+        loop_le_int = ttk.Entry(newonfWindow, textvariable=self.loop_int_entry2, width=4)
+        loop_le_int.grid(row=3, column=2)
 
-    def loop_change(self):
-        pass
+        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql)
+        ok_b.grid(row=4, column=1)
+
+        cancell_but = ttk.Button(newonfWindow, text='отмена',  command=lambda :newonfWindow.destroy())
+        cancell_but.grid(row=5, column=1)
+
+
+    def check_loop_3(self):
+        newonfWindow = tk.Toplevel(self.master)
+        newonfWindow.geometry('150x120')
+        newonfWindow.title('цикл')
+        first_label = ttk.Label(newonfWindow, text='первый', borderwidth=3).grid(row=1, column=1)
+        self.right_sholder = IntVar()
+        loop_le1 = ttk.Entry(newonfWindow, textvariable=self.right_sholder, width=4)
+        loop_le1.grid(row=1, column=2)
+
+        second_label = ttk.Label(newonfWindow, text='второй', borderwidth=3).grid(row=2, column=1)
+        loop_le2 = ttk.Entry(newonfWindow, textvariable='e', width=4)
+        loop_le2.grid(row=2, column=2)
+
+        interval_label = ttk.Label(newonfWindow, text='интервал', borderwidth=3).grid(row=3, column=1)
+        loop_le_int = ttk.Entry(newonfWindow, textvariable='e', width=4)
+        loop_le_int.grid(row=3, column=2)
+
+        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql)
+        ok_b.grid(row=4, column=1)
+
+        cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda :newonfWindow.destroy())
+        cancell_but.grid(row=5, column=1)
+
+
+    def check_loop_4(self):
+        newonfWindow = tk.Toplevel(self.master)
+        newonfWindow.geometry('150x120')
+        newonfWindow.title('цикл4')
+        first_label = ttk.Label(newonfWindow, text='первый', borderwidth=3).grid(row=1, column=1)
+        self.right_hand = IntVar()
+        loop_le1 = ttk.Entry(newonfWindow, textvariable=self.right_hand, width=4)
+        loop_le1.grid(row=1, column=2)
+
+        second_label = ttk.Label(newonfWindow, text='второй', borderwidth=3).grid(row=2, column=1)
+        loop_le2 = ttk.Entry(newonfWindow, textvariable='e', width=4)
+        loop_le2.grid(row=2, column=2)
+
+        interval_label = ttk.Label(newonfWindow, text='интервал', borderwidth=3).grid(row=3, column=1)
+        loop_le_int = ttk.Entry(newonfWindow, textvariable='e', width=4)
+        loop_le_int.grid(row=3, column=2)
+
+        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql)
+        ok_b.grid(row=4, column=1)
+
+        cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda :newonfWindow.destroy())
+        cancell_but.grid(row=5, column=1)
+
+
+    def check_loop_5(self):
+        newonfWindow = tk.Toplevel(self.master)
+        newonfWindow.geometry('150x120')
+        newonfWindow.title('цикл')
+        first_label = ttk.Label(newonfWindow, text='первый', borderwidth=3).grid(row=1, column=1)
+        self.left_hand = IntVar()
+        loop_le1 = ttk.Entry(newonfWindow, textvariable=self.left_hand, width=4)
+        loop_le1.grid(row=1, column=2)
+
+        second_label = ttk.Label(newonfWindow, text='второй', borderwidth=3).grid(row=2, column=1)
+        loop_le2 = ttk.Entry(newonfWindow, textvariable='e', width=4)
+        loop_le2.grid(row=2, column=2)
+
+        interval_label = ttk.Label(newonfWindow, text='интервал', borderwidth=3).grid(row=3, column=1)
+        loop_le_int = ttk.Entry(newonfWindow, textvariable='e', width=4)
+        loop_le_int.grid(row=3, column=2)
+
+        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql)
+        ok_b.grid(row=4, column=1)
+
+        cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda :newonfWindow.destroy())
+        cancell_but.grid(row=5, column=1)
+
+
+    def check_loop_6(self):
+        newonfWindow = tk.Toplevel(self.master)
+        newonfWindow.geometry('150x120')
+        newonfWindow.title('цикл')
+        first_label = ttk.Label(newonfWindow, text='первый', borderwidth=3).grid(row=1, column=1)
+        self.left_leg = IntVar()
+        loop_le1 = ttk.Entry(newonfWindow, textvariable=self.left_leg, width=4)
+        loop_le1.grid(row=1, column=2)
+
+        second_label = ttk.Label(newonfWindow, text='второй', borderwidth=3).grid(row=2, column=1)
+        loop_le2 = ttk.Entry(newonfWindow, textvariable='e', width=4)
+        loop_le2.grid(row=2, column=2)
+
+        interval_label = ttk.Label(newonfWindow, text='интервал', borderwidth=3).grid(row=3, column=1)
+        loop_le_int = ttk.Entry(newonfWindow, textvariable='e', width=4)
+        loop_le_int.grid(row=3, column=2)
+
+        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql)
+        ok_b.grid(row=4, column=1)
+
+        cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda :newonfWindow.destroy())
+        cancell_but.grid(row=5, column=1)
+
+
+    def check_loop_7(self):
+        newonfWindow = tk.Toplevel(self.master)
+        newonfWindow.geometry('150x120')
+        newonfWindow.title('цикл')
+        first_label = ttk.Label(newonfWindow, text='первый', borderwidth=3).grid(row=1, column=1)
+        self.right_leg = IntVar()
+        loop_le1 = ttk.Entry(newonfWindow, textvariable=self.right_leg, width=4)
+        loop_le1.grid(row=1, column=2)
+
+        second_label = ttk.Label(newonfWindow, text='второй', borderwidth=3).grid(row=2, column=1)
+        loop_le2 = ttk.Entry(newonfWindow, textvariable='e', width=4)
+        loop_le2.grid(row=2, column=2)
+
+        interval_label = ttk.Label(newonfWindow, text='интервал', borderwidth=3).grid(row=3, column=1)
+        loop_le_int = ttk.Entry(newonfWindow, textvariable='e', width=4)
+        loop_le_int.grid(row=3, column=2)
+
+        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql)
+        ok_b.grid(row=4, column=1)
+
+        cancell_but = ttk.Button(newonfWindow, text='отмена',command=lambda :newonfWindow.destroy())
+        cancell_but.grid(row=5, column=1)
+
+
+    def check_loop_8(self):
+        newonfWindow = tk.Toplevel(self.master)
+        newonfWindow.geometry('150x120')
+        newonfWindow.title('цикл')
+        first_label = ttk.Label(newonfWindow, text='первый', borderwidth=3).grid(row=1, column=1)
+        self.reserved_1 = IntVar()
+        loop_le1 = ttk.Entry(newonfWindow, textvariable=self.reserved_1, width=4)
+        loop_le1.grid(row=1, column=2)
+
+        second_label = ttk.Label(newonfWindow, text='второй', borderwidth=3).grid(row=2, column=1)
+        loop_le2 = ttk.Entry(newonfWindow, textvariable='e', width=4)
+        loop_le2.grid(row=2, column=2)
+
+        interval_label = ttk.Label(newonfWindow, text='интервал', borderwidth=3).grid(row=3, column=1)
+        loop_le_int = ttk.Entry(newonfWindow, textvariable='e', width=4)
+        loop_le_int.grid(row=3, column=2)
+
+        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql)
+        ok_b.grid(row=4, column=1)
+
+        cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda:newonfWindow.destroy())
+        cancell_but.grid(row=5, column=1)
+
+
+    def check_loop_9(self):
+        newonfWindow = tk.Toplevel(self.master)
+        newonfWindow.geometry('150x120')
+        newonfWindow.title('цикл')
+        first_label = ttk.Label(newonfWindow, text='первый', borderwidth=3).grid(row=1, column=1)
+        self.reserved_2 = IntVar()
+        loop_le1 = ttk.Entry(newonfWindow, textvariable=self.reserved_2, width=4)
+        loop_le1.grid(row=1, column=2)
+
+        second_label = ttk.Label(newonfWindow, text='второй', borderwidth=3).grid(row=2, column=1)
+        loop_le2 = ttk.Entry(newonfWindow, textvariable='e', width=4)
+        loop_le2.grid(row=2, column=2)
+
+        interval_label = ttk.Label(newonfWindow, text='интервал', borderwidth=3).grid(row=3, column=1)
+        loop_le_int = ttk.Entry(newonfWindow, textvariable='e', width=4)
+        loop_le_int.grid(row=3, column=2)
+
+        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql)
+        ok_b.grid(row=4, column=1)
+
+        cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda:newonfWindow.destroy())
+        cancell_but.grid(row=5, column=1)
+
+
+
+
+
+
+
+    def loop_to_sql(self):
+        if self.check_loop_1():
+            pass
+        if self.check_loop_2():
+            pass
+        if self.check_loop_3():
+            pass
+        if self.check_loop_4():
+            pass
+        if self.check_loop_5():
+            pass
+        if self.check_loop_6():
+            pass
+        if self.check_loop_7():
+            pass
+        if self.check_loop_8():
+            pass
+        if self.check_loop_9():
+            pass
+
+
 
 
     def cancell(self):
-        self.newonfWindow.destroy()
+        newonfWindow.destroy()
