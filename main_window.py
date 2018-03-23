@@ -43,9 +43,13 @@ class Demo2:
         self.sql_speed = 0
         self.speed =0
         self.time = 0
-        ##################
+        ########variables for change standart time##########
         self.current_name_db = ''
         self.path = 'position.dms'
+
+        ########variables for loop################
+
+
 
         self.lab_ser_1 = ttk.Label(self.master, text='глаз левый ').grid(row=0, column=1)
         self.left_eye = IntVar()
@@ -409,6 +413,8 @@ class Demo2:
         self.loop_le1 = ttk.Entry(self.newonfWindow, textvariable=self.loop_entry1, width=4)
         self.loop_le1.grid(row=1, column=2)
 
+
+
         self.second_label = ttk.Label(self.newonfWindow, text='второй',borderwidth=3).grid(row=2,column=1)
         self.loop_le2 = ttk.Entry(self.newonfWindow, textvariable='e', width=4)
         self.loop_le2.grid(row=2, column=2)
@@ -425,7 +431,7 @@ class Demo2:
 
 
 
-    def loop_to_sql(self):
+    def loop_change(self):
         pass
 
 
