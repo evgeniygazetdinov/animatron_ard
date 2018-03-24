@@ -170,7 +170,7 @@ class Demo2:
 
         self.new = ttk.Button(self.master,text="новый сценарий",command = self.new_data).grid(row =1,column =8)
 
-        # self.window_curr = ttk.Button(self.master,text="выбрать сценарий",command = self.choose_db).grid(row =3,column =8,sticky = 'e')
+        self.window_curr = ttk.Button(self.master,text="выбрать сценарий",command = self.choose_db).grid(row =3,column =8,sticky = 'e')
 
         self.window_db = Listbox(self.master,width=25,height=3)
         self.window_db.grid(row=15,column=8,sticky= 'w')
@@ -638,7 +638,27 @@ class Demo2:
 
     def loop_to_sql(self):
         if self.check_loop_1():
-            pass
+            for i in range(begin_time, final_time,self.loop_int_entry1):
+                if i % 2 == 0:
+                    conn = sqlite3.connect('/home/qbc/PycharmProjects/ard/scenario/d.db')
+                    cursor = conn.cursor()
+                    cursor.executescript("""
+                     insert into `time` values (%d)
+                    """ % (i))  # time
+                    cursor.executescript("""
+                    insert into `servo_1` values (%d)
+                    """ % (self.left_eye))  # speed
+                if i % 2 != 0:
+                    print('x')
+                    conn = sqlite3.connect('/home/qbc/PycharmProjects/ard/scenario/d.db')
+                    cursor = conn.cursor()
+                    cursor.executescript("""
+                     insert into `time` values (%d)
+                    """ % (i))  # time
+                    cursor.executescript("""
+                    insert into `servo_1` values (%d)
+                    """ % (self.loop_sec_entry1))  # speed
+
         if self.check_loop_2():
             pass
         if self.check_loop_3():
