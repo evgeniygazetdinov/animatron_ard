@@ -30,6 +30,7 @@ class Demo2:
         self.right_leg = 0
         self.reserved_1 = 0
         self.reserved_2 = 0
+
         #################VALUES FOR TIMER##################################
         self.timer = False
         self.default_seconds = 0
@@ -51,6 +52,7 @@ class Demo2:
         self.current_name_db = ''
         self.path = 'position.dms'
         ######## additional loop variables ##################
+
         self.loop_sec_entry1 = 0
         self.loop_sec_entry2 = 0
         self.loop_sec_entry3 = 0
@@ -60,6 +62,7 @@ class Demo2:
         self.loop_sec_entry7 = 0
         self.loop_sec_entry8 = 0
         self.loop_sec_entry9 = 0
+
         self.loop_int_entry1 = 0
         self.loop_int_entry2 = 0
         self.loop_int_entry3 = 0
@@ -172,7 +175,7 @@ class Demo2:
 
     def choose_db(self):
         fname = askopenfilename(filetypes=(("scenario", "*.db"),
-                                           ("All files", "*.*")))
+                                           ("All files", "*.*")),initialdir='~PycharmProjects/')
         print(fname[-6:-1])
         self.current_name_db = fname
         self.window_db.insert(END, fname[-25:-1] + '\n')
@@ -350,6 +353,7 @@ class Demo2:
     # each func for each window
 
     def check_loop_1(self):
+
         newonfWindow = tk.Toplevel(self.master)
         newonfWindow.geometry('150x120')
         newonfWindow.title('цикл1')
