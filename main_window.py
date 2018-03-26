@@ -2,6 +2,7 @@ from tkinter import *
 import tkinter as tk
 from tkinter import ttk
 from tkinter.filedialog import askopenfilename
+from tkinter import messagebox
 import threading
 import sqlite3
 from subprocess import call, PIPE, Popen
@@ -72,6 +73,9 @@ class Demo2:
         self.loop_int_entry7 = 0
         self.loop_int_entry8 = 0
         self.loop_int_entry9 = 0
+        self.primary_time = 0
+        self.final_time = 1
+        self.interval =1
 
         self.lab_ser_1 = ttk.Label(self.master, text='глаз левый ').grid(row=1, column=1)
         self.left_eye = IntVar()
@@ -152,11 +156,15 @@ class Demo2:
         self.time_scale.grid(row=19, column=0, columnspan=8)
         # digit near "время"
         self.time_label = ttk.Label(self.master, text="время").grid(row=17, column=1)
+
         self.time_digit = ttk.Label(self.master)
         self.time_digit.grid(row=17, column=0,rowspan=1,columnspan=7)
+
         self.speed_label = ttk.Label(self.master, text="cкорость").grid(row=22, column=1)
+
         self.speed_digit = ttk.Label(self.master)
         self.speed_digit.grid(row=22, column=1,columnspan=6)
+
         self.speed_slider = ttk.Scale(self.master, orient="horizontal", length=100, from_=0, to=100, command=self.prinw)
         self.speed_slider.grid(row=23, column=0,columnspan=3)
 
@@ -173,9 +181,16 @@ class Demo2:
         s = self.time - m * 60
         self.time_digit.configure(text='%02d:%02d' % (m, s))
 
+    #permanently  obtaining value from time slider for loop window
+    def update_time_slider(self):
+        time = self.time_scale.get()
+        print('new time')
+        return time
+
+
     def choose_db(self):
         fname = askopenfilename(filetypes=(("scenario", "*.db"),
-                                           ("All files", "*.*")),initialdir='~PycharmProjects/')
+                                           ("All files", "*.*")),initialdir='~/home/qbc/PycharmProjects/ard/scenario')
         print(fname[-6:-1])
         self.current_name_db = fname
         self.window_db.insert(END, fname[-25:-1] + '\n')
@@ -355,18 +370,17 @@ class Demo2:
     def check_loop_1(self):
 
         newonfWindow = tk.Toplevel(self.master)
-        newonfWindow.geometry('150x120')
+        newonfWindow.geometry('300x300')
         newonfWindow.title('цикл1')
         first_label = ttk.Label(newonfWindow, text='первый', borderwidth=3).grid(row=1, column=1)
         self.left_eye = IntVar()
         loop_le1 = ttk.Entry(newonfWindow, textvariable=self.left_eye, width=4)
-        loop_le1.insert(0, 'угол')
         loop_le1.grid(row=1, column=2)
         self.loop_sec_entry1 = IntVar()
         second_label = ttk.Label(newonfWindow, text='второй', borderwidth=3).grid(row=2, column=1)
         loop_le2 = ttk.Entry(newonfWindow, textvariable=self.loop_sec_entry1, width=4)
         loop_le2.grid(row=2, column=2)
-        loop_le2.insert(0, 'угол')
+
         self.loop_int_entry1 = IntVar()
         interval_label = ttk.Label(newonfWindow, text='интервал', borderwidth=3).grid(row=3, column=1)
         loop_le_int = ttk.Entry(newonfWindow, textvariable=self.loop_int_entry1, width=4)
@@ -376,9 +390,16 @@ class Demo2:
         ok_b.grid(row=4, column=1)
         cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda: newonfWindow.destroy())
         cancell_but.grid(row=5, column=1)
-        self.angle_box1.state(["disabled"])
-        if cancell_but:
-            self.angle_box1.state(["!disabled"])
+        self.update_time_slider()
+        time = round(self.time)
+        m = time // 60
+        s = time - m * 60
+        time_digit = ttk.Label(newonfWindow,text = '%02d:%02d'% (m, s)).grid(row=4,column=2)
+        self.temp_time = ttk.Button(newonfWindow,text = 'засечь время',command=self.notch_time).grid(row=5,column=2)
+
+
+
+
 
     def check_loop_2(self):
         newonfWindow = tk.Toplevel(self.master)
@@ -564,10 +585,16 @@ class Demo2:
         cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda: newonfWindow.destroy())
         cancell_but.grid(row=5, column=1)
 
+
+
+
+
+
     def loop_to_sql(self):
-        for i in range(begin_time, final_time, self.loop_int_entry1.get()):
+        print('1')
+        for i in range(int(self.primary_time),int(self.final_time),int(self.loop_int_entry1.get())):
             if i % 2 == 0:
-                conn = sqlite3.connect('/home/qbc/PycharmProjects/ard/scenario/d.db')
+                conn = sqlite3.connect(self.path)
                 cursor = conn.cursor()
                 cursor.executescript("""
                  insert into `time` values (%d)
@@ -576,14 +603,54 @@ class Demo2:
                 insert into `servo_1` values (%d)
                 """ % (self.left_eye.get()))  # speed
             if i % 2 != 0:
-                conn = sqlite3.connect('/home/qbc/PycharmProjects/ard/scenario/d.db')
+                conn = sqlite3.connect(self.path)
                 cursor = conn.cursor()
                 cursor.executescript("""
                  insert into `time` values (%d)
                 """ % (i))  # time
                 cursor.executescript("""
                 insert into `servo_1` values (%d)
-                """ % (self.loop_sec_entry1()))  # speed
+                """ % (self.loop_sec_entry1.get()))  # speed
+
+    def notch_time(self):
+
+        # self.primary_time = self.time
+        # conn = sqlite3.connect(self.path)
+        # cursor = conn.cursor()
+        # #insert to db
+        # cursor.executescript("""
+        #                     insert into `time` values (%d)""" % (self.primary_time))
+        # #take results from db
+        # cursor.execute('''SELECT time_pos FROM time ORDER BY time_pos DESC LIMIT 1;''')
+        # last_time= cursor.fetchone()
+        # cursor.execute("select max(time_pos) from time")
+        # sql_pos =cursor.fetchone()
+        # self.final_time = round(self.time_scale.get()*1000)
+        # print(self.final_time)
+        # print(sql_pos)
+
+        conn = sqlite3.connect(self.path)
+        cursor = conn.cursor()
+        cursor.executescript("""
+               insert into `time` values (%d)
+              """ % (round(self.time_scale.get() * 1000)))
+        cursor.execute("select min(time_pos) from time")
+        sql_pos = cursor.fetchone()
+        self.final_time = round(self.time_scale.get()*1000)
+        self.final_time =sql_pos
+        self.final_time=self.primary_time
+        print(self.primary_time)
+        print(self.final_time)
+
+
+
+
+
+    def double_notch_time(self):
+        messagebox.showinfo("второе значение", "записано значение")
+        self.final_time = self.time
+        print('3')
+
 
     #
     #     #
