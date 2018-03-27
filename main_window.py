@@ -119,19 +119,19 @@ class Demo2:
         self.angle_box7 = ttk.Entry(self.master, textvariable=self.right_leg, width=3)
         self.angle_box7.grid(row=2, column=6)
 
-        self.loop_r_l = ttk.Checkbutton(self.master, command=self.check_loop_6).grid(row=1, column=7, padx=10)
+        self.loop_r_l = ttk.Checkbutton(self.master, command=self.check_loop_7).grid(row=1, column=7, padx=10)
 
         self.lab_ser_8 = ttk.Label(self.master, text='reserved_1 ').grid(row=4, column=6)
         self.reserved_1 = IntVar()
         self.angle_box8 = ttk.Entry(self.master, textvariable=self.reserved_1, width=3)
         self.angle_box8.grid(row=5, column=6)
-        self.loop_res = ttk.Checkbutton(self.master, command=self.check_loop_6).grid(row=4, column=7, padx=10)
+        self.loop_res = ttk.Checkbutton(self.master, command=self.check_loop_8).grid(row=4, column=7, padx=10)
 
         self.lab_ser_9 = ttk.Label(self.master, text='reserved_2 ').grid(row=8, column=6)
         self.reserved_2 = IntVar()
         self.angle_box9 = ttk.Entry(self.master, textvariable=self.reserved_2, width=3)
         self.angle_box9.grid(row=9, column=6)
-        self.loop_res2 = ttk.Checkbutton(self.master, command=self.check_loop_6).grid(row=8, column=7, padx=10)
+        self.loop_res2 = ttk.Checkbutton(self.master, command=self.check_loop_9).grid(row=8, column=7, padx=10)
 
         self.play_butt = ttk.Button(self.master,
                                     text='проиграть',
@@ -371,7 +371,7 @@ class Demo2:
     def check_loop_1(self):
 
         newonfWindow = tk.Toplevel(self.master)
-        newonfWindow.geometry('300x300')
+        newonfWindow.geometry('200x130')
         newonfWindow.title('цикл1')
         first_label = ttk.Label(newonfWindow, text='первый', borderwidth=3).grid(row=1, column=1)
         self.left_eye = IntVar()
@@ -387,7 +387,7 @@ class Demo2:
         loop_le_int = ttk.Entry(newonfWindow, textvariable=self.loop_int_entry1, width=4)
         loop_le_int.grid(row=3, column=2)
 
-        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql)
+        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql1)
         ok_b.grid(row=4, column=1)
         cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda: newonfWindow.destroy())
         cancell_but.grid(row=5, column=1)
@@ -396,7 +396,8 @@ class Demo2:
         m = time // 60
         s = time - m * 60
         time_digit = ttk.Label(newonfWindow,text = '%02d:%02d'% (m, s)).grid(row=4,column=2)
-        self.temp_time = ttk.Button(newonfWindow,text = 'засечь время',command=self.count_clicks).grid(row=5,column=2)
+
+        self.temp_time = ttk.Button(newonfWindow,text = 'засечь время',command=self.count_clicks1).grid(row=5,column=2)
 
 
 
@@ -404,7 +405,7 @@ class Demo2:
 
     def check_loop_2(self):
         newonfWindow = tk.Toplevel(self.master)
-        newonfWindow.geometry('150x120')
+        newonfWindow.geometry('200x130')
         newonfWindow.title('цикл_2')
         first_label = ttk.Label(newonfWindow, text='первый', borderwidth=3).grid(row=1, column=1)
         self.right_eye = IntVar()
@@ -419,274 +420,577 @@ class Demo2:
         loop_le_int = ttk.Entry(newonfWindow, textvariable=self.loop_int_entry2, width=4)
         loop_le_int.grid(row=3, column=2)
 
-        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql)
+        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql2)
         ok_b.grid(row=4, column=1)
 
         cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda: newonfWindow.destroy())
         cancell_but.grid(row=5, column=1)
+        self.update_time_slider()
+        time = round(self.time)
+        m = time // 60
+        s = time - m * 60
+        time_digit = ttk.Label(newonfWindow, text='%02d:%02d' % (m, s)).grid(row=4, column=2)
+
+        self.temp_time = ttk.Button(newonfWindow, text='засечь время', command=self.count_clicks2).grid(row=5, column=2)
+
+
 
     def check_loop_3(self):
+
         newonfWindow = tk.Toplevel(self.master)
-        newonfWindow.geometry('150x120')
-        newonfWindow.title('цикл')
+        newonfWindow.geometry('200x130')
+        newonfWindow.title('цикл3')
         first_label = ttk.Label(newonfWindow, text='первый', borderwidth=3).grid(row=1, column=1)
         self.right_sholder = IntVar()
         loop_le1 = ttk.Entry(newonfWindow, textvariable=self.right_sholder, width=4)
         loop_le1.grid(row=1, column=2)
-
+        self.loop_sec_entry3 = IntVar()
         second_label = ttk.Label(newonfWindow, text='второй', borderwidth=3).grid(row=2, column=1)
-        loop_le2 = ttk.Entry(newonfWindow, textvariable='e', width=4)
+        loop_le2 = ttk.Entry(newonfWindow, textvariable=self.loop_sec_entry3, width=4)
         loop_le2.grid(row=2, column=2)
 
+        self.loop_int_entry3 = IntVar()
         interval_label = ttk.Label(newonfWindow, text='интервал', borderwidth=3).grid(row=3, column=1)
-        loop_le_int = ttk.Entry(newonfWindow, textvariable='e', width=4)
+        loop_le_int = ttk.Entry(newonfWindow, textvariable=self.loop_int_entry3, width=4)
         loop_le_int.grid(row=3, column=2)
 
-        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql)
+        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql3)
         ok_b.grid(row=4, column=1)
-
         cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda: newonfWindow.destroy())
         cancell_but.grid(row=5, column=1)
+        self.update_time_slider()
+        time = round(self.time)
+        m = time // 60
+        s = time - m * 60
+        time_digit = ttk.Label(newonfWindow,text = '%02d:%02d'% (m, s)).grid(row=4,column=2)
+
+        self.temp_time = ttk.Button(newonfWindow,text = 'засечь время',command=self.count_clicks3).grid(row=5,column=2)
+
 
     def check_loop_4(self):
+
         newonfWindow = tk.Toplevel(self.master)
-        newonfWindow.geometry('150x120')
+        newonfWindow.geometry('200x130')
         newonfWindow.title('цикл4')
         first_label = ttk.Label(newonfWindow, text='первый', borderwidth=3).grid(row=1, column=1)
         self.right_hand = IntVar()
         loop_le1 = ttk.Entry(newonfWindow, textvariable=self.right_hand, width=4)
         loop_le1.grid(row=1, column=2)
-
+        self.loop_sec_entry4 = IntVar()
         second_label = ttk.Label(newonfWindow, text='второй', borderwidth=3).grid(row=2, column=1)
-        loop_le2 = ttk.Entry(newonfWindow, textvariable='e', width=4)
+        loop_le2 = ttk.Entry(newonfWindow, textvariable=self.loop_sec_entry4, width=4)
         loop_le2.grid(row=2, column=2)
 
+        self.loop_int_entry4 = IntVar()
         interval_label = ttk.Label(newonfWindow, text='интервал', borderwidth=3).grid(row=3, column=1)
-        loop_le_int = ttk.Entry(newonfWindow, textvariable='e', width=4)
+        loop_le_int = ttk.Entry(newonfWindow, textvariable=self.loop_int_entry4, width=4)
         loop_le_int.grid(row=3, column=2)
 
-        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql)
+        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql4)
         ok_b.grid(row=4, column=1)
-
         cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda: newonfWindow.destroy())
         cancell_but.grid(row=5, column=1)
+        self.update_time_slider()
+        time = round(self.time)
+        m = time // 60
+        s = time - m * 60
+        time_digit = ttk.Label(newonfWindow,text = '%02d:%02d'% (m, s)).grid(row=4,column=2)
+
+        self.temp_time = ttk.Button(newonfWindow,text = 'засечь время',command=self.count_clicks4).grid(row=5,column=2)
 
     def check_loop_5(self):
+
         newonfWindow = tk.Toplevel(self.master)
-        newonfWindow.geometry('150x120')
+        newonfWindow.geometry('200x130')
         newonfWindow.title('цикл5')
         first_label = ttk.Label(newonfWindow, text='первый', borderwidth=3).grid(row=1, column=1)
         self.left_hand = IntVar()
         loop_le1 = ttk.Entry(newonfWindow, textvariable=self.left_hand, width=4)
         loop_le1.grid(row=1, column=2)
-
+        self.loop_sec_entry5 = IntVar()
         second_label = ttk.Label(newonfWindow, text='второй', borderwidth=3).grid(row=2, column=1)
-        loop_le2 = ttk.Entry(newonfWindow, textvariable='e', width=4)
+        loop_le2 = ttk.Entry(newonfWindow, textvariable=self.loop_sec_entry5, width=4)
         loop_le2.grid(row=2, column=2)
 
+        self.loop_int_entry5 = IntVar()
         interval_label = ttk.Label(newonfWindow, text='интервал', borderwidth=3).grid(row=3, column=1)
-        loop_le_int = ttk.Entry(newonfWindow, textvariable='e', width=4)
+        loop_le_int = ttk.Entry(newonfWindow, textvariable=self.loop_int_entry5, width=4)
         loop_le_int.grid(row=3, column=2)
 
-        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql)
+        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql5)
         ok_b.grid(row=4, column=1)
-
         cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda: newonfWindow.destroy())
         cancell_but.grid(row=5, column=1)
+        self.update_time_slider()
+        time = round(self.time)
+        m = time // 60
+        s = time - m * 60
+        time_digit = ttk.Label(newonfWindow,text = '%02d:%02d'% (m, s)).grid(row=4,column=2)
+
+        self.temp_time = ttk.Button(newonfWindow,text = 'засечь время',command=self.count_clicks5).grid(row=5,column=2)
 
     def check_loop_6(self):
+
         newonfWindow = tk.Toplevel(self.master)
-        newonfWindow.geometry('150x120')
+        newonfWindow.geometry('200x130')
         newonfWindow.title('цикл6')
         first_label = ttk.Label(newonfWindow, text='первый', borderwidth=3).grid(row=1, column=1)
         self.left_leg = IntVar()
         loop_le1 = ttk.Entry(newonfWindow, textvariable=self.left_leg, width=4)
         loop_le1.grid(row=1, column=2)
-
+        self.loop_sec_entry6 = IntVar()
         second_label = ttk.Label(newonfWindow, text='второй', borderwidth=3).grid(row=2, column=1)
-        loop_le2 = ttk.Entry(newonfWindow, textvariable='e', width=4)
+        loop_le2 = ttk.Entry(newonfWindow, textvariable=self.loop_sec_entry6, width=4)
         loop_le2.grid(row=2, column=2)
 
+        self.loop_int_entry6 = IntVar()
         interval_label = ttk.Label(newonfWindow, text='интервал', borderwidth=3).grid(row=3, column=1)
-        loop_le_int = ttk.Entry(newonfWindow, textvariable='e', width=4)
+        loop_le_int = ttk.Entry(newonfWindow, textvariable=self.loop_int_entry6, width=4)
         loop_le_int.grid(row=3, column=2)
 
-        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql)
+        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql6)
         ok_b.grid(row=4, column=1)
-
         cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda: newonfWindow.destroy())
         cancell_but.grid(row=5, column=1)
+        self.update_time_slider()
+        time = round(self.time)
+        m = time // 60
+        s = time - m * 60
+        time_digit = ttk.Label(newonfWindow,text = '%02d:%02d'% (m, s)).grid(row=4,column=2)
+
+        self.temp_time = ttk.Button(newonfWindow,text = 'засечь время',command=self.count_clicks6).grid(row=5,column=2)
 
     def check_loop_7(self):
+
         newonfWindow = tk.Toplevel(self.master)
-        newonfWindow.geometry('150x120')
+        newonfWindow.geometry('200x130')
         newonfWindow.title('цикл7')
         first_label = ttk.Label(newonfWindow, text='первый', borderwidth=3).grid(row=1, column=1)
         self.right_leg = IntVar()
         loop_le1 = ttk.Entry(newonfWindow, textvariable=self.right_leg, width=4)
         loop_le1.grid(row=1, column=2)
-
+        self.loop_sec_entry7 = IntVar()
         second_label = ttk.Label(newonfWindow, text='второй', borderwidth=3).grid(row=2, column=1)
-        loop_le2 = ttk.Entry(newonfWindow, textvariable='e', width=4)
+        loop_le2 = ttk.Entry(newonfWindow, textvariable=self.loop_sec_entry7, width=4)
         loop_le2.grid(row=2, column=2)
 
+        self.loop_int_entry7 = IntVar()
         interval_label = ttk.Label(newonfWindow, text='интервал', borderwidth=3).grid(row=3, column=1)
-        loop_le_int = ttk.Entry(newonfWindow, textvariable='e', width=4)
+        loop_le_int = ttk.Entry(newonfWindow, textvariable=self.loop_int_entry7, width=4)
         loop_le_int.grid(row=3, column=2)
 
-        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql)
+        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql7)
         ok_b.grid(row=4, column=1)
-
         cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda: newonfWindow.destroy())
         cancell_but.grid(row=5, column=1)
+        self.update_time_slider()
+        time = round(self.time)
+        m = time // 60
+        s = time - m * 60
+        time_digit = ttk.Label(newonfWindow,text = '%02d:%02d'% (m, s)).grid(row=4,column=2)
+
+        self.temp_time = ttk.Button(newonfWindow,text = 'засечь время',command=self.count_clicks7).grid(row=5,column=2)
+
 
     def check_loop_8(self):
+
         newonfWindow = tk.Toplevel(self.master)
-        newonfWindow.geometry('150x120')
+        newonfWindow.geometry('200x130')
         newonfWindow.title('цикл8')
         first_label = ttk.Label(newonfWindow, text='первый', borderwidth=3).grid(row=1, column=1)
         self.reserved_1 = IntVar()
         loop_le1 = ttk.Entry(newonfWindow, textvariable=self.reserved_1, width=4)
         loop_le1.grid(row=1, column=2)
-
+        self.loop_sec_entry8 = IntVar()
         second_label = ttk.Label(newonfWindow, text='второй', borderwidth=3).grid(row=2, column=1)
-        loop_le2 = ttk.Entry(newonfWindow, textvariable='e', width=4)
+        loop_le2 = ttk.Entry(newonfWindow, textvariable=self.loop_sec_entry8, width=4)
         loop_le2.grid(row=2, column=2)
 
+        self.loop_int_entry8 = IntVar()
         interval_label = ttk.Label(newonfWindow, text='интервал', borderwidth=3).grid(row=3, column=1)
-        loop_le_int = ttk.Entry(newonfWindow, textvariable='e', width=4)
+        loop_le_int = ttk.Entry(newonfWindow, textvariable=self.loop_int_entry8, width=4)
         loop_le_int.grid(row=3, column=2)
 
-        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql)
+        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql8)
         ok_b.grid(row=4, column=1)
-
         cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda: newonfWindow.destroy())
         cancell_but.grid(row=5, column=1)
+        self.update_time_slider()
+        time = round(self.time)
+        m = time // 60
+        s = time - m * 60
+        time_digit = ttk.Label(newonfWindow,text = '%02d:%02d'% (m, s)).grid(row=4,column=2)
+
+        self.temp_time = ttk.Button(newonfWindow,text = 'засечь время',command=self.count_clicks8).grid(row=5,column=2)
 
     def check_loop_9(self):
+
         newonfWindow = tk.Toplevel(self.master)
-        newonfWindow.geometry('150x120')
-        newonfWindow.title('цикл')
+        newonfWindow.geometry('200x130')
+        newonfWindow.title('цикл9')
         first_label = ttk.Label(newonfWindow, text='первый', borderwidth=3).grid(row=1, column=1)
         self.reserved_2 = IntVar()
         loop_le1 = ttk.Entry(newonfWindow, textvariable=self.reserved_2, width=4)
         loop_le1.grid(row=1, column=2)
-
+        self.loop_sec_entry9 = IntVar()
         second_label = ttk.Label(newonfWindow, text='второй', borderwidth=3).grid(row=2, column=1)
-        loop_le2 = ttk.Entry(newonfWindow, textvariable='e', width=4)
+        loop_le2 = ttk.Entry(newonfWindow, textvariable=self.loop_sec_entry9, width=4)
         loop_le2.grid(row=2, column=2)
 
+        self.loop_int_entry9 = IntVar()
         interval_label = ttk.Label(newonfWindow, text='интервал', borderwidth=3).grid(row=3, column=1)
-        loop_le_int = ttk.Entry(newonfWindow, textvariable='e', width=4)
+        loop_le_int = ttk.Entry(newonfWindow, textvariable=self.loop_int_entry9, width=4)
         loop_le_int.grid(row=3, column=2)
 
-        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql)
+        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql9)
         ok_b.grid(row=4, column=1)
-
         cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda: newonfWindow.destroy())
         cancell_but.grid(row=5, column=1)
+        self.update_time_slider()
+        time = round(self.time)
+        m = time // 60
+        s = time - m * 60
+        time_digit = ttk.Label(newonfWindow,text = '%02d:%02d'% (m, s)).grid(row=4,column=2)
+
+        self.temp_time = ttk.Button(newonfWindow,text = 'засечь время',command=self.count_clicks9).grid(row=5,column=2)
 
 
     ############################## loop shit  ##########################################
 
     # count the number of clicks
-    def count_clicks(self):
+    def count_clicks1(self):
+        self.count +=1
+        print(self.count)#TODO ALL REFACTORING BELLOW
+        if self.count == 1:
+            self.primary_time = round(self.time_scale.get() * 1000)
+            messagebox.showinfo("значение", "записано первое значение")
+        if self.count == 2:
+            self.count = 0
+            messagebox.showinfo("значение", "записано второе значение ")
+            self.final_time = round(self.time_scale.get() * 1000)
+            self.loop_to_sql1()
+
+    def count_clicks2(self):
         self.count +=1
         print(self.count)
         if self.count == 1:
             self.primary_time = round(self.time_scale.get() * 1000)
+            messagebox.showinfo("значение", "записано первое значение")
         if self.count == 2:
             self.count = 0
+            messagebox.showinfo("значение", "записано второе значение ")
             self.final_time = round(self.time_scale.get() * 1000)
-            self.loop_to_sql()
+            self.loop_to_sql2()
+
+    def count_clicks3(self):
+        self.count +=1
+        print(self.count)
+        if self.count == 1:
+            self.primary_time = round(self.time_scale.get() * 1000)
+            messagebox.showinfo("значение", "записано первое значение")
+        if self.count == 2:
+            self.count = 0
+            messagebox.showinfo("значение", "записано второе значение ")
+            self.final_time = round(self.time_scale.get() * 1000)
+            self.loop_to_sql3()
+
+    def count_clicks4(self):
+        self.count +=1
+        print(self.count)
+        if self.count == 1:
+            self.primary_time = round(self.time_scale.get() * 1000)
+            messagebox.showinfo("значение", "записано первое значение")
+        if self.count == 2:
+            self.count = 0
+            messagebox.showinfo("значение", "записано второе значение ")
+            self.final_time = round(self.time_scale.get() * 1000)
+            self.loop_to_sql4()
+
+    def count_clicks5(self):
+        self.count += 1
+        print(self.count)
+        if self.count == 1:
+            self.primary_time = round(self.time_scale.get() * 1000)
+            messagebox.showinfo("значение", "записано первое значение")
+        if self.count == 2:
+            self.count = 0
+            messagebox.showinfo("значение", "записано второе значение ")
+            self.final_time = round(self.time_scale.get() * 1000)
+            self.loop_to_sql5()
+
+    def count_clicks6(self):
+        self.count += 1
+        print(self.count)
+        if self.count == 1:
+            self.primary_time = round(self.time_scale.get() * 1000)
+            messagebox.showinfo("значение", "записано первое значение")
+        if self.count == 2:
+            self.count = 0
+            messagebox.showinfo("значение", "записано второе значение ")
+            self.final_time = round(self.time_scale.get() * 1000)
+            self.loop_to_sql6()
+
+    def count_clicks7(self):
+        self.count += 1
+        print(self.count)
+        if self.count == 1:
+            self.primary_time = round(self.time_scale.get() * 1000)
+            messagebox.showinfo("значение", "записано первое значение")
+        if self.count == 2:
+            self.count = 0
+            messagebox.showinfo("значение", "записано второе значение ")
+            self.final_time = round(self.time_scale.get() * 1000)
+            self.loop_to_sql7()
+
+    def count_clicks8(self):
+        self.count += 1
+        print(self.count)
+        if self.count == 1:
+            self.primary_time = round(self.time_scale.get() * 1000)
+            messagebox.showinfo("значение", "записано первое значение")
+        if self.count == 2:
+            self.count = 0
+            messagebox.showinfo("значение", "записано второе значение ")
+            self.final_time = round(self.time_scale.get() * 1000)
+            self.loop_to_sql8()
+
+    def count_clicks9(self):
+        self.count += 1
+        print(self.count)
+        if self.count == 1:
+            self.primary_time = round(self.time_scale.get() * 1000)
+            messagebox.showinfo("значение", "записано первое значение")
+        if self.count == 2:
+            self.count = 0
+            messagebox.showinfo("значение", "записано второе значение ")
+            self.final_time = round(self.time_scale.get() * 1000)
+            self.loop_to_sql9()
 
 
 
-    def loop_to_sql(self):
-        for i in range(int(self.primary_time), int(self.final_time), int(self.loop_int_entry1.get()*100)):
-            print(self.loop_int_entry1.get()*1000)
-            if i % 2 != 0:
+
+    def loop_to_sql1(self):
+        # call to each calling func to
+        range_index =0
+        for i in range(
+                int(self.primary_time),
+                int(self.final_time),
+                int(self.loop_int_entry1.get()*1000)):
+                    conn = sqlite3.connect(self.path)
+                    cursor = conn.cursor()
+                    cursor.executescript("""
+                     insert into `time`  values (%d);
+                    """ % (i))
+                    if range_index % 2 != 0:
+                        print('chetnoe')
+                        cursor.executescript(
+                         """insert into `servo_1` values (%d);"""
+                         % (self.loop_sec_entry1.get()))  # second window
+                    if range_index % 2 == 0:
+                        print('necthoe')
+                        cursor.executescript(
+                        """insert into `servo_1` values (%d);"""
+                        % (self.left_eye.get()))# first window
+                    range_index+=1
+
+    def loop_to_sql2(self):
+        # call to each calling func to
+        range_index =0
+        for i in range(
+                int(self.primary_time),
+                int(self.final_time),
+                int(self.loop_int_entry2.get()*1000)):
+
                 conn = sqlite3.connect(self.path)
                 cursor = conn.cursor()
                 cursor.executescript("""
-                 insert into `time` values (%d);
-                """ % (i))  # time
-                cursor.executescript("""
-                insert into `servo_1` values (%d);
-                """ % (self.loop_sec_entry1.get()))  # speed
-            if i % 2 == 0:
-                conn = sqlite3.connect(self.path)
-                cursor = conn.cursor()
-                cursor.executescript("""
-                 insert into `time` values (%d);
-                """ % (i))  # time
-                cursor.executescript("""
-                insert into `servo_1` values (%d);
-                """ % (self.left_eye.get()))  # speed
+                 insert into `time`  values (%d);
+                """ % (i))
+
+                if range_index % 2 != 0:
+                    print('chetnoe')
+                    cursor.executescript(
+                     """insert into `servo_2` values (%d);"""
+                     % (self.loop_sec_entry2.get()))  # second window
+                if range_index % 2 == 0:
+                    print('necthoe')
+                    cursor.executescript(
+                    """insert into `servo_2` values (%d);"""
+                    % (self.right_e.get()))# first window
+                range_index+=1
+
+    def loop_to_sql3(self):
+        range_count = 0
+        for i in range(
+                int(self.primary_time),
+                int(self.final_time),
+                int(self.loop_int_entry3.get() * 1000)):
+            conn = sqlite3.connect(self.path)
+            cursor = conn.cursor()
+            cursor.executescript("""
+                    insert into `time`  values (%d);
+                   """ % (i))
+
+            if range_count % 2 != 0:
+                print('chetnoe')
+                cursor.executescript(
+                    """insert into `servo_3` values (%d);"""
+                    % (self.loop_sec_entry3.get()))  # second window
+            if range_count % 2 == 0:
+                print('necthoe')
+                cursor.executescript(
+                    """insert into `servo_3` values (%d);"""
+                    % (self.right_sholder.get()))  # first window
+            range_count += 1
 
 
 
+    def loop_to_sql4(self):
+        # call to each calling func to
+        range_count = 0
+        for i in range(
+                int(self.primary_time),
+                int(self.final_time),
+                int(self.loop_int_entry4.get() * 1000)):
+            conn = sqlite3.connect(self.path)
+            cursor = conn.cursor()
+            cursor.executescript("""
+                    insert into `time`  values (%d);
+                   """ % (i))
 
+            if range_count % 2 != 0:
+                print('chetnoe')
+                cursor.executescript(
+                    """insert into `servo_4` values (%d);"""
+                    % (self.loop_sec_entry4.get()))  # second window
+            if range_count % 2 == 0:
+                print('necthoe')
+                cursor.executescript(
+                    """insert into `servo_4` values (%d);"""
+                    % (self.right_hand.get()))  # first window
+            range_count += 1
 
+    def loop_to_sql5(self):
+        # call to each calling func to
+        range_count = 0
+        for i in range(
+                int(self.primary_time),
+                int(self.final_time),
+                int(self.loop_int_entry5.get() * 1000)):
+            conn = sqlite3.connect(self.path)
+            cursor = conn.cursor()
+            cursor.executescript("""
+                    insert into `time`  values (%d);
+                   """ % (i))
 
+            if range_count % 2 != 0:
+                print('chetnoe')
+                cursor.executescript(
+                    """insert into `servo_5` values (%d);"""
+                    % (self.loop_sec_entry5.get()))  # second window
+            if range_count % 2 == 0:
+                print('necthoe')
+                cursor.executescript(
+                    """insert into `servo_5` values (%d);"""
+                    % (self.left_hand.get()))  # first window
+            range_count += 1
 
+    def loop_to_sql6(self):
+        # call to each calling func to
+        range_count = 0
+        for i in range(
+                int(self.primary_time),
+                int(self.final_time),
+                int(self.loop_int_entry6.get() * 1000)):
+            conn = sqlite3.connect(self.path)
+            cursor = conn.cursor()
+            cursor.executescript("""
+                    insert into `time`  values (%d);
+                   """ % (i))
 
+            if range_count % 2 != 0:
+                print('chetnoe')
+                cursor.executescript(
+                    """insert into `servo_6` values (%d);"""
+                    % (self.loop_sec_entry6.get()))  # second window
+            if range_count % 2 == 0:
+                print('necthoe')
+                cursor.executescript(
+                    """insert into `servo_6` values (%d);"""
+                    % (self.left_leg.get()))  # first window
+            range_count += 1
 
+    def loop_to_sql7(self):
+        # call to each calling func to
+        range_count = 0
+        for i in range(
+                int(self.primary_time),
+                int(self.final_time),
+                int(self.loop_int_entry7.get() * 1000)):
+            conn = sqlite3.connect(self.path)
+            cursor = conn.cursor()
+            cursor.executescript("""
+                    insert into `time`  values (%d);
+                   """ % (i))
 
+            if range_count % 2 != 0:
+                print('chetnoe')
+                cursor.executescript(
+                    """insert into `servo_7` values (%d);"""
+                    % (self.loop_sec_entry7.get()))  # second window
+            if range_count % 2 == 0:
+                print('necthoe')
+                cursor.executescript(
+                    """insert into `servo_7` values (%d);"""
+                    % (self.right_leg.get()))  # first window
+            range_count += 1 #TODO change to index after
 
+    def loop_to_sql8(self):
+        # call to each calling func to
+        range_count = 0
+        for i in range(
+                int(self.primary_time),
+                int(self.final_time),
+                int(self.loop_int_entry8.get() * 1000)):
 
+            conn = sqlite3.connect(self.path)
+            cursor = conn.cursor()
+            cursor.executescript("""
+                    insert into `time`  values (%d);
+                   """ % (i))
+            if range_count % 2 != 0:
+                print('chetnoe')
+                cursor.executescript(
+                    """insert into `servo_8` values (%d);"""
+                    % (self.loop_sec_entry8.get()))  # second window
+            if range_count % 2 == 0:
+                print('necthoe')
+                cursor.executescript(
+                    """insert into `servo_8` values (%d);"""
+                    % (self.reserved_1.get()))  # first window
+            range_count += 1
 
+    def loop_to_sql9(self):
+        # call to each calling func to
+        range_count = 0
+        for i in range(
+                int(self.primary_time),
+                int(self.final_time),
+                int(self.loop_int_entry9.get() * 1000)):
+            conn = sqlite3.connect(self.path)
+            cursor = conn.cursor()
+            cursor.executescript("""
+                    insert into `time`  values (%d);
+                   """ % (i))
 
-        # self.primary_time = self.time
-        # conn = sqlite3.connect(self.path)
-        # cursor = conn.cursor()
-        # #insert to db
-        # cursor.executescript("""
-        #                     insert into `time` values (%d)""" % (self.primary_time))
-        # #take results from db
-        # cursor.execute('''SELECT time_pos FROM time ORDER BY time_pos DESC LIMIT 1;''')
-        # last_time= cursor.fetchone()
-        # cursor.execute("select max(time_pos) from time")
-        # sql_pos =cursor.fetchone()
-        # self.final_time = round(self.time_scale.get()*1000)
-        # print(self.final_time)
-        # print(sql_pos)
-
-        # conn = sqlite3.connect(self.path)
-        # cursor = conn.cursor()
-        # cursor.executescript("""
-        #        insert into `time` values (%d)
-        #       """ % (round(self.time_scale.get() * 1000)))
-        # cursor.execute("select min(time_pos) from time")
-        # sql_pos = cursor.fetchone()
-        # self.final_time = round(self.time_scale.get()*1000)
-        # self.final_time =sql_pos
-        # self.final_time=self.primary_time
-        # print(self.primary_time)
-        # print(self.final_time)
-        pass
-
-
-
-
-    def double_notch_time(self):
-        messagebox.showinfo("второе значение", "записано значение")
-        self.final_time = self.time
-        print('3')
-
-
-    #
-    #     #
-    #
-    #     # if self.check_loop_4():
-    #     #     pass
-    #     # if self.check_loop_5():
-    #     #     pass
-    #     # if self.check_loop_6():
-    #     #     pass
-    #     # if self.check_loop_7():
-    #     #     pass
-    #     # if self.check_loop_8():
-    #     #     pass
-    #     # if self.check_loop_9():
-    #     #     pass
+            if range_count % 2 != 0:
+                print('chetnoe')
+                cursor.executescript(
+                    """insert into `servo_9` values (%d);"""
+                    % (self.loop_sec_entry9.get()))  # second window
+            if range_count % 2 == 0:
+                print('necthoe')
+                cursor.executescript(
+                    """insert into `servo_9` values (%d);"""
+                    % (self.reserved_2.get()))  # first window
+            range_count += 1
