@@ -1,7 +1,7 @@
 from tkinter import *
 import tkinter as tk
 from tkinter import ttk
-import os
+from tkinter.filedialog import askopenfilename
 import pyfirmata
 import pygame
 from tinytag import TinyTag
@@ -115,8 +115,9 @@ class Demo1:
         sec = self.fin_time % 60
 
     def add(self):
-        file = ttk.askopenfilenames(initialdir='qbc/Downloads')
-        songsTuple = self.frame.splitlist(file)  # turn user's opened filenames into tuple
+        file = askopenfilename(filetypes=(("music", "*.mp3"),
+                                           ("All files", "*.*")))
+        songsTuple = self.master.splitlist(file)  # turn user's opened filenames into tuple
         songsList = list(songsTuple)  # convert to list
         # Add the full filename of songto playlist list, and a shortened version to the listBox
         for song in songsList:

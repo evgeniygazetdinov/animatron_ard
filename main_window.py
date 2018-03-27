@@ -73,10 +73,22 @@ class Demo2:
         self.loop_int_entry7 = 0
         self.loop_int_entry8 = 0
         self.loop_int_entry9 = 0
+
+        self.loop_speed1=0
+        self.loop_speed2=0
+        self.loop_speed3=0
+        self.loop_speed4=0
+        self.loop_speed5=0
+        self.loop_speed6=0
+        self.loop_speed7=0
+        self.loop_speed8=0
+        self.loop_speed9=0
+
         self.primary_time = 0
         self.final_time = 0
         self.interval =1
         self.count=0
+
 
         self.lab_ser_1 = ttk.Label(self.master, text='глаз левый ').grid(row=1, column=1)
         self.left_eye = IntVar()
@@ -387,17 +399,15 @@ class Demo2:
         loop_le_int = ttk.Entry(newonfWindow, textvariable=self.loop_int_entry1, width=4)
         loop_le_int.grid(row=3, column=2)
 
-        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql1)
-        ok_b.grid(row=4, column=1)
-        cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda: newonfWindow.destroy())
-        cancell_but.grid(row=5, column=1)
-        self.update_time_slider()
-        time = round(self.time)
-        m = time // 60
-        s = time - m * 60
-        time_digit = ttk.Label(newonfWindow,text = '%02d:%02d'% (m, s)).grid(row=4,column=2)
+        self.loop_speed1 = IntVar()
+        loop_speed = ttk.Entry(newonfWindow, textvariable=self.loop_speed1, width=4)
+        loop_speed.grid(row=4, column=2)
+        speed_label = ttk.Label(newonfWindow, text='cкорость', borderwidth=3).grid(row=4, column=1)
 
-        self.temp_time = ttk.Button(newonfWindow,text = 'засечь время',command=self.count_clicks1).grid(row=5,column=2)
+        cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda: newonfWindow.destroy())
+        cancell_but.grid(row=5, column=2)
+
+        self.temp_time = ttk.Button(newonfWindow,text = 'засечь время',command=self.count_clicks1).grid(row=5,column=1)
 
 
 
@@ -420,19 +430,17 @@ class Demo2:
         loop_le_int = ttk.Entry(newonfWindow, textvariable=self.loop_int_entry2, width=4)
         loop_le_int.grid(row=3, column=2)
 
-        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql2)
-        ok_b.grid(row=4, column=1)
+
+
+        self.loop_speed2 = IntVar()
+        loop_speed = ttk.Entry(newonfWindow, textvariable=self.loop_speed2, width=4)
+        loop_speed.grid(row=4, column=2)
+        speed_label = ttk.Label(newonfWindow, text='cкорость', borderwidth=3).grid(row=4, column=1)
 
         cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda: newonfWindow.destroy())
-        cancell_but.grid(row=5, column=1)
-        self.update_time_slider()
-        time = round(self.time)
-        m = time // 60
-        s = time - m * 60
-        time_digit = ttk.Label(newonfWindow, text='%02d:%02d' % (m, s)).grid(row=4, column=2)
+        cancell_but.grid(row=5, column=2)
 
-        self.temp_time = ttk.Button(newonfWindow, text='засечь время', command=self.count_clicks2).grid(row=5, column=2)
-
+        self.temp_time = ttk.Button(newonfWindow, text='засечь время', command=self.count_clicks1).grid(row=5, column=1)
 
 
     def check_loop_3(self):
@@ -454,17 +462,15 @@ class Demo2:
         loop_le_int = ttk.Entry(newonfWindow, textvariable=self.loop_int_entry3, width=4)
         loop_le_int.grid(row=3, column=2)
 
-        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql3)
-        ok_b.grid(row=4, column=1)
-        cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda: newonfWindow.destroy())
-        cancell_but.grid(row=5, column=1)
-        self.update_time_slider()
-        time = round(self.time)
-        m = time // 60
-        s = time - m * 60
-        time_digit = ttk.Label(newonfWindow,text = '%02d:%02d'% (m, s)).grid(row=4,column=2)
+        self.loop_speed3 = IntVar()
+        loop_speed = ttk.Entry(newonfWindow, textvariable=self.loop_speed3, width=4)
+        loop_speed.grid(row=4, column=2)
+        speed_label = ttk.Label(newonfWindow, text='cкорость', borderwidth=3).grid(row=4, column=1)
 
-        self.temp_time = ttk.Button(newonfWindow,text = 'засечь время',command=self.count_clicks3).grid(row=5,column=2)
+        cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda: newonfWindow.destroy())
+        cancell_but.grid(row=5, column=2)
+
+        self.temp_time = ttk.Button(newonfWindow, text='засечь время', command=self.count_clicks3).grid(row=5, column=1)
 
 
     def check_loop_4(self):
@@ -486,17 +492,15 @@ class Demo2:
         loop_le_int = ttk.Entry(newonfWindow, textvariable=self.loop_int_entry4, width=4)
         loop_le_int.grid(row=3, column=2)
 
-        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql4)
-        ok_b.grid(row=4, column=1)
-        cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda: newonfWindow.destroy())
-        cancell_but.grid(row=5, column=1)
-        self.update_time_slider()
-        time = round(self.time)
-        m = time // 60
-        s = time - m * 60
-        time_digit = ttk.Label(newonfWindow,text = '%02d:%02d'% (m, s)).grid(row=4,column=2)
+        self.loop_speed4 = IntVar()
+        loop_speed = ttk.Entry(newonfWindow, textvariable=self.loop_speed4, width=4)
+        loop_speed.grid(row=4, column=2)
+        speed_label = ttk.Label(newonfWindow, text='cкорость', borderwidth=3).grid(row=4, column=1)
 
-        self.temp_time = ttk.Button(newonfWindow,text = 'засечь время',command=self.count_clicks4).grid(row=5,column=2)
+        cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda: newonfWindow.destroy())
+        cancell_but.grid(row=5, column=2)
+
+        self.temp_time = ttk.Button(newonfWindow, text='засечь время', command=self.count_clicks4).grid(row=5, column=1)
 
     def check_loop_5(self):
 
@@ -517,17 +521,15 @@ class Demo2:
         loop_le_int = ttk.Entry(newonfWindow, textvariable=self.loop_int_entry5, width=4)
         loop_le_int.grid(row=3, column=2)
 
-        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql5)
-        ok_b.grid(row=4, column=1)
-        cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda: newonfWindow.destroy())
-        cancell_but.grid(row=5, column=1)
-        self.update_time_slider()
-        time = round(self.time)
-        m = time // 60
-        s = time - m * 60
-        time_digit = ttk.Label(newonfWindow,text = '%02d:%02d'% (m, s)).grid(row=4,column=2)
+        self.loop_speed5 = IntVar()
+        loop_speed = ttk.Entry(newonfWindow, textvariable=self.loop_speed5, width=4)
+        loop_speed.grid(row=4, column=2)
+        speed_label = ttk.Label(newonfWindow, text='cкорость', borderwidth=3).grid(row=4, column=1)
 
-        self.temp_time = ttk.Button(newonfWindow,text = 'засечь время',command=self.count_clicks5).grid(row=5,column=2)
+        cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda: newonfWindow.destroy())
+        cancell_but.grid(row=5, column=2)
+
+        self.temp_time = ttk.Button(newonfWindow, text='засечь время', command=self.count_clicks5).grid(row=5, column=1)
 
     def check_loop_6(self):
 
@@ -548,17 +550,15 @@ class Demo2:
         loop_le_int = ttk.Entry(newonfWindow, textvariable=self.loop_int_entry6, width=4)
         loop_le_int.grid(row=3, column=2)
 
-        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql6)
-        ok_b.grid(row=4, column=1)
-        cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda: newonfWindow.destroy())
-        cancell_but.grid(row=5, column=1)
-        self.update_time_slider()
-        time = round(self.time)
-        m = time // 60
-        s = time - m * 60
-        time_digit = ttk.Label(newonfWindow,text = '%02d:%02d'% (m, s)).grid(row=4,column=2)
+        self.loop_speed6 = IntVar()
+        loop_speed = ttk.Entry(newonfWindow, textvariable=self.loop_speed6, width=4)
+        loop_speed.grid(row=4, column=2)
+        speed_label = ttk.Label(newonfWindow, text='cкорость', borderwidth=3).grid(row=4, column=1)
 
-        self.temp_time = ttk.Button(newonfWindow,text = 'засечь время',command=self.count_clicks6).grid(row=5,column=2)
+        cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda: newonfWindow.destroy())
+        cancell_but.grid(row=5, column=2)
+
+        self.temp_time = ttk.Button(newonfWindow, text='засечь время', command=self.count_clicks6).grid(row=5, column=1)
 
     def check_loop_7(self):
 
@@ -579,18 +579,15 @@ class Demo2:
         loop_le_int = ttk.Entry(newonfWindow, textvariable=self.loop_int_entry7, width=4)
         loop_le_int.grid(row=3, column=2)
 
-        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql7)
-        ok_b.grid(row=4, column=1)
+        self.loop_speed7 = IntVar()
+        loop_speed = ttk.Entry(newonfWindow, textvariable=self.loop_speed7, width=4)
+        loop_speed.grid(row=4, column=2)
+        speed_label = ttk.Label(newonfWindow, text='cкорость', borderwidth=3).grid(row=4, column=1)
+
         cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda: newonfWindow.destroy())
-        cancell_but.grid(row=5, column=1)
-        self.update_time_slider()
-        time = round(self.time)
-        m = time // 60
-        s = time - m * 60
-        time_digit = ttk.Label(newonfWindow,text = '%02d:%02d'% (m, s)).grid(row=4,column=2)
+        cancell_but.grid(row=5, column=2)
 
-        self.temp_time = ttk.Button(newonfWindow,text = 'засечь время',command=self.count_clicks7).grid(row=5,column=2)
-
+        self.temp_time = ttk.Button(newonfWindow, text='засечь время', command=self.count_clicks7).grid(row=5, column=1)
 
     def check_loop_8(self):
 
@@ -611,18 +608,15 @@ class Demo2:
         loop_le_int = ttk.Entry(newonfWindow, textvariable=self.loop_int_entry8, width=4)
         loop_le_int.grid(row=3, column=2)
 
-        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql8)
-        ok_b.grid(row=4, column=1)
+        self.loop_speed8 = IntVar()
+        loop_speed = ttk.Entry(newonfWindow, textvariable=self.loop_speed8, width=4)
+        loop_speed.grid(row=4, column=2)
+        speed_label = ttk.Label(newonfWindow, text='cкорость', borderwidth=3).grid(row=4, column=1)
+
         cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda: newonfWindow.destroy())
-        cancell_but.grid(row=5, column=1)
-        self.update_time_slider()
-        time = round(self.time)
-        m = time // 60
-        s = time - m * 60
-        time_digit = ttk.Label(newonfWindow,text = '%02d:%02d'% (m, s)).grid(row=4,column=2)
+        cancell_but.grid(row=5, column=2)
 
-        self.temp_time = ttk.Button(newonfWindow,text = 'засечь время',command=self.count_clicks8).grid(row=5,column=2)
-
+        self.temp_time = ttk.Button(newonfWindow, text='засечь время', command=self.count_clicks8).grid(row=5, column=1)
     def check_loop_9(self):
 
         newonfWindow = tk.Toplevel(self.master)
@@ -642,17 +636,15 @@ class Demo2:
         loop_le_int = ttk.Entry(newonfWindow, textvariable=self.loop_int_entry9, width=4)
         loop_le_int.grid(row=3, column=2)
 
-        ok_b = ttk.Button(newonfWindow, text='oк', command=self.loop_to_sql9)
-        ok_b.grid(row=4, column=1)
-        cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda: newonfWindow.destroy())
-        cancell_but.grid(row=5, column=1)
-        self.update_time_slider()
-        time = round(self.time)
-        m = time // 60
-        s = time - m * 60
-        time_digit = ttk.Label(newonfWindow,text = '%02d:%02d'% (m, s)).grid(row=4,column=2)
+        self.loop_speed1 = IntVar()
+        loop_speed = ttk.Entry(newonfWindow, textvariable=self.loop_speed1, width=4)
+        loop_speed.grid(row=4, column=2)
+        speed_label = ttk.Label(newonfWindow, text='cкорость', borderwidth=3).grid(row=4, column=1)
 
-        self.temp_time = ttk.Button(newonfWindow,text = 'засечь время',command=self.count_clicks9).grid(row=5,column=2)
+        cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda: newonfWindow.destroy())
+        cancell_but.grid(row=5, column=2)
+
+        self.temp_time = ttk.Button(newonfWindow, text='засечь время', command=self.count_clicks9).grid(row=5, column=1)
 
 
     ############################## loop shit  ##########################################
@@ -781,6 +773,9 @@ class Demo2:
                     cursor.executescript("""
                      insert into `time`  values (%d);
                     """ % (i))
+                    cursor.executescript("""
+                    insert into `speed`  values (%d);
+                    """ % (round(self.loop_speed1.get())))
                     if range_index % 2 != 0:
                         print('chetnoe')
                         cursor.executescript(
@@ -806,6 +801,9 @@ class Demo2:
                 cursor.executescript("""
                  insert into `time`  values (%d);
                 """ % (i))
+                cursor.executescript("""
+                insert into `speed`  values (%d);
+                """ % (round(self.loop_speed2.get())))
 
                 if range_index % 2 != 0:
                     print('chetnoe')
@@ -830,6 +828,9 @@ class Demo2:
             cursor.executescript("""
                     insert into `time`  values (%d);
                    """ % (i))
+            cursor.executescript(
+                """insert into `speed`  values (%d);
+                """ % (round(self.loop_speed3.get())))
 
             if range_count % 2 != 0:
                 print('chetnoe')
@@ -857,6 +858,9 @@ class Demo2:
             cursor.executescript("""
                     insert into `time`  values (%d);
                    """ % (i))
+            cursor.executescript(
+                """insert into `speed`  values (%d);
+                """ % (round(self.loop_speed4.get())))
 
             if range_count % 2 != 0:
                 print('chetnoe')
@@ -882,6 +886,9 @@ class Demo2:
             cursor.executescript("""
                     insert into `time`  values (%d);
                    """ % (i))
+            cursor.executescript(
+            """insert into `speed`  values (%d);
+            """ % (round(self.loop_speed5.get())))
 
             if range_count % 2 != 0:
                 print('chetnoe')
@@ -907,6 +914,9 @@ class Demo2:
             cursor.executescript("""
                     insert into `time`  values (%d);
                    """ % (i))
+            cursor.executescript(
+                """insert into `speed`  values (%d);
+                """ % (round(self.loop_speed6.get())))
 
             if range_count % 2 != 0:
                 print('chetnoe')
@@ -932,6 +942,9 @@ class Demo2:
             cursor.executescript("""
                     insert into `time`  values (%d);
                    """ % (i))
+            cursor.executescript(
+                """insert into `speed`  values (%d);
+                """ % (round(self.loop_speed7.get())))
 
             if range_count % 2 != 0:
                 print('chetnoe')
@@ -958,6 +971,9 @@ class Demo2:
             cursor.executescript("""
                     insert into `time`  values (%d);
                    """ % (i))
+            cursor.executescript(
+                """insert into `speed`  values (%d);
+                """ % (round(self.loop_speed8.get())))
             if range_count % 2 != 0:
                 print('chetnoe')
                 cursor.executescript(
@@ -982,6 +998,9 @@ class Demo2:
             cursor.executescript("""
                     insert into `time`  values (%d);
                    """ % (i))
+            cursor.executescript(
+                """insert into `speed`  values (%d);
+                """ % (round(self.loop_speed9.get())))
 
             if range_count % 2 != 0:
                 print('chetnoe')
