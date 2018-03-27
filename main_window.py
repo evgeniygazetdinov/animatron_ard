@@ -74,8 +74,9 @@ class Demo2:
         self.loop_int_entry8 = 0
         self.loop_int_entry9 = 0
         self.primary_time = 0
-        self.final_time = 1
+        self.final_time = 0
         self.interval =1
+        self.count=0
 
         self.lab_ser_1 = ttk.Label(self.master, text='глаз левый ').grid(row=1, column=1)
         self.left_eye = IntVar()
@@ -395,7 +396,7 @@ class Demo2:
         m = time // 60
         s = time - m * 60
         time_digit = ttk.Label(newonfWindow,text = '%02d:%02d'% (m, s)).grid(row=4,column=2)
-        self.temp_time = ttk.Button(newonfWindow,text = 'засечь время',command=self.notch_time).grid(row=5,column=2)
+        self.temp_time = ttk.Button(newonfWindow,text = 'засечь время',command=self.count_clicks).grid(row=5,column=2)
 
 
 
@@ -586,33 +587,55 @@ class Demo2:
         cancell_but.grid(row=5, column=1)
 
 
+    ############################## loop shit  ##########################################
 
+    # count the number of clicks
+    def count_clicks(self):
+        self.count +=1
+        print(self.count)
+        if self.count == 1:
+            self.primary_time = round(self.time_scale.get() * 1000)
+        if self.count == 2:
+            self.count = 0
+            self.final_time = round(self.time_scale.get() * 1000)
+            self.loop_to_sql()
 
 
 
     def loop_to_sql(self):
-        print('1')
-        for i in range(int(self.primary_time),int(self.final_time),int(self.loop_int_entry1.get())):
-            if i % 2 == 0:
-                conn = sqlite3.connect(self.path)
-                cursor = conn.cursor()
-                cursor.executescript("""
-                 insert into `time` values (%d)
-                """ % (i))  # time
-                cursor.executescript("""
-                insert into `servo_1` values (%d)
-                """ % (self.left_eye.get()))  # speed
+        for i in range(int(self.primary_time), int(self.final_time), int(self.loop_int_entry1.get()*100)):
+            print(self.loop_int_entry1.get()*1000)
             if i % 2 != 0:
                 conn = sqlite3.connect(self.path)
                 cursor = conn.cursor()
                 cursor.executescript("""
-                 insert into `time` values (%d)
+                 insert into `time` values (%d);
                 """ % (i))  # time
                 cursor.executescript("""
-                insert into `servo_1` values (%d)
+                insert into `servo_1` values (%d);
                 """ % (self.loop_sec_entry1.get()))  # speed
+            if i % 2 == 0:
+                conn = sqlite3.connect(self.path)
+                cursor = conn.cursor()
+                cursor.executescript("""
+                 insert into `time` values (%d);
+                """ % (i))  # time
+                cursor.executescript("""
+                insert into `servo_1` values (%d);
+                """ % (self.left_eye.get()))  # speed
 
-    def notch_time(self):
+
+
+
+
+
+
+
+
+
+
+
+
 
         # self.primary_time = self.time
         # conn = sqlite3.connect(self.path)
@@ -629,19 +652,19 @@ class Demo2:
         # print(self.final_time)
         # print(sql_pos)
 
-        conn = sqlite3.connect(self.path)
-        cursor = conn.cursor()
-        cursor.executescript("""
-               insert into `time` values (%d)
-              """ % (round(self.time_scale.get() * 1000)))
-        cursor.execute("select min(time_pos) from time")
-        sql_pos = cursor.fetchone()
-        self.final_time = round(self.time_scale.get()*1000)
-        self.final_time =sql_pos
-        self.final_time=self.primary_time
-        print(self.primary_time)
-        print(self.final_time)
-
+        # conn = sqlite3.connect(self.path)
+        # cursor = conn.cursor()
+        # cursor.executescript("""
+        #        insert into `time` values (%d)
+        #       """ % (round(self.time_scale.get() * 1000)))
+        # cursor.execute("select min(time_pos) from time")
+        # sql_pos = cursor.fetchone()
+        # self.final_time = round(self.time_scale.get()*1000)
+        # self.final_time =sql_pos
+        # self.final_time=self.primary_time
+        # print(self.primary_time)
+        # print(self.final_time)
+        pass
 
 
 
