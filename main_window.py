@@ -277,8 +277,10 @@ class Demo2:
             o.write(line)
         o.close()
         call('rm template.h', shell=True)
-        # move VAL.h with values from sql to arduino library:******************
-        shutil.move("/home/qbc/PycharmProjects/ard/VAL.h", "/usr/share/arduino/hardware/arduino/cores/arduino/VAL.h")
+        # move VAL.h with values
+        # from sql to arduino library:******************
+        shutil.move("/home/qbc/PycharmProjects/ard/VAL.h",
+                    "/usr/share/arduino/hardware/arduino/cores/arduino/VAL.h")
         # call('rm VAL.h',shell =True)
 
     def write_to_h(self):
@@ -779,12 +781,23 @@ class Demo2:
             self.final_time = round(self.time_scale.get() * 1000)
             self.loop_to_sql9()
 
+    def back_back_numbers(self,first_number,second_number):
+        value =[]
+        conn = sqlite3.connect(self.path)
+        cursor = conn.cursor()
+        for i in range(first_number,second_number, 1):
+            # put back last digit from sql each servo
+            cursor.execute('''
+            SELECT * FROM servo_{} LIMIT 10 OFFSET (SELECT COUNT(*) FROM servo_{})-1; '''.format(i, i))
+            value.append(cursor.fetchall())
+                
 
 
 
     def loop_to_sql1(self):
         # call to each calling func to
         range_index =0
+        value=[0]
         for i in range(
                 int(self.primary_time),
                 int(self.final_time),
@@ -797,6 +810,13 @@ class Demo2:
                     cursor.executescript("""
                     insert into `speed`  values (%d);
                     """ % (round(self.loop_speed1.get())))
+
+
+                    cursor.executescript("""
+                    insert into `servo`  values (%d);""")
+
+
+
                     if range_index % 2 != 0:
                         print('chetnoe')
                         cursor.executescript(
