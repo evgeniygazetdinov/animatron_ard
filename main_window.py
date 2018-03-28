@@ -781,16 +781,34 @@ class Demo2:
             self.final_time = round(self.time_scale.get() * 1000)
             self.loop_to_sql9()
 
+    # maybe grow up
     def back_back_numbers(self,first_number,second_number):
-        value =[]
+        values =[]
         conn = sqlite3.connect(self.path)
         cursor = conn.cursor()
         for i in range(first_number,second_number, 1):
             # put back last digit from sql each servo
             cursor.execute('''
             SELECT * FROM servo_{} LIMIT 10 OFFSET (SELECT COUNT(*) FROM servo_{})-1; '''.format(i, i))
-            value.append(cursor.fetchall())
-                
+            values.append(cursor.fetchall())
+        if values ==[]:
+            values[0]
+        print('return values')
+        return values
+
+    def write_back_back_numbers(self,first_number,second_number):
+        self.back_back_numbers(first_number, second_number)
+        conn = sqlite3.connect(self.path)
+        cursor = conn.cursor()
+        for i in range(first_number,second_number):
+            for x in reversed(range(first_number,second_number)):
+                cursor.execute("""
+                insert into `servo_{}`  values ({});
+                """.format(i,positions[x]))
+
+
+
+
 
 
 
@@ -810,13 +828,7 @@ class Demo2:
                     cursor.executescript("""
                     insert into `speed`  values (%d);
                     """ % (round(self.loop_speed1.get())))
-
-
-                    cursor.executescript("""
-                    insert into `servo`  values (%d);""")
-
-
-
+                    self.write_back_back_numbers(1,10)
                     if range_index % 2 != 0:
                         print('chetnoe')
                         cursor.executescript(
