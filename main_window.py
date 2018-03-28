@@ -151,9 +151,14 @@ class Demo2:
         self.button = ttk.Button(self.master,
                                  text='записать позиции',
                                  command=self.write_position)
-        self.button.grid(row=13, column=3)
-
-        self.new = ttk.Button(self.master, text="новый сценарий", command=self.new_data).grid(row=1, column=8)
+        self.button.grid(row=10, column=3)
+        self.button_save = ttk.Button(self.master,
+                            text='сохранить сценарий ',
+                        command=self.write_to_h).grid(row=11, column=3)
+        self.new = ttk.Button(
+            self.master,
+            text="новый сценарий",
+            command=self.new_data).grid(row=1, column=8)
         self.window_curr = ttk.Button(self.master,
                                       text="выбрать сценарий",
                                       command=self.choose_db).grid(row=1, column=9)
@@ -171,7 +176,7 @@ class Demo2:
         self.time_label = ttk.Label(self.master, text="время").grid(row=17, column=1)
 
         self.time_digit = ttk.Label(self.master)
-        self.time_digit.grid(row=17, column=0,rowspan=1,columnspan=7)
+        self.time_digit.grid(row=16, column=0,rowspan=1,columnspan=7)
 
         self.speed_label = ttk.Label(self.master, text="cкорость").grid(row=22, column=1)
 
@@ -193,6 +198,8 @@ class Demo2:
         m = self.time // 60
         s = self.time - m * 60
         self.time_digit.configure(text='%02d:%02d' % (m, s))
+        #HERE USING STOPPER
+        self.stopper()
 
     #permanently  obtaining value from time slider for loop window
     def update_time_slider(self):
@@ -203,7 +210,7 @@ class Demo2:
 
     def choose_db(self):
         fname = askopenfilename(filetypes=(("scenario", "*.db"),
-                                           ("All files", "*.*")),initialdir='~/home/qbc/PycharmProjects/ard/scenario')
+                                           ("All files", "*.*")),initialdir='~/PycharmProjects/ard/scenario')
         print(fname[-6:-1])
         self.current_name_db = fname
         self.window_db.insert(END, fname[-25:-1] + '\n')
@@ -222,10 +229,10 @@ class Demo2:
         insert into `speed` values (%d)
         """ % (round(self.speed_slider.get())))  # speed
         cursor.executescript("""
-        insert into `servo_2` values (%d)
+        insert into `servo_1` values (%d)
         """ % (self.left_eye.get()))  # servo_1
         cursor.executescript("""
-        insert into `servo_1` values (%d)
+        insert into `servo_2` values (%d)
         """ % (self.right_e.get()))  # servo_2
         cursor.executescript("""
         insert into `servo_3` values (%d)
@@ -248,7 +255,8 @@ class Demo2:
         cursor.executescript("""
         insert into `servo_9` values (%d)
         """ % (self.reserved_2.get()))  # servo_9
-        self.write_to_h()
+        self.final_time =round(self.time_scale.get() * 1000)
+        self.stopper()
 
     def clear_strings(self):
         # clean by rubish
@@ -617,6 +625,7 @@ class Demo2:
         cancell_but.grid(row=5, column=2)
 
         self.temp_time = ttk.Button(newonfWindow, text='засечь время', command=self.count_clicks8).grid(row=5, column=1)
+
     def check_loop_9(self):
 
         newonfWindow = tk.Toplevel(self.master)
@@ -636,7 +645,7 @@ class Demo2:
         loop_le_int = ttk.Entry(newonfWindow, textvariable=self.loop_int_entry9, width=4)
         loop_le_int.grid(row=3, column=2)
 
-        self.loop_speed1 = IntVar()
+        self.loop_speed9 = IntVar()
         loop_speed = ttk.Entry(newonfWindow, textvariable=self.loop_speed1, width=4)
         loop_speed.grid(row=4, column=2)
         speed_label = ttk.Label(newonfWindow, text='cкорость', borderwidth=3).grid(row=4, column=1)
@@ -648,6 +657,16 @@ class Demo2:
 
 
     ############################## loop shit  ##########################################
+
+    #not passing slider back
+    def stopper(self):
+        if round(self.time_scale.get()*1000)<=self.final_time:
+            self.time_scale.set(self.final_time/1000)
+
+
+
+
+
 
     # count the number of clicks
     def count_clicks1(self):
@@ -661,6 +680,8 @@ class Demo2:
             messagebox.showinfo("значение", "записано второе значение ")
             self.final_time = round(self.time_scale.get() * 1000)
             self.loop_to_sql1()
+
+
 
     def count_clicks2(self):
         self.count +=1
@@ -965,10 +986,9 @@ class Demo2:
                 int(self.primary_time),
                 int(self.final_time),
                 int(self.loop_int_entry8.get() * 1000)):
-
             conn = sqlite3.connect(self.path)
             cursor = conn.cursor()
-            cursor.executescript("""
+            cursor.execute("""
                     insert into `time`  values (%d);
                    """ % (i))
             cursor.executescript(
@@ -996,12 +1016,10 @@ class Demo2:
             conn = sqlite3.connect(self.path)
             cursor = conn.cursor()
             cursor.executescript("""
-                    insert into `time`  values (%d);
-                   """ % (i))
+                    insert into `time`  values (%d);""" % (i))
             cursor.executescript(
                 """insert into `speed`  values (%d);
-                """ % (round(self.loop_speed9.get())))
-
+                """ % round(self.loop_speed9.get()))
             if range_count % 2 != 0:
                 print('chetnoe')
                 cursor.executescript(
