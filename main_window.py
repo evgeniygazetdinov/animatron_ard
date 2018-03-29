@@ -210,7 +210,7 @@ class Demo2:
 
     def choose_db(self):
         fname = askopenfilename(filetypes=(("scenario", "*.db"),
-                                           ("All files", "*.*")),initialdir='~/PycharmProjects/ard/scenario')
+                                           ("All files", "*.*")),initialdir='~/PycharmProjects/ard/')
         print(fname[-6:-1])
         self.current_name_db = fname
         self.window_db.insert(END, fname[-25:-1] + '\n')
@@ -781,33 +781,32 @@ class Demo2:
             self.final_time = round(self.time_scale.get() * 1000)
             self.loop_to_sql9()
 
-    # maybe grow up
-    def back_back_numbers(self,first_number,second_number):
-        values =[]
+    def back_back_numbers(self,first_number, second_number):
+        values = []
+
         conn = sqlite3.connect(self.path)
         cursor = conn.cursor()
-        for i in range(first_number,second_number, 1):
+        for i in range(first_number, second_number, 1):
             # put back last digit from sql each servo
             cursor.execute('''
             SELECT * FROM servo_{} LIMIT 10 OFFSET (SELECT COUNT(*) FROM servo_{})-1; '''.format(i, i))
             values.append(cursor.fetchall())
-        if values ==[]:
-            values[0]
-        print('return values')
+        # if cursor.fetchall() == []:
+        #     for _ in range(11):
+        #         values.pop(0)
+        #         values.append(0)
+        #         print('added 0')
         return values
 
-    def write_back_back_numbers(self,first_number,second_number):
-        self.back_back_numbers(first_number, second_number)
+    def write_back_back_numbers(self,first_number, second_number):
+        value = self.back_back_numbers(first_number, second_number)
         conn = sqlite3.connect(self.path)
         cursor = conn.cursor()
-        for i in range(first_number,second_number):
-            for x in reversed(range(first_number,second_number)):
-                cursor.execute("""
+        for i in range(first_number, second_number):
+            for y in reversed(range(9)):
+                cursor.executescript("""
                 insert into `servo_{}`  values ({});
-                """.format(i,positions[x]))
-
-
-
+                """.format(i, value[-y]))
 
 
 
@@ -828,6 +827,7 @@ class Demo2:
                     cursor.executescript("""
                     insert into `speed`  values (%d);
                     """ % (round(self.loop_speed1.get())))
+
                     self.write_back_back_numbers(1,10)
                     if range_index % 2 != 0:
                         print('chetnoe')
