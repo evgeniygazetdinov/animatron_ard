@@ -363,11 +363,13 @@ class Demo2:
         cursor = conn.cursor()
         for i in range(9):
             cursor.execute(
-                'CREATE TABLE  servo_{} (servo{}_pos integer );'.format(i,i))
+                'CREATE TABLE  servo_{} (servo{}_pos  );'.format(i,i))
         cursor.execute(
             'CREATE TABLE  speed (speed_pos integer );')
         cursor.execute(
             'CREATE TABLE  time (time_pos integer );')
+
+
         # self.deleteall()
 
     def deleteall(self):
@@ -664,16 +666,13 @@ class Demo2:
     def stopper(self):
         if round(self.time_scale.get()*1000)<=self.final_time:
             self.time_scale.set(self.final_time/1000)
-
-
-
-
+            self.stop =True
 
 
     # count the number of clicks
     def count_clicks1(self):
         self.count +=1
-        print(self.count)#TODO ALL REFACTORING BELLOW
+        print(self.count)#TODO ALL REFACTOR BELLOW
         if self.count == 1:
             self.primary_time = round(self.time_scale.get() * 1000)
             messagebox.showinfo("значение", "записано первое значение")
@@ -781,40 +780,302 @@ class Demo2:
             self.final_time = round(self.time_scale.get() * 1000)
             self.loop_to_sql9()
 
-    def back_back_numbers(self,first_number, second_number):
+    def back_back_numbers(self):
         values = []
 
         conn = sqlite3.connect(self.path)
         cursor = conn.cursor()
-        for i in range(first_number, second_number, 1):
+        for i in range(1, 9, 1):
             # put back last digit from sql each servo
             cursor.execute('''
-            SELECT * FROM servo_{} LIMIT 10 OFFSET (SELECT COUNT(*) FROM servo_{})-1; '''.format(i, i))
-            values.append(cursor.fetchall())
-        # if cursor.fetchall() == []:
-        #     for _ in range(11):
-        #         values.pop(0)
-        #         values.append(0)
-        #         print('added 0')
+             SELECT * FROM servo_{} LIMIT 1 OFFSET (SELECT COUNT(*) FROM servo_{})-1; '''.format(i, i))
+            values.append(cursor.fetchone())
+        # kostili for all 9 servos
+        cursor.execute('''
+            SELECT * FROM servo_9 LIMIT 1 OFFSET (SELECT COUNT(*) FROM servo_9)-1; ''')
+        values.append(cursor.fetchone())
         return values
 
-    def write_back_back_numbers(self,first_number, second_number):
-        value = self.back_back_numbers(first_number, second_number)
+    def write_back_back_numbers1(self):
+
+        value = self.back_back_numbers()
         conn = sqlite3.connect(self.path)
         cursor = conn.cursor()
-        for i in range(first_number, second_number):
-            for y in reversed(range(9)):
-                cursor.executescript("""
-                insert into `servo_{}`  values ({});
-                """.format(i, value[-y]))
+        cursor.execute("""
+        insert into `servo_2` values (%d) 
+        """ % (value[1]))
+        cursor.execute("""
+        insert into `servo_3` values (%d) 
+        """ % (value[2]))
+        cursor.execute("""
+        insert into `servo_4` values (%d) 
+        """ % (value[3]))
+        cursor.execute("""
+        insert into `servo_5` values (%d) 
+        """ % (value[4]))
+        cursor.execute("""
+        insert into `servo_6` values (%d) 
+        """ % (value[5]))
+        cursor.execute("""
+        insert into `servo_7` values (%d) 
+        """ % (value[6]))
+        cursor.execute("""
+        insert into `servo_8` values (%d) 
+        """ % (value[7]))
+        cursor.execute("""
+        insert into `servo_9` values (%d) 
+        """ % (value[8]))
+        conn.commit()
 
+    def write_back_back_numbers2(self):
+
+        value = self.back_back_numbers()
+        conn = sqlite3.connect(self.path)
+        cursor = conn.cursor()
+        cursor.execute("""
+        insert into `servo_1` values (%d) 
+        """ % (value[0]))
+        cursor.execute("""
+        insert into `servo_3` values (%d) 
+        """ % (value[2]))
+        cursor.execute("""
+        insert into `servo_4` values (%d) 
+        """ % (value[3]))
+        cursor.execute("""
+        insert into `servo_5` values (%d) 
+        """ % (value[4]))
+        cursor.execute("""
+        insert into `servo_6` values (%d) 
+        """ % (value[5]))
+        cursor.execute("""
+        insert into `servo_7` values (%d) 
+        """ % (value[6]))
+        cursor.execute("""
+        insert into `servo_8` values (%d) 
+        """ % (value[7]))
+        cursor.execute("""
+        insert into `servo_9` values (%d) 
+        """ % (value[8]))
+        conn.commit()
+
+    def write_back_back_numbers3(self):
+
+        value = self.back_back_numbers()
+        conn = sqlite3.connect(self.path)
+        cursor = conn.cursor()
+        cursor.execute("""
+        insert into `servo_1` values (%d) 
+        """ % (value[0]))
+        cursor.execute("""
+        insert into `servo_2` values (%d) 
+        """ % (value[1]))
+
+        cursor.execute("""
+        insert into `servo_4` values (%d) 
+        """ % (value[3]))
+        cursor.execute("""
+        insert into `servo_5` values (%d) 
+        """ % (value[4]))
+        cursor.execute("""
+        insert into `servo_6` values (%d) 
+        """ % (value[5]))
+        cursor.execute("""
+        insert into `servo_7` values (%d) 
+        """ % (value[6]))
+        cursor.execute("""
+        insert into `servo_8` values (%d) 
+        """ % (value[7]))
+        cursor.execute("""
+        insert into `servo_9` values (%d) 
+        """ % (value[8]))
+        conn.commit()
+
+    def write_back_back_numbers4(self):
+        # each number func extend insert-cursor query
+        value = self.back_back_numbers()
+        conn = sqlite3.connect(self.path)
+        cursor = conn.cursor()
+        cursor.execute("""
+        insert into `servo_1` values (%d) 
+         """ % (value[0]))
+        cursor.execute("""
+        insert into `servo_2` values (%d) 
+        """ % (value[1]))
+        cursor.execute("""
+        insert into `servo_3` values (%d) 
+        """ % (value[2]))
+        cursor.execute("""
+        insert into `servo_5` values (%d) 
+        """ % (value[4]))
+        cursor.execute("""
+        insert into `servo_6` values (%d) 
+        """ % (value[5]))
+        cursor.execute("""
+        insert into `servo_7` values (%d) 
+        """ % (value[6]))
+        cursor.execute("""
+        insert into `servo_8` values (%d) 
+        """ % (value[7]))
+        cursor.execute("""
+        insert into `servo_9` values (%d) 
+        """ % (value[8]))
+        conn.commit()
+
+    def write_back_back_numbers5(self):
+
+        value = self.back_back_numbers()
+        conn = sqlite3.connect(self.path)
+        cursor = conn.cursor()
+        cursor.execute("""
+        insert into `servo_1` values (%d) 
+        """ % (value[0]))
+        cursor.execute("""
+        insert into `servo_2` values (%d) 
+        """ % (value[1]))
+        cursor.execute("""
+        insert into `servo_3` values (%d) 
+        """ % (value[2]))
+        cursor.execute("""
+        insert into `servo_4` values (%d) 
+        """ % (value[3]))
+
+        cursor.execute("""
+        insert into `servo_6` values (%d) 
+        """ % (value[5]))
+        cursor.execute("""
+        insert into `servo_7` values (%d) 
+        """ % (value[6]))
+        cursor.execute("""
+        insert into `servo_8` values (%d) 
+        """ % (value[7]))
+        cursor.execute("""
+        insert into `servo_9` values (%d) 
+        """ % (value[8]))
+        conn.commit()
+
+    def write_back_back_numbers6(self):
+
+        value = self.back_back_numbers()
+        conn = sqlite3.connect(self.path)
+        cursor = conn.cursor()
+        cursor.execute("""
+        insert into `servo_1` values (%d) 
+                """ % (value[0]))
+        cursor.execute("""
+        insert into `servo_2` values (%d) 
+        """ % (value[1]))
+        cursor.execute("""
+        insert into `servo_3` values (%d) 
+        """ % (value[2]))
+        cursor.execute("""
+        insert into `servo_4` values (%d) 
+        """ % (value[3]))
+        cursor.execute("""
+        insert into `servo_5` values (%d) 
+        """ % (value[4]))
+        cursor.execute("""
+        insert into `servo_7` values (%d) 
+        """ % (value[6]))
+        cursor.execute("""
+        insert into `servo_8` values (%d) 
+        """ % (value[7]))
+        cursor.execute("""
+        insert into `servo_9` values (%d) 
+        """ % (value[8]))
+        conn.commit()
+
+    def write_back_back_numbers7(self):
+
+        value = self.back_back_numbers()
+        conn = sqlite3.connect(self.path)
+        cursor = conn.cursor()
+        cursor.execute("""
+        insert into `servo_1` values (%d) 
+        """ % (value[0]))
+        cursor.execute("""
+        insert into `servo_2` values (%d) 
+        """ % (value[1]))
+        cursor.execute("""
+        insert into `servo_3` values (%d) 
+        """ % (value[2]))
+        cursor.execute("""
+        insert into `servo_4` values (%d) 
+        """ % (value[3]))
+        cursor.execute("""
+        insert into `servo_5` values (%d) 
+        """ % (value[4]))
+        cursor.execute("""
+        insert into `servo_6` values (%d) 
+        """ % (value[5]))
+
+        cursor.execute("""
+        insert into `servo_8` values (%d) 
+        """ % (value[7]))
+        cursor.execute("""
+        insert into `servo_9` values (%d) 
+        """ % (value[8]))
+        conn.commit()
+
+    def write_back_back_numbers8(self):
+
+        value = self.back_back_numbers()
+        conn = sqlite3.connect(self.path)
+        cursor = conn.cursor()
+        cursor.execute("""
+        insert into `servo_2` values (%d) 
+        """ % (value[1]))
+        cursor.execute("""
+        insert into `servo_3` values (%d) 
+        """ % (value[2]))
+        cursor.execute("""
+        insert into `servo_4` values (%d) 
+        """ % (value[3]))
+        cursor.execute("""
+        insert into `servo_5` values (%d) 
+        """ % (value[4]))
+        cursor.execute("""
+        insert into `servo_6` values (%d) 
+        """ % (value[5]))
+        cursor.execute("""
+        insert into `servo_7` values (%d) 
+        """ % (value[6]))
+        cursor.execute("""
+        insert into `servo_9` values (%d) 
+        """ % (value[8]))
+        conn.commit()
+
+    def write_back_back_numbers9(self):
+        value = self.back_back_numbers()
+        conn = sqlite3.connect(self.path)
+        cursor = conn.cursor()
+        cursor.execute("""
+        insert into `servo_2` values (%d) 
+        """ % (value[1]))
+        cursor.execute("""
+        insert into `servo_3` values (%d) 
+        """ % (value[2]))
+        cursor.execute("""
+        insert into `servo_4` values (%d) 
+        """ % (value[3]))
+        cursor.execute("""
+        insert into `servo_5` values (%d) 
+        """ % (value[4]))
+        cursor.execute("""
+        insert into `servo_6` values (%d) 
+        """ % (value[5]))
+        cursor.execute("""
+        insert into `servo_7` values (%d) 
+        """ % (value[6]))
+        cursor.execute("""
+        insert into `servo_8` values (%d) 
+        """ % (value[7]))
+        conn.commit()
 
 
 
     def loop_to_sql1(self):
         # call to each calling func to
         range_index =0
-        value=[0]
         for i in range(
                 int(self.primary_time),
                 int(self.final_time),
@@ -827,8 +1088,7 @@ class Demo2:
                     cursor.executescript("""
                     insert into `speed`  values (%d);
                     """ % (round(self.loop_speed1.get())))
-
-                    self.write_back_back_numbers(1,10)
+                    self.write_back_back_numbers1()
                     if range_index % 2 != 0:
                         print('chetnoe')
                         cursor.executescript(
@@ -857,7 +1117,7 @@ class Demo2:
                 cursor.executescript("""
                 insert into `speed`  values (%d);
                 """ % (round(self.loop_speed2.get())))
-
+                self.write_back_back_numbers2()
                 if range_index % 2 != 0:
                     print('chetnoe')
                     cursor.executescript(
@@ -884,7 +1144,7 @@ class Demo2:
             cursor.executescript(
                 """insert into `speed`  values (%d);
                 """ % (round(self.loop_speed3.get())))
-
+            self.write_back_back_numbers3()
             if range_count % 2 != 0:
                 print('chetnoe')
                 cursor.executescript(
@@ -914,7 +1174,7 @@ class Demo2:
             cursor.executescript(
                 """insert into `speed`  values (%d);
                 """ % (round(self.loop_speed4.get())))
-
+            self.write_back_back_numbers4()
             if range_count % 2 != 0:
                 print('chetnoe')
                 cursor.executescript(
@@ -942,7 +1202,7 @@ class Demo2:
             cursor.executescript(
             """insert into `speed`  values (%d);
             """ % (round(self.loop_speed5.get())))
-
+            self.write_back_back_numbers5()
             if range_count % 2 != 0:
                 print('chetnoe')
                 cursor.executescript(
@@ -970,7 +1230,7 @@ class Demo2:
             cursor.executescript(
                 """insert into `speed`  values (%d);
                 """ % (round(self.loop_speed6.get())))
-
+            self.write_back_back_numbers6()
             if range_count % 2 != 0:
                 print('chetnoe')
                 cursor.executescript(
@@ -998,7 +1258,7 @@ class Demo2:
             cursor.executescript(
                 """insert into `speed`  values (%d);
                 """ % (round(self.loop_speed7.get())))
-
+            self.write_back_back_numbers7()
             if range_count % 2 != 0:
                 print('chetnoe')
                 cursor.executescript(
@@ -1026,6 +1286,7 @@ class Demo2:
             cursor.executescript(
                 """insert into `speed`  values (%d);
                 """ % (round(self.loop_speed8.get())))
+            self.write_back_back_numbers8()
             if range_count % 2 != 0:
                 print('chetnoe')
                 cursor.executescript(
@@ -1052,6 +1313,7 @@ class Demo2:
             cursor.executescript(
                 """insert into `speed`  values (%d);
                 """ % round(self.loop_speed9.get()))
+            self.write_back_back_numbers9()
             if range_count % 2 != 0:
                 print('chetnoe')
                 cursor.executescript(

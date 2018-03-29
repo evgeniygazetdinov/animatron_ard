@@ -28,38 +28,46 @@ class new_base:
         self.cancell_but.grid(row=4,column=1,padx=120,pady=5)
 
 
+
     def create_newdb(self):
-        try:
-            call('mkdir scenario', shell=True)
-            path = '{}.db'.format(self.db_name.get())
-            con = sqlite3.connect(path)
-            cursor = con.cursor()
-            cursor.execute(
-                'CREATE TABLE  servo_1 (servo1_pos integer );')
-            cursor.execute(
-                'CREATE TABLE  servo_2 (servo2_pos  integer );')
-            cursor.execute(
-                'CREATE TABLE  servo_3 (servo3_pos integer );')
-            cursor.execute(
-                'CREATE TABLE servo_4 (servo4_pos integer );')
-            cursor.execute(
-                'CREATE TABLE  servo_5 (servo5_pos integer );')
-            cursor.execute(
-                'CREATE TABLE  servo_6 (servo6_pos integer );')
-            cursor.execute(
-                'CREATE TABLE  servo_7 (servo7_pos integer );')
-            cursor.execute(
-                'CREATE TABLE servo_8 (servo8_pos integer );')
-            cursor.execute(
-                'CREATE TABLE  servo_9 (servo9_pos integer );')
-            cursor.execute(
-                'CREATE TABLE  speed (speed_pos integer );')
-            cursor.execute(
-                'CREATE TABLE  time (time_pos integer );')
-            con.commit()
-            call('mv {}.db /home/qbc/PycharmProjects/ard/scenario/'.format(self.db_name.get()),shell =True)
-        except:
-            pass
+        call('mkdir scenario', shell=True)
+        path = '{}.db'.format(self.db_name.get())
+        con = sqlite3.connect(path)
+        cursor = con.cursor()
+        cursor.execute(
+            'CREATE TABLE  servo_1 (servo1_pos integer );')
+        cursor.execute(
+            'CREATE TABLE  servo_2 (servo2_pos  integer );')
+        cursor.execute(
+            'CREATE TABLE  servo_3 (servo3_pos integer );')
+        cursor.execute(
+            'CREATE TABLE servo_4 (servo4_pos integer );')
+        cursor.execute(
+            'CREATE TABLE  servo_5 (servo5_pos integer );')
+        cursor.execute(
+            'CREATE TABLE  servo_6 (servo6_pos integer );')
+        cursor.execute(
+            'CREATE TABLE  servo_7 (servo7_pos integer );')
+        cursor.execute(
+            'CREATE TABLE servo_8 (servo8_pos integer );')
+        cursor.execute(
+            'CREATE TABLE  servo_9 (servo9_pos integer );')
+        cursor.execute(
+            'CREATE TABLE  speed (speed_pos integer );')
+        cursor.execute(
+            'CREATE TABLE  time (time_pos integer );')
+        cursor.execute('''INSERT INTO time (time_pos) VALUES (0)	;''')
+        cursor.execute('''INSERT INTO speed (speed_pos) VALUES (0)	;''')
+        cursor.execute('''INSERT INTO servo_9 (servo9_pos) VALUES (0)	;
+                   ''')
+        for i in range(1,9,1):
+            cursor.execute('''INSERT INTO servo_{} (servo{}_pos) VALUES (0)	;
+            '''.format(i,i))
+
+            #:****
+        con.commit()
+        call('mv {}.db /home/qbc/PycharmProjects/ard/scenario/'.format(self.db_name.get()),shell =True)
+
     def cancell(self):
         self.master.destroy()
 
