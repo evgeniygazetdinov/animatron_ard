@@ -4,7 +4,9 @@ from tkinter import ttk
 from subprocess import call
 import sqlite3
 
+
 class new_base:
+
     def __init__(self,master):
 
 
@@ -28,8 +30,9 @@ class new_base:
         self.cancell_but.grid(row=4,column=1,padx=120,pady=5)
 
 
+
     def create_newdb(self):
-        print()
+        call('mkdir scenario', shell=True)
         path = '{}.db'.format(self.db_name.get())
         con = sqlite3.connect(path)
         cursor = con.cursor()
@@ -55,8 +58,18 @@ class new_base:
             'CREATE TABLE  speed (speed_pos integer );')
         cursor.execute(
             'CREATE TABLE  time (time_pos integer );')
+
+        cursor.execute('''INSERT INTO time (time_pos) VALUES (0)	;''')
+        cursor.execute('''INSERT INTO speed (speed_pos) VALUES (0)	;''')
+        cursor.execute('''INSERT INTO servo_9 (servo9_pos) VALUES (0)	;''')
+        for i in range(1,9,1):
+            cursor.execute('''INSERT INTO servo_{} (servo{}_pos) VALUES (0)	;
+            '''.format(i,i))
+
+            #:****
         con.commit()
-        call('mv {}.db /home/qbc/PycharmProjects/ard/scenario'.format(self.db_name.get()),shell =True)
+        call('mv {}.db /home/qbc/PycharmProjects/ard/scenario/'.format(self.db_name.get()),shell =True)
+        db='{}'.format(self.db_name.get())
 
     def cancell(self):
         self.master.destroy()
