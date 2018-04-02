@@ -207,6 +207,21 @@ class Demo2:
                                       command=self.prinw)
         self.speed_slider.grid(row=23, column=0,columnspan=3)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     def prinw(self, val):
         # define for speed
         speed = round(float(val))
@@ -475,7 +490,7 @@ class Demo2:
         cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda: newonfWindow.destroy())
         cancell_but.grid(row=5, column=2)
 
-        self.temp_time = ttk.Button(newonfWindow, text='засечь время', command=self.count_clicks1).grid(row=5, column=1)
+        self.temp_time = ttk.Button(newonfWindow, text='засечь время', command=self.count_clicks2).grid(row=5, column=1)
 
 
     def check_loop_3(self):
@@ -1408,3 +1423,7 @@ class Demo2:
             writing = False
             if self.count >= 1:
                 self.time_scale.set(self.count)
+
+
+
+

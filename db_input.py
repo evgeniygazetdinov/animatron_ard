@@ -61,9 +61,9 @@ class new_base:
 
         cursor.execute('''INSERT INTO time (time_pos) VALUES (0)	;''')
         cursor.execute('''INSERT INTO speed (speed_pos) VALUES (0)	;''')
-        cursor.execute('''INSERT INTO servo_9 (servo9_pos) VALUES (0)	;''')
+        cursor.execute('''INSERT INTO servo_9 (servo9_pos) VALUES (20)	;''')
         for i in range(1,9,1):
-            cursor.execute('''INSERT INTO servo_{} (servo{}_pos) VALUES (0)	;
+            cursor.execute('''INSERT INTO servo_{} (servo{}_pos) VALUES (20)	;
             '''.format(i,i))
 
             #:****
