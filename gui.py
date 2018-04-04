@@ -5,7 +5,7 @@ from tkinter.filedialog import askopenfilename
 import pyfirmata
 import pygame
 from tinytag import TinyTag
-from main_window import *
+from test import *
 
 
 
@@ -29,34 +29,31 @@ class Demo1:
         self.sec = 0
         self.values = 1
         self.info = ''
+        self.duration = 1
         ##########
 
         self.master = master
         self.master.geometry('300x200')
         self.master.title('плеер')
         self.frame = tk.Frame(self.master)
-        self.frame.pack()
+        self.frame.grid_rowconfigure(0, weight=1)
+        self.frame.grid_columnconfigure(0, weight=1)
 
-        self.button1 = tk.Button(self.frame, text='servo_config', width=25, command=self.new_window)
-        self.button1.pack()
 
-        self.scale = ttk.Scale(orient='horizontal', from_=0.01, to=0.9, command=self.loud).pack()
+        self.scale = ttk.Scale(orient='horizontal', from_=0.01, to=0.9, command=self.loud).grid(row=0,column=1)
 
         self.p_bar = ttk.Progressbar(self.frame, orient='horizontal', length=200)
-        self.p_bar.pack()
 
-        self.b = ttk.Button(self.frame, text="play/replay", command=self.play_music)
-        self.b.pack()
+        self.b = ttk.Button(self.frame, text="play/replay", command=self.play_music).grid(row=1,column=1)
+        self.pause = ttk.Button(self.frame, text='pause/unpause', command=self.pause).grid(row=2,column=3)
 
-        self.pause = ttk.Button(self.frame, text='pause/unpause', command=self.pause)
-        self.pause.pack()
+        self.loop_butt = ttk.Button(self.frame, text='loop', command=self.loop).grid(row=3,column=3)
 
-        self.loop_butt = ttk.Button(self.frame, text='loop', command=self.loop).pack()
-
-        self.open_new = ttk.Button(self.frame, text='open', command=self.add).pack()
+        self.open_new = ttk.Button(self.frame, text='open', command=self.add).grid(row=4,column=3)
 
         self.m_time = ttk.Label(self.frame, text='')
-        self.m_time.pack()
+        self.m_time.grid(row=5,column=1)
+        self.scaleposition = ttk.Scale(orient='horizontal', from_=0,to=self.duration,command=self.position_seek).grid(row=6,column=1)
 
     def play_music(self):
         self.playing = True
@@ -64,7 +61,6 @@ class Demo1:
         pygame.mixer.music.load(self.port2)
         pygame.mixer.music.set_volume(0)  # set volume on zero before play
         pygame.mixer.music.play(-1, 0.0)
-
         if self.playing == True:
             self.p_bar.config(mode='determinate', maximum=self.fin_time, value=1)
             self.p_bar.start(1000)
@@ -77,6 +73,8 @@ class Demo1:
         m, s = divmod(time, 60)
         h, m = divmod(m, 60)
         self.m_time.configure(text="%2.2d:%2.2d" % (m, s))
+        self.duration = pygame.mixer.music.get_pos() / 1000
+        self.scaleposition.set(1)
         self.frame.after(1000, self._on_scale)
 
     '''
@@ -85,6 +83,9 @@ class Demo1:
         timeslider.set(time)
         self.after(10, self.update_timeslider)
     '''
+    def position_seek(self,val):
+
+
 
     def pause(self):
         pygame.init()
@@ -109,6 +110,7 @@ class Demo1:
 
     def conventer_durability(self):
         tag = TinyTag.get(self.port2)
+        self.duration =  tag.duration
         self.fin_time = tag.duration
         self.fin_time = int(self.fin_time)
         minutes = self.fin_time / 60
@@ -137,8 +139,6 @@ class Demo1:
         pass
 
 
-
-
 def main():
     root = tk.Tk()
     root.title("SERVO_M")
@@ -149,3 +149,6 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+
