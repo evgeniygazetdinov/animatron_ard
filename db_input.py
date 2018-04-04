@@ -1,6 +1,7 @@
 from tkinter import *
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
 from subprocess import call
 import sqlite3
 
@@ -55,7 +56,10 @@ class new_base:
         con.commit()
         call('mv {}.db /home/qbc/PycharmProjects/ard/scenario/'.format(self.db_name.get()),shell =True)
         db='{}'.format(self.db_name.get())
-
+        messagebox.showinfo("база данных", " База создана выберите ее \n "
+                                           "    из папки SCENARIO\n"
+                                           "       затем НАЖАТЬ   \n "
+                                           " ВЫБРАТЬ СЦЕНАРИЙ ")
     def cancell(self):
         self.master.destroy()
 
