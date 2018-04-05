@@ -11,6 +11,7 @@ VarSpeedServo Rhand;
 VarSpeedServo LLeg;
 VarSpeedServo RLeg;
 VarSpeedServo Ass;
+int UP = 12;
 
 unsigned long start_time;
 unsigned long start_time2;
@@ -31,26 +32,30 @@ int Step = 0;
 void setup()
 {
 
-  LEye.attach(9);
-  REye.attach(8);
-  LArm.attach(10);
+  pinMode(UP, OUTPUT);
+  digitalWrite(UP, HIGH);
+  LEye.attach(8);
+  REye.attach(9);
+  LArm.attach(6);
   RArm.attach(7);
-  Lhand.attach(6);
+  Lhand.attach(2);
   Rhand.attach(3);
   LLeg.attach(4);
   RLeg.attach(5);
-  Ass.attach(11);
+  Ass.attach(10);
 
-LEye.write(0, 200, false);
-REye.write(180, 200, false);
-LArm.write(0, 200, false);
-RArm.write(0, 200, false);
-Lhand.write(0, 200, false);
-Rhand.write(0, 200, false);
-LLeg.write(180, 200, false);
-RLeg.write(180, 200, false);
+
+  LEye.write(0, 200, false);
+  REye.write(0, 200, false);
+  LArm.write(0, 200, false);
+  RArm.write(0, 200, false);
+  Lhand.write(0, 200, false);
+  Rhand.write(0, 200, false);
+  LLeg.write(0, 200, false);
+  RLeg.write(0, 200, false);
 
   Serial.begin(9600);
+
 
 }
 
@@ -146,6 +151,8 @@ label:
       Ass.write(AssArray[Step], speed_row[Step], false);
 
     }
+
+   
 
     if (start_timeMillis >= KeyArray[Step])
     {
