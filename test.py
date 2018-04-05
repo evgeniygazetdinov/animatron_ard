@@ -193,7 +193,7 @@ class SERVO_MAN(Player):
                                       text="выбрать сценарий",
                                       command =self.choose_db).grid(row=1, column=9)
 
-        self.window_db = Listbox(self.master, width=28, height=8)
+        self.window_db = tk.Listbox(self.master, width=28, height=8)
         self.window_db.grid(row=2, column=8,rowspan=8,columnspan=10)
         self.request_butt = ttk.Button(self.master,
                                        text='текущая база данных',
@@ -237,9 +237,9 @@ class SERVO_MAN(Player):
 
     def some_play(self):
 
-        t1 = threading.Thread(target=compiling)
-
-
+        t1 = threading.Thread(target=compiling())
+        t2 = threading.Thread(target=play_music())
+        t2.start()
         t1.start()
 
     def printspeed(self, val):
@@ -258,8 +258,6 @@ class SERVO_MAN(Player):
         self.time_digit.configure(text='%02d:%02d' % (m, s))
         # HERE USING STOPPER
         # self.stopper()
-
-
 
 
 
@@ -344,7 +342,7 @@ class SERVO_MAN(Player):
             self.left_hand.get(),self.left_leg.get(),
             self.right_leg.get(),self.reserved_1.get(),
             self.reserved_2.get(),round(self.speed_slider.get()),
-           
+
         ]
         print(self.model)
 
