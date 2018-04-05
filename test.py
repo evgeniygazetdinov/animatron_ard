@@ -343,7 +343,8 @@ class SERVO_MAN(Player):
             self.right_sholder.get(),self.right_hand.get(),
             self.left_hand.get(),self.left_leg.get(),
             self.right_leg.get(),self.reserved_1.get(),
-            self.reserved_2.get(),round(self.speed_slider.get())
+            self.reserved_2.get(),round(self.speed_slider.get()),
+           
         ]
         print(self.model)
 
@@ -933,7 +934,7 @@ class SERVO_MAN(Player):
 
 
     def loop_to8(self):
-        print('loop6leftleg')
+        print('loopreserved_1')
         range_index = 0
         primary_time = self.primary_time
         final_time = self.final_time
@@ -978,7 +979,7 @@ class SERVO_MAN(Player):
 
 
     def loop_to9(self):
-        print('loop6leftleg')
+        print('loop6reserved')
         range_index = 0
         primary_time = self.primary_time
         final_time = self.final_time
