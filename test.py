@@ -91,6 +91,16 @@ class SERVO_MAN(Player):
         self.RESERVED_1 = 7
         self.RESERVED_2 = 8
 
+        self.LEFT_EYE_SPEED = 10
+        self.RIGHT_EYE_SPEED = 11
+        self.RIGHT_SHOLDER_SPEED = 12
+        self.RIGHT_HAND_SPEED = 13
+        self.LEFT_HAND_SPEED = 14
+        self.LEFT_LEG_SPEED = 15
+        self.RIGHT_LEG_SPEED = 16
+        self.RESERVED_1_SPEED = 17
+        self.RESERVED_2_SPEED = 18
+
 
 
 
@@ -134,7 +144,7 @@ class SERVO_MAN(Player):
         self.loop_r_l = ttk.Checkbutton(self.master,command=self.check_loop5
                                         ).grid(row=4, column=4, padx=10)
 
-        self.lab_ser_6 = ttk.Label(self.master, text='рука правое').grid(row=8, column=3)
+        self.lab_ser_6 = ttk.Label(self.master, text='рука правая').grid(row=8, column=3)
         self.left_leg = IntVar()
         self.angle_box6 = ttk.Entry(self.master, textvariable=self.left_leg, width=3)
         self.angle_box6.grid(row=9, column=3)
@@ -222,7 +232,7 @@ class SERVO_MAN(Player):
 
 
 
-
+        self.speed_sevos ={}
         self.model = {}
 
     def some_play(self):
@@ -666,7 +676,7 @@ class SERVO_MAN(Player):
                     if '{}'.format(primary_time) in self.model:
                         current = self.model['{}'.format(primary_time)]
                         current[1] = self.right_e.get()
-                        current[9] = self.loop_speed1.get()
+                        current[9] = self.loop_speed2.get()
                         self.model['{}'.format(primary_time)] = current
                     else:
                         self.model['{}'.format(primary_time)] = [
@@ -674,21 +684,21 @@ class SERVO_MAN(Player):
                         self.right_sholder.get(), self.right_hand.get(),
                         self.left_hand.get(), self.left_leg.get(),
                         self.right_leg.get(), self.reserved_1.get(),
-                        self.reserved_2.get(), round(self.loop_speed1.get())]
+                        self.reserved_2.get(), round(self.loop_speed2.get())]
 
                 if range_index % 2 != 0:
                     if '{}'.format(primary_time) in self.model:
                         current = self.model['{}'.format(primary_time)]
                         current[1] = self.loop_sec_entry2.get()
-                        current[9] = self.loop_speed1.get()
+                        current[9] = self.loop_speed2.get()
                         self.model['{}'.format(primary_time)] = current
                     else:
                         self.model['{}'.format(primary_time)] = [
-                        self.left_eye.get(), self.loop_sec_entry1.get(),
+                        self.left_eye.get(), self.loop_sec_entry2.get(),
                         self.right_sholder.get(), self.right_hand.get(),
                         self.left_hand.get(), self.left_leg.get(),
                         self.right_leg.get(), self.reserved_1.get(),
-                        self.reserved_2.get(), round(self.loop_speed1.get())]
+                        self.reserved_2.get(), round(self.loop_speed2.get())]
                 range_index += 1
                 print(self.model)
         except ValueError:
@@ -1041,7 +1051,7 @@ class SERVO_MAN(Player):
             cursor.execute(""" insert into`servo_7`values( % d)""" % (values[self.RESERVED_1]))
             cursor.execute(""" insert into`servo_8`values( % d)""" % (values[self.RESERVED_2]))
             cursor.execute(""" insert into`time`values( % s)""" % (key))
-            cursor.execute(""" insert into`speed`values( % d)""" % (values[-1]))
+            cursor.execute(""" insert into`speed_common`values( % d)""" % (values[-1]))
         conn.commit()
         self.write_to_h()
 
@@ -1089,7 +1099,7 @@ class SERVO_MAN(Player):
             # servo_9
             cursor.execute("SELECT * FROM `servo_8`  ")
             sql_servo_9 = cursor.fetchall()
-            cursor.execute("SELECT * FROM `speed` order by  `speed_pos` ")
+            cursor.execute("SELECT * FROM `speed_common` order by  `speed_common_pos` ")
             sql_speed = cursor.fetchall()
 
             # servo_1
