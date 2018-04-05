@@ -10,9 +10,10 @@ import shutil
 from sketchbooks.SW.run_servo import compiling
 from db_input import *
 from tkinter.messagebox import showinfo
+from player import Player
 
 
-class SERVO_MAN:
+class SERVO_MAN(Player):
     def __init__(self, master):
         self.master = master
         self.master.geometry('800x400')
@@ -111,7 +112,7 @@ class SERVO_MAN:
         self.loop_r_e = ttk.Checkbutton(self.master,
                                         command=self.check_loop2).grid(row=4, column=2, padx=10)
 
-        self.lab_ser_3 = ttk.Label(self.master, text='плечо правое').grid(row=8, column=1)
+        self.lab_ser_3 = ttk.Label(self.master, text='плечо левое').grid(row=8, column=1)
         self.right_sholder = IntVar()
         self.angle_box3 = ttk.Entry(self.master,
                                     textvariable=self.right_sholder, width=3)
@@ -119,7 +120,7 @@ class SERVO_MAN:
         self.loop_r_s = ttk.Checkbutton(self.master,command=self.check_loop3
                                         ).grid(row=8, column=2, padx=10)
 
-        self.lab_ser_4 = ttk.Label(self.master, text='рука правая').grid(row=1, column=3, )
+        self.lab_ser_4 = ttk.Label(self.master, text='плечо правое').grid(row=1, column=3, )
         self.right_hand = IntVar()
         self.angle_box4 = ttk.Entry(self.master, textvariable=self.right_hand, width=3)
         self.angle_box4.grid(row=2, column=3)
@@ -133,7 +134,7 @@ class SERVO_MAN:
         self.loop_r_l = ttk.Checkbutton(self.master,command=self.check_loop5
                                         ).grid(row=4, column=4, padx=10)
 
-        self.lab_ser_6 = ttk.Label(self.master, text='нога левая').grid(row=8, column=3)
+        self.lab_ser_6 = ttk.Label(self.master, text='рука правое').grid(row=8, column=3)
         self.left_leg = IntVar()
         self.angle_box6 = ttk.Entry(self.master, textvariable=self.left_leg, width=3)
         self.angle_box6.grid(row=9, column=3)
@@ -148,14 +149,14 @@ class SERVO_MAN:
         self.loop_r_l = ttk.Checkbutton(self.master,command=self.check_loop7
                                         ).grid(row=1, column=7, padx=10)
 
-        self.lab_ser_8 = ttk.Label(self.master, text='reserved_1 ').grid(row=4, column=6)
+        self.lab_ser_8 = ttk.Label(self.master, text='нога левая ').grid(row=4, column=6)
         self.reserved_1 = IntVar()
         self.angle_box8 = ttk.Entry(self.master, textvariable=self.reserved_1, width=3)
         self.angle_box8.grid(row=5, column=6)
         self.loop_res = ttk.Checkbutton(self.master,command=self.check_loop8
                                         ).grid(row=4, column=7, padx=10)
 
-        self.lab_ser_9 = ttk.Label(self.master, text='reserved_2 ').grid(row=8, column=6)
+        self.lab_ser_9 = ttk.Label(self.master, text='жопа ').grid(row=8, column=6)
         self.reserved_2 = IntVar()
         self.angle_box9 = ttk.Entry(self.master, textvariable=self.reserved_2, width=3)
         self.angle_box9.grid(row=9, column=6)
@@ -186,7 +187,9 @@ class SERVO_MAN:
         self.window_db.grid(row=2, column=8,rowspan=8,columnspan=10)
         self.request_butt = ttk.Button(self.master,
                                        text='текущая база данных',
-                                       command= self.current_db).grid(row=10, column=8,columnspan=4)
+                                       command= self.current_db).grid(row=10, column=8)
+        self.select_music_but = ttk.Button(self.master, text='выбрать музыку',command= self.add).grid(row=10, column=9,columnspan=10)
+
         self.label_time = ttk.Label(self.master)
         self.label_time.grid(row=11, column=3)
 
@@ -215,10 +218,18 @@ class SERVO_MAN:
                                       )
         self.speed_slider.grid(row=23, column=0,columnspan=3)
 
+
+
+
+
+
         self.model = {}
 
     def some_play(self):
+
         t1 = threading.Thread(target=compiling)
+
+
         t1.start()
 
     def printspeed(self, val):
@@ -1083,7 +1094,7 @@ class SERVO_MAN:
 
             # servo_1
             with open('template.h', 'w') as file:
-                file.writelines('int time_play=1;\n')
+                file.writelines('int time_play=18000;\n')
                 file.writelines('int speed_row[] = {')
                 file.writelines(str(sql_speed))
                 file.writelines('};\n')
@@ -1117,7 +1128,8 @@ class SERVO_MAN:
                 file.writelines('unsigned long KeyArray[] = {')
                 file.writelines(str(sql_time))
                 file.writelines('};\n')
-                self.clear_strings()
+            print('write to file')
+            self.clear_strings()
 
     def clear_strings(self):
         # clean by rubish
@@ -1139,8 +1151,16 @@ class SERVO_MAN:
             o.write(line)
         o.close()
         call('rm template.h', shell=True)
-        shutil.move("/home/qbc/PycharmProjects/ard/VAL.h",
-                    "/usr/share/arduino/hardware/arduino/cores/arduino/VAL.h")
+        try:
+
+            shutil.move("/home/qbc/PycharmProjects/ard/VAL.h",
+                        "/usr/share/arduino/hardware/arduino/cores/arduino/VAL.h")
+        except:
+            shutil.move("/home/qbc/PycharmProjects/ard/sketchbooks/SW/VAL.h",
+                        "/home/qbc/PycharmProjects/ard/VAL.h")
+            shutil.move("/home/qbc/PycharmProjects/ard/VAL.h",
+                        "/usr/share/arduino/hardware/arduino/cores/arduino/VAL.h")
+
         print('writing2')
 
 
@@ -1148,7 +1168,7 @@ class SERVO_MAN:
     def choose_db(self):
         fname = askopenfilename(filetypes=(("scenario", "*.db"),
                                            ("All files", "*.*")),
-                                initialdir='~/PycharmProjects/ard/')
+                                initialdir='~/PycharmProjects/ard/scenario')
         print(fname[-8:-1])
         self.current_name_db = fname
         self.window_db.insert(END, fname[-25:-1] + '\n')
@@ -1168,7 +1188,6 @@ class SERVO_MAN:
 
 def main():
     root = tk.Tk()
-    root.title("SERVO_M")
 
     app = SERVO_MAN(root)
     root.mainloop()
