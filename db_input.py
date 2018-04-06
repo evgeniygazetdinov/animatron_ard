@@ -1,6 +1,7 @@
 from tkinter import *
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
 from subprocess import call
 import sqlite3
 
@@ -39,8 +40,10 @@ class new_base:
         for i in range(9):
             cursor.execute(
                 'CREATE TABLE  servo_{} (servo{}_pos integer );'.format(i,i))
+            cursor.execute(
+                'CREATE TABLE  speed{} (speedloop{} integer );'.format(i, i))
         cursor.execute(
-            'CREATE TABLE  speed (speed_pos integer );')
+            'CREATE TABLE  speed_common (speed_common_pos integer );')
         cursor.execute(
             'CREATE TABLE  time (time_pos integer );')
 
@@ -55,7 +58,10 @@ class new_base:
         con.commit()
         call('mv {}.db /home/qbc/PycharmProjects/ard/scenario/'.format(self.db_name.get()),shell =True)
         db='{}'.format(self.db_name.get())
-
+        messagebox.showinfo("база данных", " База создана выберите ее \n "
+                                           "    из папки SCENARIO\n"
+                                           "       затем НАЖАТЬ   \n "
+                                           " ВЫБРАТЬ СЦЕНАРИЙ ")
     def cancell(self):
         self.master.destroy()
 
