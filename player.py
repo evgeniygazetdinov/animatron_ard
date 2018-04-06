@@ -9,9 +9,6 @@ from tinytag import TinyTag
 
 
 
-
-
-
 class Player:
 
     def __init__(self, master):
@@ -34,14 +31,15 @@ class Player:
         self.playing = True
         pygame.init()
         pygame.mixer.music.load(self.song)
+        print('music')
         # pygame.mixer.music.set_volume(0)  # set volume on zero before play
-        pygame.mixer.music.play(-1, 0.0)
+        # pygame.mixer.music.play(-1, 0.0)
         # if self.playing == True:
-            # self.p_bar.config(mode='determinate', maximum=self.fin_time, value=1)
-            # self.p_bar.start(1000)
-            # self.conventer_durability()
-            # self._on_scale()
-        
+        #     self.p_bar.config(mode='determinate', maximum=self.fin_time, value=1)
+        #     self.p_bar.start(1000)
+        #     self.conventer_durability()
+        #     self._on_scale()
+
     def _on_scale(self):
         # initialize time track
         time = int(pygame.mixer.music.get_pos() / 1000)
@@ -77,7 +75,7 @@ class Player:
 
     def loud(self, value):
         pygame.init()
-        pygame.mixer.music.set_volume((float(value)*10))  # put on pygame module value from scale widget
+        pygame.mixer.music.set_volume((float(value)))  # put on pygame module value from scale widget
 
     def loop(self):
         pygame.mixer.music.stop()
@@ -90,13 +88,15 @@ class Player:
         self.fin_time = int(self.fin_time)
         minutes = self.fin_time / 60
         sec = self.fin_time % 60
-        return tag.duration
+        time =[round(minutes),':',round(sec)]
+        return time
 
     def add(self):
         file = askopenfilename(filetypes=(("music", "*.mp3"),
                                             ("All files", "*.*")),
                                             initialdir = '~/PycharmProjects/ard/')
 
-        songsTuple = self.master.splitlist(file)  # turn user's opened filenames into tuple
+        name = file.split('/')
+          # turn user's opened filenames into tuple
         self.song =file
-        self.play_music()
+        return name[-1]

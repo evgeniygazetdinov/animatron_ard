@@ -1,19 +1,22 @@
-from tkinter import IntVar
+
 import tkinter as tk
 from tkinter import ttk
 from tkinter.filedialog import askopenfilename
-from tkinter import messagebox
+from tkinter.messagebox import showinfo
+from tkinter import messagebox,IntVar
 import threading
 import sqlite3
 from subprocess import call, PIPE, Popen
 import shutil
 from sketchbooks.SW.run_servo import compiling
 from db_input import *
-from tkinter.messagebox import showinfo
+
 from player import Player
+from loop_check import LoopCheck
+from default_positon import Default_position
 
 
-class SERVO_MAN(Player):
+class SERVO_MAN(Player,LoopCheck,Default_position):
     def __init__(self, master):
         self.master = master
         self.master.geometry('800x400')
@@ -109,7 +112,8 @@ class SERVO_MAN(Player):
         self.left_eye = IntVar()
         self.angle_box1 = ttk.Entry(self.master,
                                     width=3,
-                                    textvariable=self.left_eye)
+                                    textvariable=self.left_eye,)
+
         self.angle_box1.grid(row=2, column=1)
         self.loop_l_e = ttk.Checkbutton(self.master,
                                         command=self.check_loop
@@ -117,7 +121,7 @@ class SERVO_MAN(Player):
 
         self.lab_ser_2 = ttk.Label(self.master,text='глаз правый').grid(row=4, column=1)
         self.right_e = IntVar()
-        self.angle_box2 = ttk.Entry(self.master, textvariable=self.right_e, width=3)
+        self.angle_box2 = ttk.Entry(self.master, textvariable=self.right_e,width=3)
         self.angle_box2.grid(row=5, column=1)
         self.loop_r_e = ttk.Checkbutton(self.master,
                                         command=self.check_loop2).grid(row=4, column=2, padx=10)
@@ -159,9 +163,13 @@ class SERVO_MAN(Player):
         self.loop_r_l = ttk.Checkbutton(self.master,command=self.check_loop7
                                         ).grid(row=1, column=7, padx=10)
 
+
         self.lab_ser_8 = ttk.Label(self.master, text='нога левая ').grid(row=4, column=6)
         self.reserved_1 = IntVar()
         self.angle_box8 = ttk.Entry(self.master, textvariable=self.reserved_1, width=3)
+
+
+
         self.angle_box8.grid(row=5, column=6)
         self.loop_res = ttk.Checkbutton(self.master,command=self.check_loop8
                                         ).grid(row=4, column=7, padx=10)
@@ -198,7 +206,7 @@ class SERVO_MAN(Player):
         self.request_butt = ttk.Button(self.master,
                                        text='текущая база данных',
                                        command= self.current_db).grid(row=10, column=8)
-        self.select_music_but = ttk.Button(self.master, text='выбрать музыку',command= self.add).grid(row=10, column=9,columnspan=10)
+        self.select_music_but = ttk.Button(self.master, text = 'выбрать музыку',command = self.add_music_return_duration).grid(row=10, column=9,columnspan=10)
 
         self.label_time = ttk.Label(self.master)
         self.label_time.grid(row=11, column=3)
@@ -234,11 +242,24 @@ class SERVO_MAN(Player):
 
         self.speed_sevos ={}
         self.model = {}
+        self.default()
+    def default(self):
+        self.stand_default_position(self.angle_box1,0)
+        self.stand_default_position(self.angle_box2,0)
+        self.stand_default_position(self.angle_box3,0)
+        self.stand_default_position(self.angle_box4,0)
+        self.stand_default_position(self.angle_box5,0)
+        self.stand_default_position(self.angle_box6,0)
+        self.stand_default_position(self.angle_box7,30)
+        self.stand_default_position(self.angle_box8,30)
+        self.stand_default_position(self.angle_box9,0)
+
+
 
     def some_play(self):
 
-        t1 = threading.Thread(target=compiling())
-        t2 = threading.Thread(target=play_music())
+        t1 = threading.Thread(target=compiling)
+        t2 = threading.Thread(target=self.play_music)
         t2.start()
         t1.start()
 
@@ -250,12 +271,14 @@ class SERVO_MAN(Player):
 
 
 
+
     def printime(self, val):
         # define for TIME
         time = self.time_scale.get()
         m = time // 60
         s = time - m * 60
         self.time_digit.configure(text='%02d:%02d' % (m, s))
+
         # HERE USING STOPPER
         # self.stopper()
 
@@ -278,22 +301,6 @@ class SERVO_MAN(Player):
                     self.speed_slider.get()
                 ]
 
-        }
-        print(self.model)
-
-    def setServosFromGUI(self,sec):
-        #for return old values from model
-        self.model = {
-            'current_time': sec,
-            'scenario_stack': {
-                round(self.time_scale.get()): [
-                    self.left_eye.get(), self.right_e.get(),
-                    self.right_hand.get(), self.left_hand.get(),
-                    self.left_leg.get(), self.right_leg.get(),
-                    self.reserved_1.get(), self.reserved_2.get(),
-                    self.speed_slider.get()
-                ]
-            }
         }
         print(self.model)
 
@@ -323,6 +330,7 @@ class SERVO_MAN(Player):
 
     def adden_key_to_model(self):
         #obtain values from windows
+        self.default()
         if '{}'.format(self.time_scale.get()*1000) in self.model:
             current = self.model['{}'.format(self.time_scale.get()*1000)]
             self.model['{}'.format(self.time_scale.get() * 1000)] = current
@@ -351,7 +359,7 @@ class SERVO_MAN(Player):
 
 
     def check_loop(self):
-
+        self.loop1 = True
         newonfWindow = tk.Toplevel(self.master)
         newonfWindow.geometry('200x130')
         newonfWindow.title('цикл1')
@@ -376,11 +384,10 @@ class SERVO_MAN(Player):
 
         cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda: newonfWindow.destroy())
         cancell_but.grid(row=5, column=2)
-
         temp_time = ttk.Button(newonfWindow,text = 'засечь время',command= lambda: self.count_clicks(self.loop_to)).grid(row=5,column=1)
-
+        # self.speed_servey(self.check_loop,self.loop_speed1.get())
     def check_loop2(self):
-
+        self.loop2 = True
         newonfWindow = tk.Toplevel(self.master)
         newonfWindow.geometry('200x130')
         newonfWindow.title('цикл2')
@@ -410,6 +417,7 @@ class SERVO_MAN(Player):
             row=5, column=1)
 
     def check_loop3(self):
+        self.loop3 = True
         newonfWindow = tk.Toplevel(self.master)
         newonfWindow.geometry('200x130')
         newonfWindow.title('цикл3')
@@ -440,6 +448,7 @@ class SERVO_MAN(Player):
 
 
     def check_loop4(self):
+        self.loop4 = True
         newonfWindow = tk.Toplevel(self.master)
         newonfWindow.geometry('200x130')
         newonfWindow.title('цикл4')
@@ -468,6 +477,7 @@ class SERVO_MAN(Player):
                                command=lambda: self.count_clicks(self.loop_to4)).grid(row=5, column=1)
 
     def check_loop5(self):
+        self.loop5 = True
         newonfWindow = tk.Toplevel(self.master)
         newonfWindow.geometry('200x130')
         newonfWindow.title('цикл5')
@@ -497,6 +507,7 @@ class SERVO_MAN(Player):
                            command=lambda: self.count_clicks(self.loop_to5)).grid(row=5, column=1)
 
     def check_loop6(self):
+        self.loop6 = True
         newonfWindow = tk.Toplevel(self.master)
         newonfWindow.geometry('200x130')
         newonfWindow.title('цикл6')
@@ -526,6 +537,7 @@ class SERVO_MAN(Player):
                            command=lambda: self.count_clicks(self.loop_to6)).grid(row=5, column=1)
 
     def check_loop7(self):
+        self.loop7 = True
         newonfWindow = tk.Toplevel(self.master)
         newonfWindow.geometry('200x130')
         newonfWindow.title('цикл7')
@@ -555,6 +567,7 @@ class SERVO_MAN(Player):
                                command=lambda: self.count_clicks(self.loop_to7)).grid(row=5, column=1)
 
     def check_loop8(self):
+        self.loop8 = True
         newonfWindow = tk.Toplevel(self.master)
         newonfWindow.geometry('200x130')
         newonfWindow.title('цикл8')
@@ -583,6 +596,7 @@ class SERVO_MAN(Player):
         temp_time = ttk.Button(newonfWindow, text='засечь время',
                                command=lambda: self.count_clicks(self.loop_to8)).grid(row=5, column=1)
     def check_loop9(self):
+        self.loop9 = True 
         newonfWindow = tk.Toplevel(self.master)
         newonfWindow.geometry('200x130')
         newonfWindow.title('цикл9')
@@ -1178,20 +1192,40 @@ class SERVO_MAN(Player):
         fname = askopenfilename(filetypes=(("scenario", "*.db"),
                                            ("All files", "*.*")),
                                 initialdir='~/PycharmProjects/ard/scenario')
-        print(fname[-8:-1])
+
+        base=fname.split('/')
         self.current_name_db = fname
-        self.window_db.insert(END, fname[-25:-1] + '\n')
+        self.window_db.insert(END, base[-1] + '\n')
         messagebox.Message('')
         messagebox.showinfo("база данных", " Нужно выбрать текущию \n "
                                            "    базу для записи:\n"
                                            "     затем НАЖАТЬ   \n "
                                            " текущая база данных")
+
+
+
+
     def current_db(self):
         self.path = self.current_name_db
+
+
+
 
     def new_data(self):
         self.newWindow = tk.Toplevel(self.master)
         self.app = new_base(self.newWindow)
+
+
+
+
+    def add_music_return_duration(self):
+        # mp3 shit using methods from player)and add some label with music information
+        name= self.add()
+        self.duration = self.conventer_durability()
+        self.duration_label = tk.Label(self.master,text = self.duration).grid(column=8,row =15)
+
+        self.name_song_label = tk.Label(self.master,text = name).grid(column=9,row =15)
+
 
 
 
@@ -1200,6 +1234,8 @@ def main():
 
     app = SERVO_MAN(root)
     root.mainloop()
+
+
 
 
 if __name__ == '__main__':
