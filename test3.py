@@ -685,7 +685,7 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
                             self.sp_variable_loop1= self.loop_speed1.get()
                         current = self.model['{}'.format(primary_time)]
                         current[0] = self.left_eye.get()
-                        current[1] = self.loop_speed1.get()
+                        current[1] = self.sp_variable_loop1
                         current[3] = self.sp_variable_loop2
                         current[5] = self.sp_variable_loop3
                         current[7] = self.sp_variable_loop4
@@ -770,8 +770,8 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
                         if self.loop2 == True:
                             self.sp_variable_loop2 = self.loop_speed2.get()
                         current = self.model['{}'.format(primary_time)]
-                        current[1] = self.sp_variable_loop1
                         current[2] = self.right_e.get()
+                        current[1] = self.sp_variable_loop1
                         current[3] = self.sp_variable_loop2
                         current[5] = self.sp_variable_loop3
                         current[7] = self.sp_variable_loop4
@@ -801,8 +801,8 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
                         if self.loop2== True:
                             self.sp_variable_loop2 = self.loop_speed2.get()
                         current = self.model['{}'.format(primary_time)]
+                        current[2] = self.loop_sec_entry2.get()
                         current[1] = self.sp_variable_loop1
-                        current[2] = self.loop_sec_entry1.get()
                         current[3] = self.sp_variable_loop2
                         current[5] = self.sp_variable_loop3
                         current[7] = self.sp_variable_loop4
@@ -811,6 +811,7 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
                         current[13] = self.sp_variable_loop7
                         current[15] = self.sp_variable_loop8
                         current[17] = self.sp_variable_loop9
+
                         self.model['{}'.format(primary_time)] = current
                     else:
                         self.sp_finder()
@@ -818,7 +819,7 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
                             self.sp_variable_loop2 = self.loop_speed2.get()
                         self.model['{}'.format(primary_time)] = [
                         self.left_eye.get(),self.sp_variable_loop1 ,
-                        self.loop_sec_entry1.get(),self.sp_variable_loop2,
+                        self.loop_sec_entry2.get(),self.sp_variable_loop2,
                         self.right_sholder.get(),self.sp_variable_loop3,
                         self.right_hand.get(),self.sp_variable_loop4,
                         self.left_hand.get(),self.sp_variable_loop5,
@@ -834,177 +835,260 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
             messagebox.showwarning("ОШИБКА", "  НУЛЕВОЙ ИНТЕРВАЛ\n")
 
 
-        def loop_to3(self):
-            # call to each calling func to
-            print('loop3')
-            range_index = 0
-            primary_time =self.primary_time
-            final_time = self.final_time
-            try:
-                for i in range(int(primary_time),
-                               int(self.final_time),
-                               int(self.loop_int_entry.get() * 1000)):
-                    primary_time+=int(self.loop_int_entry.get() * 1000)
-                    if range_index % 2 == 0:
-
-                        if '{}'.format(primary_time) in self.model:
-                            self.sp_finder()
-                            if self.loop3 == True:
-                                self.sp_variable_loop3= self.loop_speed3.get()
-                            current = self.model['{}'.format(primary_time)]
-                            current[] = self.left_eye.get()
-                            current[1] = self.sp_variable_loop1
-                            current[3] = self.sp_variable_loop2
-                            current[5] = self.sp_variable_loop3
-                            current[7] = self.sp_variable_loop4
-                            current[9] = self.sp_variable_loop5
-                            current[11] = self.sp_variable_loop6
-                            current[13] = self.sp_variable_loop7
-                            current[15] = self.sp_variable_loop8
-                            current[17] = self.sp_variable_loop9
-
-                            self.model['{}'.format(primary_time)] = current
-                        else:
-                            self.sp_finder()
-                            if self.loop1 == True:
-                                self.sp_variable_loop1= self.loop_speed1.get()
-                            self.model['{}'.format(primary_time)] = [
-                            self.left_eye.get(),self.sp_variable_loop1,
-                            self.right_e.get(),self.sp_variable_loop2,
-                            self.right_sholder.get(),self.sp_variable_loop3,
-                            self.right_hand.get(),self.sp_variable_loop4,
-                            self.left_hand.get(),self.sp_variable_loop5,
-                            self.left_leg.get(),self.sp_variable_loop6,
-                            self.right_leg.get(),self.sp_variable_loop7,
-                            self.reserved_1.get(),self.sp_variable_loop8,
-                            self.reserved_2.get(),self.sp_variable_loop9]
-
-
-                    if range_index % 2 !=  0:
-
-                        if '{}'.format(primary_time) in self.model:
-                            self.sp_finder()
-                            if self.loop1 == True:
-                                self.sp_variable_loop1= self.loop_speed1.get()
-                            current = self.model['{}'.format(primary_time)]
-                            current[0] = self.loop_sec_entry1.get()
-                            current[1] = self.sp_variable_loop1
-                            current[3] = self.sp_variable_loop2
-                            current[5] = self.sp_variable_loop3
-                            current[7] = self.sp_variable_loop4
-                            current[9] = self.sp_variable_loop5
-                            current[11] = self.sp_variable_loop6
-                            current[13] = self.sp_variable_loop7
-                            current[15] = self.sp_variable_loop8
-                            current[17] = self.sp_variable_loop9
-
-                            self.model['{}'.format(primary_time)] = current
-                        else:
-                            self.sp_finder()
-                            if self.loop1 == True:
-                                self.sp_variable_loop1= self.loop_speed1.get()
-                            self.model['{}'.format(primary_time)] = [
-                            self.loop_sec_entry1.get(),self.sp_variable_loop1 ,
-                            self.right_e.get(),self.sp_variable_loop2,
-                            self.right_sholder.get(),self.sp_variable_loop3,
-                            self.right_hand.get(),self.sp_variable_loop4,
-                            self.left_hand.get(),self.sp_variable_loop5,
-                            self.left_leg.get(),self.sp_variable_loop6,
-                            self.right_leg.get(),self.sp_variable_loop7,
-                            self.reserved_1.get(),self.sp_variable_loop8,
-                            self.reserved_2.get(),self.sp_variable_loop9]
-                    range_index += 1
-                    print(self.model)
-                    print(self.loop1)
-            except ValueError:
-                messagebox.showwarning("ОШИБКА", "  НУЛЕВОЙ ИНТЕРВАЛ\n")
-
-
-
-    def loop_to4(self):
+    def loop_to3(self):
         # call to each calling func to
-        print('loop4')
+        print('loop3')
         range_index = 0
-        primary_time = self.primary_time
+        primary_time =self.primary_time
         final_time = self.final_time
         try:
             for i in range(int(primary_time),
                            int(self.final_time),
                            int(self.loop_int_entry.get() * 1000)):
-                primary_time += int(self.loop_int_entry.get() * 1000)
+                primary_time+=int(self.loop_int_entry.get() * 1000)
                 if range_index % 2 == 0:
-                    if '{}'.format(primary_time) in self.model:
-                        current = self.model['{}'.format(primary_time)]
-                        current[3] = self.right_hand.get()
-                        current[9] = self.loop_speed4.get()
-                        self.model['{}'.format(primary_time)] = current
-                    else:
-                        self.model['{}'.format(primary_time)] = [
-                        self.left_eye.get(), self.right_e.get(),
-                        self.right_sholder.get(), self.right_hand.get(),
-                        self.left_hand.get(), self.left_leg.get(),
-                        self.right_leg.get(), self.reserved_1.get(),
-                        self.reserved_2.get(), round(self.loop_speed4.get())]
 
-                if range_index % 2 != 0:
                     if '{}'.format(primary_time) in self.model:
+                        self.sp_finder()
+                        if self.loop3 == True:
+                            self.sp_variable_loop3= self.loop_speed3.get()
                         current = self.model['{}'.format(primary_time)]
-                        current[3] = self.loop_sec_entry4.get()
-                        current[9] = self.loop_speed4.get()
+                        current[4] = self.right_sholder.get()
+                        current[1] = self.sp_variable_loop1
+                        current[3] = self.sp_variable_loop2
+                        current[5] = self.sp_variable_loop3
+                        current[7] = self.sp_variable_loop4
+                        current[9] = self.sp_variable_loop5
+                        current[11] = self.sp_variable_loop6
+                        current[13] = self.sp_variable_loop7
+                        current[15] = self.sp_variable_loop8
+                        current[17] = self.sp_variable_loop9
+
                         self.model['{}'.format(primary_time)] = current
                     else:
+                        self.sp_finder()
+                        if self.loop3 == True:
+                            self.sp_variable_loop3= self.loop_speed3.get()
                         self.model['{}'.format(primary_time)] = [
-                        self.left_eye.get(),self.right_e.get(),
-                        self.right_sholder.get(), self.loop_sec_entry4.get(),
-                        self.left_hand.get(), self.left_leg.get(),
-                        self.right_leg.get(), self.reserved_1.get(),
-                        self.reserved_2.get(), round(self.loop_speed4.get())]
+                        self.left_eye.get(),self.sp_variable_loop1,
+                        self.right_e.get(),self.sp_variable_loop2,
+                        self.right_sholder.get(),self.sp_variable_loop3,
+                        self.right_hand.get(),self.sp_variable_loop4,
+                        self.left_hand.get(),self.sp_variable_loop5,
+                        self.left_leg.get(),self.sp_variable_loop6,
+                        self.right_leg.get(),self.sp_variable_loop7,
+                        self.reserved_1.get(),self.sp_variable_loop8,
+                        self.reserved_2.get(),self.sp_variable_loop9]
+
+
+                if range_index % 2 !=  0:
+
+                    if '{}'.format(primary_time) in self.model:
+                        self.sp_finder()
+                        if self.loop3 == True:
+                            self.sp_variable_loop3= self.loop_speed3.get()
+                        current = self.model['{}'.format(primary_time)]
+                        current[4] = self.loop_sec_entry3.get()
+                        current[1] = self.sp_variable_loop1
+                        current[3] = self.sp_variable_loop2
+                        current[5] = self.sp_variable_loop3
+                        current[7] = self.sp_variable_loop4
+                        current[9] = self.sp_variable_loop5
+                        current[11] = self.sp_variable_loop6
+                        current[13] = self.sp_variable_loop7
+                        current[15] = self.sp_variable_loop8
+                        current[17] = self.sp_variable_loop9
+
+                        self.model['{}'.format(primary_time)] = current
+                    else:
+                        self.sp_finder()
+                        if self.loop3 == True:
+                            self.sp_variable_loop3= self.loop_speed3.get()
+                        self.model['{}'.format(primary_time)] = [
+                        self.left_eye.get(),self.sp_variable_loop1 ,
+                        self.right_e.get(),self.sp_variable_loop2,
+                        self.loop_sec_entry3.get(),self.sp_variable_loop3,
+                        self.right_hand.get(),self.sp_variable_loop4,
+                        self.left_hand.get(),self.sp_variable_loop5,
+                        self.left_leg.get(),self.sp_variable_loop6,
+                        self.right_leg.get(),self.sp_variable_loop7,
+                        self.reserved_1.get(),self.sp_variable_loop8,
+                        self.reserved_2.get(),self.sp_variable_loop9]
                 range_index += 1
                 print(self.model)
+                print(self.loop1)
+        except ValueError:
+            messagebox.showwarning("ОШИБКА", "  НУЛЕВОЙ ИНТЕРВАЛ\n")
+
+
+
+    ddef loop_to4(self):
+        # call to each calling func to
+        print('loop3')
+        range_index = 0
+        primary_time =self.primary_time
+        final_time = self.final_time
+        try:
+            for i in range(int(primary_time),
+                           int(self.final_time),
+                           int(self.loop_int_entry.get() * 1000)):
+                primary_time+=int(self.loop_int_entry.get() * 1000)
+                if range_index % 2 == 0:
+
+                    if '{}'.format(primary_time) in self.model:
+                        self.sp_finder()
+                        if self.loop4 == True:
+                            self.sp_variable_loop4= self.loop_speed4.get()
+                        current = self.model['{}'.format(primary_time)]
+                        current[6] = self.right_hand.get()
+                        current[1] = self.sp_variable_loop1
+                        current[3] = self.sp_variable_loop2
+                        current[5] = self.sp_variable_loop3
+                        current[7] = self.sp_variable_loop4
+                        current[9] = self.sp_variable_loop5
+                        current[11] = self.sp_variable_loop6
+                        current[13] = self.sp_variable_loop7
+                        current[15] = self.sp_variable_loop8
+                        current[17] = self.sp_variable_loop9
+
+                        self.model['{}'.format(primary_time)] = current
+                    else:
+                        self.sp_finder()
+                        if self.loop4 == True:
+                            self.sp_variable_loop4 = self.loop_speed4.get()
+                        self.model['{}'.format(primary_time)] = [
+                        self.left_eye.get(),self.sp_variable_loop1,
+                        self.right_e.get(),self.sp_variable_loop2,
+                        self.right_sholder.get(),self.sp_variable_loop3,
+                        self.right_hand.get(),self.sp_variable_loop4,
+                        self.left_hand.get(),self.sp_variable_loop5,
+                        self.left_leg.get(),self.sp_variable_loop6,
+                        self.right_leg.get(),self.sp_variable_loop7,
+                        self.reserved_1.get(),self.sp_variable_loop8,
+                        self.reserved_2.get(),self.sp_variable_loop9]
+
+
+                if range_index % 2 !=  0:
+
+                    if '{}'.format(primary_time) in self.model:
+                        self.sp_finder()
+                        if self.loop4 == True:
+                            self.sp_variable_loop4= self.loop_speed4.get()
+                        current = self.model['{}'.format(primary_time)]
+                        current[6] = self.loop_sec_entry4.get()
+                        current[1] = self.sp_variable_loop1
+                        current[3] = self.sp_variable_loop2
+                        current[5] = self.sp_variable_loop3
+                        current[7] = self.sp_variable_loop4
+                        current[9] = self.sp_variable_loop5
+                        current[11] = self.sp_variable_loop6
+                        current[13] = self.sp_variable_loop7
+                        current[15] = self.sp_variable_loop8
+                        current[17] = self.sp_variable_loop9
+
+                        self.model['{}'.format(primary_time)] = current
+                    else:
+                        self.sp_finder()
+                        if self.loop4 == True:
+                            self.sp_variable_loop4= self.loop_speed4.get()
+                        self.model['{}'.format(primary_time)] = [
+                        self.left_eye.get(),self.sp_variable_loop1 ,
+                        self.right_e.get(),self.sp_variable_loop2,
+                        self.right_sholder.get(),self.sp_variable_loop3,
+                        self.loop_sec_entry4.get(),self.sp_variable_loop4,
+                        self.left_hand.get(),self.sp_variable_loop5,
+                        self.left_leg.get(),self.sp_variable_loop6,
+                        self.right_leg.get(),self.sp_variable_loop7,
+                        self.reserved_1.get(),self.sp_variable_loop8,
+                        self.reserved_2.get(),self.sp_variable_loop9]
+                range_index += 1
+                print(self.model)
+                print(self.loop4)
         except ValueError:
             messagebox.showwarning("ОШИБКА", "  НУЛЕВОЙ ИНТЕРВАЛ\n")
 
     def loop_to5(self):
         # call to each calling func to
-        print('loop5 left hand')
+        print('loop5')
         range_index = 0
-        primary_time = self.primary_time
+        primary_time =self.primary_time
         final_time = self.final_time
         try:
             for i in range(int(primary_time),
                            int(self.final_time),
                            int(self.loop_int_entry.get() * 1000)):
-                primary_time += int(self.loop_int_entry.get() * 1000)
+                primary_time+=int(self.loop_int_entry.get() * 1000)
                 if range_index % 2 == 0:
+
                     if '{}'.format(primary_time) in self.model:
+                        self.sp_finder()
+                        if self.loop5 == True:
+                            self.sp_variable_loop5= self.loop_speed5.get()
                         current = self.model['{}'.format(primary_time)]
-                        current[4] = self.left_hand.get()
-                        current[9] = self.loop_speed5.get()
+                        current[8] = self.left_hand.get()
+                        current[1] = self.sp_variable_loop1
+                        current[3] = self.sp_variable_loop2
+                        current[5] = self.sp_variable_loop3
+                        current[7] = self.sp_variable_loop4
+                        current[9] = self.sp_variable_loop5
+                        current[11] = self.sp_variable_loop6
+                        current[13] = self.sp_variable_loop7
+                        current[15] = self.sp_variable_loop8
+                        current[17] = self.sp_variable_loop9
+
                         self.model['{}'.format(primary_time)] = current
                     else:
+                        self.sp_finder()
+                        if self.loop5 == True:
+                            self.sp_variable_loop5= self.loop_speed5.get()
                         self.model['{}'.format(primary_time)] = [
-                        self.left_eye.get(), self.right_e.get(),
-                        self.right_sholder.get(), self.right_hand.get(),
-                        self.left_hand.get(), self.left_leg.get(),
-                        self.right_leg.get(), self.reserved_1.get(),
-                        self.reserved_2.get(), round(self.loop_speed5.get())]
+                        self.left_eye.get(),self.sp_variable_loop1,
+                        self.right_e.get(),self.sp_variable_loop2,
+                        self.right_sholder.get(),self.sp_variable_loop3,
+                        self.right_hand.get(),self.sp_variable_loop4,
+                        self.left_hand.get(),self.sp_variable_loop5,
+                        self.left_leg.get(),self.sp_variable_loop6,
+                        self.right_leg.get(),self.sp_variable_loop7,
+                        self.reserved_1.get(),self.sp_variable_loop8,
+                        self.reserved_2.get(),self.sp_variable_loop9]
 
-                if range_index % 2 != 0:
+
+                if range_index % 2 !=  0:
+
                     if '{}'.format(primary_time) in self.model:
+                        self.sp_finder()
+                        if self.loop5 == True:
+                            self.sp_variable_loop5= self.loop_speed5.get()
                         current = self.model['{}'.format(primary_time)]
-                        current[4] = self.loop_sec_entry5.get()
-                        current[9] = self.loop_speed5.get()
+                        current[8] = self.loop_sec_entry5.get()
+                        current[1] = self.sp_variable_loop1
+                        current[3] = self.sp_variable_loop2
+                        current[5] = self.sp_variable_loop3
+                        current[7] = self.sp_variable_loop4
+                        current[9] = self.sp_variable_loop5
+                        current[11] = self.sp_variable_loop6
+                        current[13] = self.sp_variable_loop7
+                        current[15] = self.sp_variable_loop8
+                        current[17] = self.sp_variable_loop9
+
                         self.model['{}'.format(primary_time)] = current
                     else:
+                        self.sp_finder()
+                        if self.loop5 == True:
+                            self.sp_variable_loop5= self.loop_speed5.get()
                         self.model['{}'.format(primary_time)] = [
-                        self.left_eye.get(),self.right_e.get(),
-                        self.right_sholder.get(), self.right_hand.get(),
-                        self.loop_sec_entry5.get(), self.left_leg.get(),
-                        self.right_leg.get(), self.reserved_1.get(),
-                        self.reserved_2.get(), round(self.loop_speed5.get())]
-
+                        self.left_eye.get(),self.sp_variable_loop1 ,
+                        self.right_e.get(),self.sp_variable_loop2,
+                        self.right_sholder.get(),self.sp_variable_loop3,
+                        self.right_hand.get(),self.sp_variable_loop4,
+                        self.loop_sec_entry5.get(),self.sp_variable_loop5,
+                        self.left_leg.get(),self.sp_variable_loop6,
+                        self.right_leg.get(),self.sp_variable_loop7,
+                        self.reserved_1.get(),self.sp_variable_loop8,
+                        self.reserved_2.get(),self.sp_variable_loop9]
                 range_index += 1
                 print(self.model)
+                print(self.loop5)
         except ValueError:
             messagebox.showwarning("ОШИБКА", "  НУЛЕВОЙ ИНТЕРВАЛ\n")
 
