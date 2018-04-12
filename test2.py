@@ -272,10 +272,13 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
 
     def printime(self, val):
         # define for TIME
+
+
         time = self.time_scale.get()
         m = time // 60
         s = time - m * 60
         self.time_digit.configure(text='%02d:%02d' % (m, s))
+
         # HERE USING STOPPER
         # self.stopper()
 
@@ -1516,7 +1519,7 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
 
             # servo_1
             with open('template.h', 'w') as file:
-                file.writelines('int time_play=18000;\n')
+                file.writelines('int time_play={};\n'.format(self.duration*1000))
                 file.writelines('int speed_row1[] = {')
                 file.writelines(str(sql_speed1))
                 file.writelines('};\n')
@@ -1639,10 +1642,15 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
         self.newWindow = tk.Toplevel(self.master)
         self.app = new_base(self.newWindow)
     def add_music_return_duration(self):
+
         # mp3 shit using methods from player)and add some label with music information
         name= self.add()
-        self.duration = self.conventer_durability()
-        self.duration_label = tk.Label(self.master,text = self.duration).grid(column=8,row =12)
+        self.duration = int(self.conventer_durability())
+        minutes = self.duration / 60
+        sec = self.duration % 60
+
+        self.time_scale.configure(to=self.duration)
+        self.duration_label = tk.Label(self.master,text = "%2.2d:%2.2d"%(minutes,sec)).grid(column=8,row =12)
 
         self.name_song_label = tk.Label(self.master,text = name).grid(column=9,row =12)
         self.current_music.configure(text='музыка :  ')
