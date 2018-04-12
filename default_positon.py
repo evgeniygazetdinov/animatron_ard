@@ -28,6 +28,8 @@ class Default_position:
 
 
     def speedlimit_starter(self,window):
+        if int(window.get()) < 1:
+                window.set(50)
         if int(window.get())  > int(100):
                 window.set(100)
                 self.master.after(500,self.speedlimit_starter(window))
