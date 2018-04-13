@@ -45,7 +45,7 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
         self.time = 0
         #########values for changer default databases#########
         self.current_name_db = ''
-        self.path = '/home/qbc/PycharmProjects/ard/scenario/2.db'
+        self.path = ''
         ######## additional loop variables ##################
 
         self.loop_sec_entry1 = 0
@@ -57,16 +57,6 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
         self.loop_sec_entry7 = 0
         self.loop_sec_entry8 = 0
         self.loop_sec_entry9 = 0
-
-        self.loop_int_entry1 = 0
-        self.loop_int_entry2 = 0
-        self.loop_int_entry3 = 0
-        self.loop_int_entry4 = 0
-        self.loop_int_entry5 = 0
-        self.loop_int_entry6 = 0
-        self.loop_int_entry7 = 0
-        self.loop_int_entry8 = 0
-        self.loop_int_entry9 = 0
 
 
         self.loop_speed1=0
@@ -82,7 +72,7 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
 
         self.primary_time = 0
         self.final_time = 0
-        self.interval =1
+        self.interval_fall_down = 0
         self.count=0
         ############# constants for dictionaries###############
         self.LEFT_EYE = 0
@@ -191,7 +181,7 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
         self.window_db.grid(row=2, column=8,rowspan=8,columnspan=10)
         self.request_butt = ttk.Label(self.master, text='текущая база данных: не выбрана',)
         self.request_butt .grid(row=10, column=8,columnspan=4)
-        self.current_music = ttk.Label(self.master, text='музыка : -  ',)
+        self.current_music = ttk.Label(self.master, text='музыка : --  ',)
         self.choose_current_music =ttk.Button(self.master,
                                               text = 'музыка',
                                               command = self.add_music_return_duration)
@@ -301,8 +291,21 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
             current[12] = self.right_leg.get()
             current[14] = self.reserved_1.get()
             current[16] = self.reserved_2.get()
+            if (round(self.time_scale.get())) == sorted(last_values.keys())[-1]:
+                self.count = round(self.time_scale.get())
+                self.time_scale.set(self.count+1)
+                self.model['{}'.format(self.time_scale.get() * 1000)] = current
+                current[0] = self.left_eye.get()
+                current[2] = self.right_e.get()
+                current[4] = self.right_sholder.get()
+                current[6] = self.right_hand.get()
+                current[8] = self.left_hand.get()
+                current[10] = self.left_leg.get()
+                current[12] = self.right_leg.get()
+                current[14] = self.reserved_1.get()
+                current[16] = self.reserved_2.get()
         else:
-            self.model = {round(self.time_scale.get()): [
+            self.model[round(self.time_scale.get())] = [
             self.left_eye.get(), round(self.speed_slider.get()),
             self.right_e.get(),round(self.speed_slider.get()),
             self.right_sholder.get(),round(self.speed_slider.get()),
@@ -312,11 +315,11 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
             self.right_leg.get(),round(self.speed_slider.get()),
             self.reserved_1.get(),round(self.speed_slider.get()),
             self.reserved_2.get(),round(self.speed_slider.get()),
-                    ]}
-            
-            last_values= OrderedDict(self.model)
+                    ]
+            self.count+=1
+            last_values = OrderedDict(self.model)
             if (round(self.time_scale.get())) == sorted(last_values.keys())[-1]:
-                self.count=round(self.time_scale.get())
+                self.count = round(self.time_scale.get())
                 self.time_scale.set(self.count+1)
 
 
@@ -327,7 +330,7 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
     def check_loop(self):
         # using self loop for indicate for for loop servo
         self.loop1 = True
-        # ##############
+        ###############
         newonfWindow = tk.Toplevel(self.master)
         newonfWindow.geometry('200x130')
         newonfWindow.title('цикл1')
@@ -629,7 +632,8 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
         self.stand_default_loop_position(self.left_eye,0,270)
         self.stand_default_loop_position(self.loop_sec_entry1,0,270)
         self.speedlimit_starter(self.loop_speed1)
-
+        # this place here  interval passes in variable for comparison (no bigger)
+        self.no_more_bigger_interval()
         print('loop')
         range_index = 0
         primary_time =self.primary_time
@@ -708,8 +712,12 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
                         self.right_leg.get(),self.sp_variable_loop7,
                         self.reserved_1.get(),self.sp_variable_loop8,
                         self.reserved_2.get(),self.sp_variable_loop9]
+
                 range_index += 1
                 print(self.model)
+            # self.time_scale.set(self.primary_time)
+            # print(self.primary_time)
+
         except ValueError:
             messagebox.showwarning("ОШИБКА", "  НУЛЕВОЙ ИНТЕРВАЛ\n")
     def loop_to2(self):
@@ -717,6 +725,7 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
         self.stand_default_loop_position(self.right_e,0,270)
         self.stand_default_loop_position(self.loop_sec_entry2,0,270)
         self.speedlimit_starter(self.loop_speed2)
+        self.no_more_bigger_interval()
         print('loop')
         range_index = 0
         primary_time =self.primary_time
@@ -791,8 +800,11 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
                         self.reserved_2.get(),self.sp_variable_loop9,
                         ]
                 range_index += 1
+
                 print(self.model)
-                print(self.loop2)
+            # self.time_scale.set(self.primary_time)
+            # print(self.primary_time)
+
         except ValueError:
             messagebox.showwarning("ОШИБКА", "  НУЛЕВОЙ ИНТЕРВАЛ\n")
     def loop_to3(self):
@@ -1427,6 +1439,7 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
 
 
     def write_changes_to_sql(self):
+        #
         conn = sqlite3.connect(self.path)  # here will be avalibale data bases
         cursor = conn.cursor()
         for key,values in self.model.items():
@@ -1449,7 +1462,7 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
             cursor.execute(""" insert into`speed_7`values( % d)""" % (values[15]))
             cursor.execute(""" insert into`speed_8`values( % d)""" % (values[17]))
             cursor.execute(""" insert into`time`values( % s)""" % (key))
-
+            print(key,values)
 
         conn.commit()
         self.write_to_h()
