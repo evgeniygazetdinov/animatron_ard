@@ -13,6 +13,8 @@ from tkinter.messagebox import showinfo
 from default_positon import Default_position
 from player import Player
 from loop_check import LoopCheck
+from collections import OrderedDict
+
 
 class SERVO_MAN(Player,LoopCheck,Default_position):
     def __init__(self, master):
@@ -34,7 +36,7 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
         self.reserved_1 = 0
         self.reserved_2 = 0
         self.duration =180
-
+        self.count=0
         #################VALUES FOR TIMER##################################
         self.timer = False
         self.default_seconds = 0
@@ -286,6 +288,7 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
     def adden_key_to_model(self):
         #obtain values from windows
         self.default()
+
         if '{}'.format(self.time_scale.get()*1000) in self.model:
             current = self.model['{}'.format(self.time_scale.get()*1000)]
             self.model['{}'.format(self.time_scale.get() * 1000)] = current
@@ -310,9 +313,14 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
             self.reserved_1.get(),round(self.speed_slider.get()),
             self.reserved_2.get(),round(self.speed_slider.get()),
                     ]}
+            
+            last_values= OrderedDict(self.model)
+            if (round(self.time_scale.get())) == sorted(last_values.keys())[-1]:
+                self.count=round(self.time_scale.get())
+                self.time_scale.set(self.count+1)
+
+
         print(self.model)
-
-
 
 
 
@@ -877,7 +885,7 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
     def loop_to4(self):
         # call to each calling func to
         self.stand_default_loop_position(self.right_hand,30,90)
-        self.stand_default_loop_position(self.loop_sec_entry1,30,90)
+        self.stand_default_loop_position(self.loop_sec_entry4,30,90)
         self.speedlimit_starter(self.loop_speed4)
 
         print('loop3')
@@ -1520,14 +1528,11 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
             # servo_1
             with open('template.h', 'w') as file:
                 file.writelines('int time_play={};\n'.format(self.duration*1000))
-                file.writelines('int speed_row1[] = {')
+                file.writelines('int speed_row[] = {')
                 file.writelines(str(sql_speed1))
                 file.writelines('};\n')
                 file.writelines('int speed_row2[] = {')
                 file.writelines(str(sql_speed2))
-                file.writelines('};\n')
-                file.writelines('int speed_row3[] = {')
-                file.writelines(str(sql_speed3))
                 file.writelines('};\n')
                 file.writelines('int speed_row3[] = {')
                 file.writelines(str(sql_speed3))
@@ -1653,7 +1658,8 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
         self.duration_label = tk.Label(self.master,text = "%2.2d:%2.2d"%(minutes,sec)).grid(column=8,row =12)
 
         self.name_song_label = tk.Label(self.master,text = name).grid(column=9,row =12)
-        self.current_music.configure(text='музыка :  ')
+        self.current_music.configure(text='музыка :выбрана')
+        self.current_music.grid(row=11, column=6,columnspan=20)
         self.choose_current_music.grid(row=11, column=9,columnspan=10)
 
 
