@@ -41,20 +41,10 @@ class new_base:
             cursor.execute(
                 'CREATE TABLE  servo_{} (servo{}_pos integer );'.format(i,i))
             cursor.execute(
-                'CREATE TABLE  speed{} (speedloop{} integer );'.format(i, i))
-        cursor.execute(
-            'CREATE TABLE  speed_common (speed_common_pos integer );')
+                'CREATE TABLE  speed_{} (speed{}_pos integer );'.format(i, i))
+
         cursor.execute(
             'CREATE TABLE  time (time_pos integer );')
-
-        # cursor.execute('''INSERT INTO time (time_pos) VALUES (0)	;''')
-        # cursor.execute('''INSERT INTO speed (speed_pos) VALUES (0)	;''')
-        # cursor.execute('''INSERT INTO servo_9 (servo9_pos) VALUES (20)	;''')
-        # for i in range(1,9,1):
-        #     cursor.execute('''INSERT INTO servo_{} (servo{}_pos) VALUES (20)	;
-        #     '''.format(i,i))
-
-            #:****
         con.commit()
         call('mv {}.db /home/qbc/PycharmProjects/ard/scenario/'.format(self.db_name.get()),shell =True)
         db='{}'.format(self.db_name.get())
@@ -64,4 +54,3 @@ class new_base:
                                            " ВЫБРАТЬ СЦЕНАРИЙ ")
     def cancell(self):
         self.master.destroy()
-
