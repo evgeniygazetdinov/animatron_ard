@@ -12,14 +12,13 @@ from db_input import *
 from tkinter.messagebox import showinfo
 from default_positon import Default_position
 from player import Player
-
 from collections import OrderedDict
 
 
 class SERVO_MAN(Player,Default_position):
     def __init__(self, master):
         self.master = master
-        self.master.geometry('800x400')
+        self.master.geometry('950x380')
         self.frame = tk.Frame(self.master)
         self.frame.grid_rowconfigure(0, weight=1)
         self.frame.grid_columnconfigure(0, weight=1)
@@ -174,7 +173,7 @@ class SERVO_MAN(Player,Default_position):
         self.button = ttk.Button(self.master,
                                  text='записать позиции',
                                  command = self.adden_key_to_model)
-        self.button.grid(row=10, column=3)
+        self.button.grid(row=10, column=3,columnspan=1)
         self.button_save = ttk.Button(self.master,
                             text='сохранить сценарий ',
                             command=self.write_changes_to_sql
@@ -196,13 +195,20 @@ class SERVO_MAN(Player,Default_position):
         self.choose_current_music =ttk.Button(self.master,
                                               text = 'музыка',
                                               command = self.add_music_return_duration)
+        self.show_last_values = Listbox(self.master, width=62, height=5,selectmode=tk.MULTIPLE)
+        self.show_last_values_label = Label(text = 'последние значения').grid(row=16, column=8,columnspan=15)
+        self.show_last_values.grid(row=17 ,column=8,rowspan=8,columnspan=12)
+
+
         self.choose_current_music.grid(row=11, column=9,columnspan=15)
 
         self.current_music.grid(row=11, column=7,columnspan=3,)
 
         self.sql_model_upload = ttk.Button(self.master,
-                                           text = 'проиграть  существующий сценарий',
+                                           text = 'проиграть существующий сценарий',
                                            command = self._play_exist_sql)
+        self.clean_model_button = ttk.Button(self.master,text = 'удалить',
+                                             command =self.clean_model).grid(row=10, column=3,columnspan=6)
         self.sql_model_upload.grid(row=12, column=8,columnspan=15)
 
         self.label_time = ttk.Label(self.master)
@@ -232,7 +238,8 @@ class SERVO_MAN(Player,Default_position):
                                       from_=0, to=100,command=self.printspeed
                                       )
         self.speed_slider.grid(row=23, column=0,columnspan=3)
-
+        # bigin speed state 50
+        self.speed_slider.set(50)
 
         # stand default position for servo before start
         self.default()
@@ -247,18 +254,20 @@ class SERVO_MAN(Player,Default_position):
         self.loop9 = False
 
     def default(self):
+        # position before start state here
         #left_eye
         self.stand_default_position(self.angle_box1,0,270)
         #right_eye
         self.stand_default_position(self.angle_box2,0,270)
         # left sholder
-        self.stand_default_position(self.angle_box3,40,90)
+        self.stand_default_position(self.angle_box3,100,270)
         # right sholder
-        self.stand_default_position(self.angle_box4,40,90)
+        self.stand_default_position(self.angle_box4,100,270)
         # hand left
-        self.stand_default_position(self.angle_box5,30,90)
+
+        self.stand_default_position(self.angle_box5,100,270)
         # hand right
-        self.stand_default_position(self.angle_box6,30,90)
+        self.stand_default_position(self.angle_box6,120,270)
         # leg right
         self.stand_default_position(self.angle_box7,30,90)
         # leg left
@@ -323,7 +332,7 @@ class SERVO_MAN(Player,Default_position):
                 current[16] = self.reserved_2.get()
         else:
             # just add to model
-            self.model[round(self.time_scale.get())] = [
+            self.model[round(self.time_scale.get()*1000)] = [
             self.left_eye.get(), round(self.speed_slider.get()),
             self.right_e.get(),round(self.speed_slider.get()),
             self.right_sholder.get(),round(self.speed_slider.get()),
@@ -337,11 +346,11 @@ class SERVO_MAN(Player,Default_position):
             # plus one if slider dont move for remove usefull repeat values
             self.count+=1
             last_values = OrderedDict(self.model)
-            if (round(self.time_scale.get())) == sorted(last_values.keys())[-1]:
+            if (round(self.time_scale.get()*1000)) == sorted(last_values.keys())[-1]:
                 self.count = round(self.time_scale.get())
                 self.time_scale.set(self.count+1)
 
-
+        self.show_dict()
         print(self.model)
 
 
@@ -734,7 +743,10 @@ class SERVO_MAN(Player,Default_position):
 
                 range_index += 1
                 print(self.model)
+                self.show_dict()
             # self.time_scale.set(primary_time)
+            # if primary_time>0:
+            #     self.time_scale.set(self.final_time)
             # print(self.primary_time)
 
         except ValueError:
@@ -820,15 +832,15 @@ class SERVO_MAN(Player,Default_position):
                 range_index += 1
 
                 print(self.model)
-            #
+                self.show_dict()
             # self.time_scale.set(primary_time)
             # print(self.primary_time)
 
         except ValueError:
             messagebox.showwarning("ОШИБКА", "  НУЛЕВОЙ ИНТЕРВАЛ\n")
     def loop_to3(self):
-        self.stand_default_loop_position(self.right_sholder,40,90)
-        self.stand_default_loop_position(self.loop_sec_entry3,40,90)
+        # self.stand_default_loop_position(self.right_sholder,40,90)
+        # self.stand_default_loop_position(self.loop_sec_entry3,40,90)
         self.speedlimit_starter(self.loop_speed3)
         self.no_more_bigger_interval()
         print('loop3')
@@ -910,13 +922,13 @@ class SERVO_MAN(Player,Default_position):
                         self.reserved_2.get(),self.sp_variable_loop9]
                 range_index += 1
                 print(self.model)
-                print(self.loop1)
+                self.show_dict()
         except ValueError:
             messagebox.showwarning("ОШИБКА", "  НУЛЕВОЙ ИНТЕРВАЛ\n")
     def loop_to4(self):
         # call to each calling func to
-        self.stand_default_loop_position(self.right_hand,30,90)
-        self.stand_default_loop_position(self.loop_sec_entry4,30,90)
+        # self.stand_default_loop_position(self.right_hand,30,90)
+        # self.stand_default_loop_position(self.loop_sec_entry4,30,90)
         self.speedlimit_starter(self.loop_speed4)
         self.no_more_bigger_interval()
         print('loop3')
@@ -998,7 +1010,7 @@ class SERVO_MAN(Player,Default_position):
                         self.reserved_2.get(),self.sp_variable_loop9]
                 range_index += 1
                 print(self.model)
-                print(self.loop4)
+                self.show_dict()
         except ValueError:
             messagebox.showwarning("ОШИБКА", "  НУЛЕВОЙ ИНТЕРВАЛ\n")
     def loop_to5(self):
@@ -1086,7 +1098,7 @@ class SERVO_MAN(Player,Default_position):
                         self.reserved_2.get(),self.sp_variable_loop9]
                 range_index += 1
                 print(self.model)
-                print(self.loop5)
+                self.show_dict()
         except ValueError:
             messagebox.showwarning("ОШИБКА", "  НУЛЕВОЙ ИНТЕРВАЛ\n")
     def loop_to6(self):
@@ -1174,7 +1186,7 @@ class SERVO_MAN(Player,Default_position):
                         self.reserved_2.get(),self.sp_variable_loop9]
                 range_index += 1
                 print(self.model)
-                print(self.loop6)
+                self.show_dict()
         except ValueError:
             messagebox.showwarning("ОШИБКА", "  НУЛЕВОЙ ИНТЕРВАЛ\n")
     def loop_to7(self):
@@ -1262,7 +1274,7 @@ class SERVO_MAN(Player,Default_position):
                         self.reserved_2.get(),self.sp_variable_loop9]
                 range_index += 1
                 print(self.model)
-                print(self.loop1)
+                self.show_dict()
         except ValueError:
             messagebox.showwarning("ОШИБКА", "  НУЛЕВОЙ ИНТЕРВАЛ\n")
     def loop_to8(self):
@@ -1350,7 +1362,7 @@ class SERVO_MAN(Player,Default_position):
                         self.reserved_2.get(),self.sp_variable_loop9]
                 range_index += 1
                 print(self.model)
-                print(self.loop8)
+                self.show_dict()
         except ValueError:
             messagebox.showwarning("ОШИБКА", "  НУЛЕВОЙ ИНТЕРВАЛ\n")
     def loop_to9(self):
@@ -1437,7 +1449,7 @@ class SERVO_MAN(Player,Default_position):
                         self.loop_sec_entry9.get(),self.sp_variable_loop9]
                 range_index += 1
                 print(self.model)
-                print(self.loop1)
+                self.show_dict()
         except ValueError:
             messagebox.showwarning("ОШИБКА", "  НУЛЕВОЙ ИНТЕРВАЛ\n")
 
@@ -1666,7 +1678,19 @@ class SERVO_MAN(Player,Default_position):
             print(self.model)
         self.choose_db()
         self.write_to_h()
+    def clean_model(self):
+        try:
+            self.show_last_values.delete(0,END)
+            self.model.popitem()
+            print(self.model)
 
+        except KeyError:
+            messagebox.showwarning('ошибка','нет значений')
+        self.show_dict()
+    def show_dict(self):
+        # separate model for display on listb
+        base=str(self.model).split('],')
+        self.show_last_values.insert(END,base[-1])
 
 
 
