@@ -202,8 +202,8 @@ class SERVO_MAN(Player,Default_position):
 
         self.sql_model_upload = ttk.Button(self.master,
                                            text = 'проиграть  существующий сценарий',
-                                           command = self._play_exist_sql).grid(row=12, column=9,columnspan=15)
-
+                                           command = self._play_exist_sql)
+        self.sql_model_upload.grid(row=12, column=8,columnspan=15)
 
         self.label_time = ttk.Label(self.master)
         self.label_time.grid(row=11, column=3)
@@ -1707,7 +1707,7 @@ class SERVO_MAN(Player,Default_position):
         self.current_music.configure(text='музыка :выбрана')
         self.current_music.grid(row=11, column=6,columnspan=20)
         self.choose_current_music.grid(row=11, column=9,columnspan=10)
-
+        self.sql_model_upload.grid(row=13, column=8,columnspan=15)
 
 def main():
     root = tk.Tk()
