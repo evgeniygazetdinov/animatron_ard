@@ -2,6 +2,7 @@ from tkinter import IntVar
 import tkinter as tk
 from tkinter import ttk
 from tkinter.filedialog import askopenfilename,asksaveasfile
+from tkinter.messagebox import showinfo
 from tkinter import messagebox
 import threading
 import sqlite3
@@ -9,14 +10,15 @@ from subprocess import call, PIPE, Popen
 import shutil
 from sketchbooks.SW.run_servo import compiling
 from db_input import *
-from tkinter.messagebox import showinfo
+
 from default_positon import Default_position
 from player import Player
 from loop_shit import Looper
 from collections import OrderedDict
 
 
-class SERVO_MAN(Player,Default_position,new_base,Looper):
+class SERVO_MAN(Player,Default_position,
+                new_base,Looper):
     def __init__(self, master):
         self.master = master
         self.master.geometry('950x380')
@@ -109,7 +111,7 @@ class SERVO_MAN(Player,Default_position,new_base,Looper):
                                     textvariable=self.left_eye)
         self.angle_box1.grid(row=2, column=1)
         self.loop_l_e = ttk.Radiobutton(self.master,
-                                        command=self.check_loop
+                                        command=self.check_loop1
                                         ).grid(row=1, column=2, padx=10)
 
         self.lab_ser_2 = ttk.Label(self.master,text='глаз правый').grid(row=4, column=1)

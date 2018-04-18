@@ -1,5 +1,10 @@
 from collections import OrderedDict
-
+from tkinter import IntVar
+import tkinter as tk
+from tkinter import ttk
+from tkinter.filedialog import askopenfilename,asksaveasfile
+from tkinter.messagebox import showinfo
+from tkinter import messagebox
 
 
 
@@ -10,7 +15,7 @@ class Looper:
     def __init__(self):
         pass
 
-    def check_loop(self):
+    def check_loop1(self):
         # using self loop for indicate for for loop servo
         self.loop1 = True
         ###############
@@ -18,7 +23,7 @@ class Looper:
         newonfWindow.geometry('200x130')
         newonfWindow.title('цикл1')
         first_label = ttk.Label(newonfWindow, text='первый', borderwidth=3).grid(row=1, column=1)
-        self.left_eye = DoubleVar()
+        self.left_eye = IntVar()
         loop_le1 = ttk.Entry(newonfWindow, textvariable=self.left_eye, width=4)
         self.stand_default_position(loop_le1,0,150)
         loop_le1.grid(row=1, column=2)
@@ -435,14 +440,17 @@ class Looper:
 
 
     def most_bigger_loop_ever(self):
+
+        # define interval for looop
         min_interval = self.interval_comparer()
+        print(min_interval)
         #obtain values from windows
+
         while self.primary_time != self.final_time:
             # load default position
             self.default()
-            # if any button loop will be pushed ==> add sequance to model
-            self.loop_finder()
-            self.model[round(self.time_scale.get()*1000=+(min_interval*1000))] = [
+
+            self.model[round(self.time_scale.get()*1000+(min_interval*1000))] = [
             self.left_eye.get(), round(self.speed_slider.get()),
             self.right_e.get(),round(self.speed_slider.get()),
             self.right_sholder.get(),round(self.speed_slider.get()),
@@ -453,12 +461,13 @@ class Looper:
             self.reserved_1.get(),round(self.speed_slider.get()),
             self.reserved_2.get(),round(self.speed_slider.get()),]
             self.self.primary_time = self.model.key()
-
-            # plus one if slider dont move for remove usefull repeat values
-            last_values = OrderedDict(self.model)
-            self.counter=+1
-            if (round(self.time_scale.get()*1000)) in sorted(last_values.keys()):
-                self.counter = round(self.time_scale.get())
-                self.time_scale.set(min_interval)
+            # if any button loop will be pushed ==> add sequance to model
+            self.loop_finder()
+            # # plus one if slider dont move for remove usefull repeat values
+            # last_values = OrderedDict(self.model)
+            # self.counter=+1
+            # if (round(self.time_scale.get()*1000)) in sorted(last_values.keys()):
+            #     self.counter = round(self.time_scale.get())
+            #     self.time_scale.set(min_interval)
 
         self.show_dict()
