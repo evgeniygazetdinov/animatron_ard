@@ -4,6 +4,9 @@ from tkinter import ttk
 from tkinter import messagebox
 from subprocess import call
 import sqlite3
+from tkinter.filedialog import asksaveasfile
+
+
 
 
 class new_base:
@@ -35,6 +38,7 @@ class new_base:
     def create_newdb(self):
         call('mkdir scenario', shell=True)
         path = '{}.db'.format(self.db_name.get())
+
         con = sqlite3.connect(path)
         cursor = con.cursor()
         for i in range(9):
@@ -46,11 +50,23 @@ class new_base:
         cursor.execute(
             'CREATE TABLE  time (time_pos integer );')
         con.commit()
-        call('mv {}.db /home/qbc/PycharmProjects/ard/scenario/'.format(self.db_name.get()),shell =True)
-        db='{}'.format(self.db_name.get())
-        messagebox.showinfo("база данных", " База создана выберите ее \n "
-                                           "    из папки SCENARIO\n"
-                                           "       затем НАЖАТЬ   \n "
-                                           " ВЫБРАТЬ СЦЕНАРИЙ ")
+        call('mv {} /home/qbc/PycharmProjects/ard/scenario/'.format(path,shell =True))
+        print('returnpath')
+        return path
     def cancell(self):
         self.master.destroy()
+
+
+    def create_template(self):
+        path = 'template.db'
+        con = sqlite3.connect(path)
+        cursor = con.cursor()
+        for i in range(9):
+            cursor.execute(
+                'CREATE TABLE  servo_{} (servo{}_pos integer );'.format(i,i))
+            cursor.execute(
+                'CREATE TABLE  speed_{} (speed{}_pos integer );'.format(i, i))
+
+        cursor.execute(
+            'CREATE TABLE  time (time_pos integer );')
+        con.commit()

@@ -8,6 +8,8 @@ class Default_position:
         pass
 
 
+
+
     def stand_default_position(self,window,value,sec_value):
             if int(window.get()) < int(value) or int(window.get()) > int(sec_value):
                 window.delete(0, 'end')
@@ -20,8 +22,7 @@ class Default_position:
 # in w_v meaning is window variable(all 4 :2window and 2limit for each )
     def stand_default_loop_position(self,window1,first_w_v1,first_w_v2,):
         if int(window1.get()) < int(first_w_v1) or int(window1.get()) > int(first_w_v2):
-            window1.set(first_w_v2)
-
+            window1.set(first_w_v1)
             self.master.after(500,self.stand_default_loop_position(window1,first_w_v1,first_w_v2,))
 
 
@@ -36,5 +37,16 @@ class Default_position:
 
 
 
+
     def no_more_bigger_interval(self):
-        pass
+        if self.interval_fall_down < self.loop_int_entry.get():
+            self.interval_fall_down = self.loop_int_entry.get()
+            print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+        if self.interval_fall_down > self.loop_int_entry.get():
+            self.loop_int_entry.set(self.interval_fall_down)
+            print('=+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+
+    def zero_intervals(self):
+        value = self.loop_int_entry.get()
+        if self.loop_int_entry.get() <1 and self.loop_int_entry.get() !=0:
+            self.loop_int_entry.set(int(value))/10

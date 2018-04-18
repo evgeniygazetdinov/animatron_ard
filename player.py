@@ -82,14 +82,17 @@ class Player:
         pygame.mixer.music.play(-1, 0.0)
 
     def conventer_durability(self):
+
         tag = TinyTag.get(self.song)
         self.duration =  tag.duration
         self.fin_time = tag.duration
+        final_time =  tag.duration
         self.fin_time = int(self.fin_time)
         minutes = self.fin_time / 60
         sec = self.fin_time % 60
-        time =[round(minutes),':',round(sec)]
-        return time
+
+        return final_time
+
 
     def add(self):
         file = askopenfilename(filetypes=(("music", "*.mp3"),
