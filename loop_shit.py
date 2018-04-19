@@ -268,18 +268,20 @@ class Looper:
 
 
 
-    def count_clicks(self, calling_loop):
+    def count_clicks(self):
         # before loop count push
         self.count+= 1
+        print(self.count)
         # TODO ALL REFACTOR BELLOW
         if self.count == 1:
+            print(self.time_scale.get())
             self.primary_time = round(self.time_scale.get() * 1000)
             messagebox.showinfo("значение", "записано первое значение")
         if self.count== 2:
-            self.count = 0
             messagebox.showinfo("значение", "записано второе значение ")
+            print(self.time_scale.get())
             self.final_time = round(self.time_scale.get() * 1000)
-            calling_loop()  # space for another loops
+            self.count = 0
             self.most_bigger_loop_ever()
 
 
@@ -319,25 +321,27 @@ class Looper:
     def interval_comparer(self):
         # compare all intervat that find most tiny
         if self.loop1 == True:
-            self.intrval_finder()
+            return self.interval_finder()
         if self.loop2 == True:
-            self.intrval_finder()
+            return self.interval_finder()
         if self.loop3 == True:
-            self.intrval_finder()
+            return self.interval_finder()
         if self.loop4== True:
-            self.intrval_finder()
+            return self.interval_finder()
         if self.loop5 == True:
-            self.intrval_finder()
+            return self.interval_finder()
         if self.loop6 == True:
-            self.intrval_finder()
+            return self.interval_finder()
         if self.loop7 == True:
-            self.intrval_finder()
+            return self.interval_finder()
         if self.loop8 == True:
-            self.intrval_finder()
+            return self.interval_finder()
         if self.loop9 == True:
-            self.intrval_finder()
+            return self.interval_finder()
+        else:
+            return 1
 
-    def intrval_finder(self):
+    def interval_finder(self):
         # find most less interval from all loops
         min_key_binder = min(self.loop_int_entry1.get(),self.loop_int_entry2.get(),
                              self.loop_int_entry3.get(),self.loop_int_entry4.get(),
@@ -442,13 +446,16 @@ class Looper:
     def most_bigger_loop_ever(self):
 
         # define interval for looop
+
         min_interval = self.interval_comparer()
         print(min_interval)
         #obtain values from windows
 
+        print(self.primary_time)
+        print(self.final_time)
+        self.default()
         while self.primary_time != self.final_time:
             # load default position
-            self.default()
 
             self.model[round(self.time_scale.get()*1000+(min_interval*1000))] = [
             self.left_eye.get(), round(self.speed_slider.get()),
@@ -460,9 +467,14 @@ class Looper:
             self.right_leg.get(),round(self.speed_slider.get()),
             self.reserved_1.get(),round(self.speed_slider.get()),
             self.reserved_2.get(),round(self.speed_slider.get()),]
-            self.self.primary_time = self.model.key()
+            last_values = OrderedDict(self.model)
+            # self.self.primary_time = last_values.keys()[-1]
             # if any button loop will be pushed ==> add sequance to model
             self.loop_finder()
+            self.primary_time+min_interval
+        if self.primary_time != self.final_time:
+            break
+
             # # plus one if slider dont move for remove usefull repeat values
             # last_values = OrderedDict(self.model)
             # self.counter=+1

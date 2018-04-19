@@ -177,7 +177,7 @@ class SERVO_MAN(Player,Default_position,
                                     ).grid(row=12, column=3)
         self.button = ttk.Button(self.master,
                                  text='записать позиции',
-                                 command = self.most_bigger_loop_ever)
+                                 command = self.count_clicks)
         self.button.grid(row=10, column=3,columnspan=1)
         self.button_save = ttk.Button(self.master,
                             text='сохранить сценарий ',
@@ -573,6 +573,7 @@ class SERVO_MAN(Player,Default_position,
     def show_dict(self):
         # separate model for display on listb
         base=str(self.model).split('],')
+        print(base)
         self.show_last_values.insert(END,base[-1])
 
 
