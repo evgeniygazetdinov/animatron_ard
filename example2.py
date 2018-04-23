@@ -68,6 +68,7 @@ class EXAMPLER:
 
     def division_angles(self,interval_servo,angle_1,angle_2):
         # division angle depend on minimal interval
+#         add ordered dict
             min_interval = round(self.find_minimal_interval())
             division_angle = min_interval/interval_servo
             first_angle_for_execute  = division_angle/angle_1
