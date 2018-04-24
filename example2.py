@@ -12,15 +12,9 @@ class EXAMPLER:
         self.servo_angles_defaults = [90,50, 90,50, 90,50, 90,50, 90,50, 90,50, 90,50, 90,50, 90,50]
         self.sql_time = 1
         self.duration = 18000
+        self.counter  = 0
 
 
-    def time_finder(self):
-        # find difference between oldvalues keys and new ,return time execute inter
-        pass
-
-    def interval_devider(min_interval,interval_servo,angle_1,angle_2):
-        round(interval_servo)
-        pass
 
 
     def switcher(self,f,s):
@@ -29,6 +23,7 @@ class EXAMPLER:
 
 
     def generateNumber(self,num,over,shag,values):
+        # generate model execute for compare with servo execute
         model = {}
         for i in range(num,over,shag):
             model['{}'.format(i)] = values
@@ -41,11 +36,13 @@ class EXAMPLER:
 
 
     def create_intervals(self):
+        #obviously create list intervals of all servos
         my_randoms=[random.randrange(1,101,1) for _ in range (5)]
         return my_randoms
 
 
     def find_minimal_interval(self):
+        # compare all intervals
         my_intervals = self.create_intervals()
         min_interval = min(my_intervals)
         return min_interval
@@ -61,22 +58,50 @@ class EXAMPLER:
 
 
     def create_some_servo_angles(self):
+        # generate servo execute list
         servo_angle = self.generateNumber(0,10,5,self.servo_angles_defaults)
-
         return servo_angle
 
 
-    def division_angles(self,interval_servo,angle_1,angle_2):
+    def division_angles(self,interval_servo,angle,angle1):
         # division angle depend on minimal interval
-#         add ordered dict
-            min_interval = round(self.find_minimal_interval())
-            division_angle = min_interval/interval_servo
-            first_angle_for_execute  = division_angle/angle_1
-            second_angle_for_execute  = division_angle/angle_2
-            return first_angle_for_execute,second_angle_for_execute
+        min_interval = self.find_minimal_interval()
+        division_angle = min_interval/interval_servo
+        angle_for_execute  = division_angle/angle
+        second_angle_for_execute  =  division_angle/angle1
+        return angle_for_execute,second_angle_for_execute
+
+    def call_just_one_angle(self,interval_servo,angle,angle1):
+        # return one value by counter
+        self.counter +=1
+        if self.counter == 1 :
+            print("1")
+            return self.division_angles(interval_servo,angle,angle1)[0]
+        if self.counter == 2:
+            print("2")
+            self.counter = 0
+            return self.division_angles(interval_servo,angle,angle1)[1]
+
+
+    def calling_division_angle(self,interval_servo,angle,angle1,keys_value):
+        # func call each angle each iteration
+        for _ in range(len(keys_value)):
+            self.call_just_one_angle(interval_servo,angle,angle1)
 
 
 
+
+    def divider(self):
+        # use division angle  key - to - key
+        time_execute = self.create_min_keys()
+        servo_execute = self.create_some_servo_angles()
+        new_time_execute = OrderedDict(time_execute)
+        new_servo_execute = OrderedDict(servo_execute)
+        print('time_execute is '+str(new_time_execute.keys()))
+        print('servo_scale is '+str(new_servo_execute.keys()))
+        for  key  in new_time_execute.items():
+            key = self.calling_division_angle(5,88,77,new_time_execute)
+            print(new_time_execute)
 
 
     def comprassion(self,positon,number):
@@ -90,9 +115,6 @@ class EXAMPLER:
                 # division_angles()
                 time_execute[key][positon] = self.division_angles(4,number,number)
 
-
-                print('time_execute is '+str(time_execute))
-                print('servo_scale is '+str(servo_scale))
 
 
 
@@ -234,8 +256,7 @@ class EXAMPLER:
 
 
 caca =  EXAMPLER()
-# caca.writing()
-# compiling()
+
 
 
 
@@ -253,29 +274,4 @@ caca =  EXAMPLER()
 
 caca = EXAMPLER()
 
-caca.create_execute()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-############################################################################################################################################
+caca.divider()
