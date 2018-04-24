@@ -1,117 +1,167 @@
 from subprocess import call
 import shutil
 from sketchbooks.SW.run_servo import compiling
+from random import randint
+import random
+from collections import  OrderedDict
 
 class EXAMPLER:
     def __init__(self):
         i=10
         self.default_begin = [0,50, 0,50, 100,50, 100,50, 130,50, 30,50, 30,50, 30,50, 0,50]
+        self.servo_angles_defaults = [90,50, 90,50, 90,50, 90,50, 90,50, 90,50, 90,50, 90,50, 90,50]
         self.sql_time = 1
-        nu1=90
-        nu2=90
-        nu3=90
-        nu4=90
-        nu5=50
-        nu6=50
-        nu7=90
-        nu8=90
-        nu9=90
-        nu10=100
-        nu11=100
-        nu12=120
-        nu13=130
-        nu14=90
-        nu15=90
-        nu16=90
-        nu17=90
-        nu18=90
-        nu19 = 90
-        self.sql_speed3 = [nu1 for i in range(90)]
-        self.sql_speed4 = [nu2 for i in range(90)]
-        self.sql_speed5 = [nu3 for i in range(90)]
-        self.sql_speed6 = [nu4 for i in range(90)]
-        self.sql_speed7 = [nu5 for i in range(90)]
-        self.sql_speed8 = [nu6 for i in range(90)]
-        self.sql_speed9 = [nu7 for i in range(90)]
-        self.sql_servo_1 = [self.switcher(180,90) for i in range(45)]
-        self.sql_servo_2 = [self.switcher(180,90) for i in range(45)]
-        self.sql_servo_3 = [self.switcher(110,100) for i in range(45)]
-        self.sql_servo_4 = [nu12 for i in range(90)]
-        self.sql_servo_5 = [nu13 for i in range(90)]
-        self.sql_servo_6 = [nu14 for i in range(90)]
-        self.sql_servo_7 = [self.switcher(90,30) for i in range(45)]
-        self.sql_servo_8 = [self.switcher(30,90) for i in range(45)]
-        self.sql_servo_9 = [nu17 for i in range(90)]
-        self.sql_speed1 = [nu18 for i in range(90)]
-        self.sql_speed2 = [nu19 for i in range(90)]
-
-        self.time = self.generateNumber(0,18803,500),
-
-
         self.duration = 18000
-
-
-
-
-
-    #
-    # def time_on_swith(self,execute,interval):
-    #     execute/interval = keys
-    #     return keys
-    #     pass
-
-
-
-    def create_values(self):
-        values = {self.time_slider.get():[servo_1.get(),servo_2.get(),
-                                              servo_3.get(),servo_4.get(),
-                                              servo_5.get(),servo_6.get(),
-                                              servo_7.get(),servo_8.get(),
-                                              servo_9.get()]}
-        return values
-
-
-
-
-
-
-
-
-    def time_finder(self):
-        # find difference between oldvalues keys and new ,return time execute inter
-        pass
-
-    def interval_devider(min_interval,interval_servo,angle_1,angle_2):
-        round(interval_servo)
-        pass
-
-
-
-
-    def values_on_keys(self):
-        # return all keys to model with interval
-        execute = time_finder()
-
-    def interval_comparer(self):
-        # comprases all interval and return most tiny
-        pass
-
-
-    def inter(self,old_values,new_values):
-        old_values = create_values()
-        first_point = old_values
-        new_values = create_values()
-        second_point = new_values
-        intervals_comprasion(*intervals)
-        keys_creating(min_interval,time)
-        values_on_keys(first_point,second_point,values,keys)
-
+        self.counter  = 0
 
 
 
 
     def switcher(self,f,s):
         return f,s
+
+
+
+    def generateNumber(self,num,over,shag,values):
+        # generate model execute for compare with servo execute
+        model = {}
+        for i in range(num,over,shag):
+            model['{}'.format(i)] = values
+
+        return model
+
+
+
+
+
+
+    def create_intervals(self):
+        #obviously create list intervals of all servos
+        my_randoms=[random.randrange(1,101,1) for _ in range (5)]
+        return my_randoms
+
+
+    def find_minimal_interval(self):
+        # compare all intervals
+        my_intervals = self.create_intervals()
+        min_interval = min(my_intervals)
+        return min_interval
+
+
+    def create_min_keys(self):
+        min_interval = self.find_minimal_interval()
+        # create time scale with keys  and position
+        # time_execute = [self.generateNumber(oldvalues.key,new_values.key,interval)]
+        time_execute = self.generateNumber(0,15,min_interval,self.default_begin)
+
+        return time_execute
+
+
+    def create_some_servo_angles(self):
+        # generate servo execute list
+        servo_angle = self.generateNumber(0,10,5,self.servo_angles_defaults)
+        return servo_angle
+
+
+    def division_angles(self,interval_servo,angle):
+        # division angle depend on minimal interval
+        min_interval = 6
+        division_angle = min_interval/interval_servo
+        angle_for_execute  = division_angle/angle
+        return angle_for_execute
+
+    def call_just_one_angle(self,interval_servo,angle,angle1):
+        # return one value by counter
+        # fix just one TODO
+        self.counter +=1
+        print(self)
+        if self.counter == 1:
+            print(self.counter)
+            self.counter+1
+            return self.division_angles(interval_servo,angle)
+        if self.counter == 2:
+            print("2")
+            self.counter = 0
+            print(self.counter)
+            return self.division_angles(interval_servo,angle1)
+
+
+    def calling_division_angle(self,interval_servo,angle,angle1,keys_value):
+        # func call each angle each iteration
+        for  _ in range(keys_value):
+            number = self.call_just_one_angle(interval_servo,angle,angle1)
+            return number
+
+
+
+
+    def divider(self):
+        # use division angle  key - to - key
+        time_execute = self.create_min_keys()
+        servo_execute = self.create_some_servo_angles()
+        new_time_execute = OrderedDict(time_execute)
+        new_servo_execute = OrderedDict(servo_execute)
+        print('time_execute is '+str(new_time_execute.keys()))
+        print('servo_scale is '+str(new_servo_execute.keys()))
+        for key,value in new_time_execute.items():
+            value[3] = 5
+        print(new_time_execute)
+
+    def comprassion(self,positon,number):
+        # servo_scale meaning is scale for comprasion with  default scale in minimal interval
+        # he obtain values from servo scale and changed yourself.if servo angle doesn't have position between
+
+        time_execute = self.create_min_keys()
+        servo_scale = self.create_some_servo_angles()
+        for key in time_execute.keys():
+            if key in servo_scale.keys():
+                # division_angles()
+                time_execute[key][positon] = self.division_angles(4,number,number)
+
+
+
+
+
+
+
+
+
+
+    def create_execute(self):
+        execute = self.comprassion(0,99)
+        execute = self.comprassion(2,100)
+        execute = self.comprassion(4,120)
+        execute = self.comprassion(6,130)
+        execute = self.comprassion(8,190)
+        execute = self.comprassion(10,220)
+        execute = self.comprassion(12,320)
+        execute = self.comprassion(14,50)
+        execute = self.comprassion(16,999)
+        print(execute)
+        return execute
+
+    def use_execute(self):
+        execute = create_execute()
+        for key,value in execute.items():
+            self.sql_speed1 = value[1]
+            self.sql_speed2 = value[3]
+            self.sql_speed3 = value[5]
+            self.sql_speed4 = value[7]
+            self.sql_speed5 = value[9]
+            self.sql_speed6 = value[11]
+            self.sql_speed7 = value[13]
+            self.sql_speed8 = value[15]
+            self.sql_speed9 = value[17]
+            self.sql_servo_1 = value[0]
+            self.sql_servo_2 = value[2]
+            self.sql_servo_3 = value[4]
+            self.sql_servo_4 = value[6]
+            self.sql_servo_5 = value[8]
+            self.sql_servo_6 = value[10]
+            self.sql_servo_7 = value[12]
+            self.sql_servo_8 = value[14]
+            self.sql_servo_9 = value[16]
+
 
 
 
@@ -135,63 +185,6 @@ class EXAMPLER:
             line = line.replace(')]};', '')
             o.write(line)
         o.close()
-
-
-
-    def generateNumber(self,num,over,shag):
-        model = {}
-        for i in range(num,over,shag):
-            model['{}'.format(i)] = self.default_begin
-
-        return model
-
-    def create_min_keys(self,min_interval):
-        # create time scale with keys  and position
-        # time_execute = [self.generateNumber(oldvalues.key,new_values.key,interval)]
-        time_execute = [self.generateNumber(0,20000,min_interval)]
-        return time_execute
-
-
-    def create_servo_keys(self,min_interval):
-        pass
-
-
-
-    def division_angles(self,min_interval,interval_servo,angle_1,angle_2):
-        # division angle depend on minimal interval
-            division_angle = min_interval/interval_servo
-            first_angle_for_execute  = division_angle/angle_1
-            second_angle_for_execute  = division_angle/angle_2
-            return first_angle_for_execute,second_angle_for_execute
-
-    def comprassion(self,time_execute,servo_scale):
-        for key in servo_scale.keys():
-            if key in time_execute.keys():
-                self.division_angles(2,3,90,0)
-
-
-
-
-
-
-
-
-        # find similar keys and if find he changed,with
-        # # func take min_values,servos_keys and compassion with some servos keys keys for yourself if he find something he changed min_values
-        # crucial = {'eggs': '999','ham': '','cheese': '34'}
-        # # dishes = {'eggs': [2,435,35,77,33,64], 'sausage': 1, 'bacon': 1, 'spam': 500}
-        # for key in crucial.keys():
-        #     if key in dishes.keys():
-        #         # division_angles()
-        #         dishes['eggs'][-1]=43
-        #         print(dishes)
-
-
-
-
-
-
-
 
 
 
@@ -264,8 +257,6 @@ class EXAMPLER:
 
 
 caca =  EXAMPLER()
-# caca.writing()
-# compiling()
 
 
 
@@ -282,30 +273,6 @@ caca =  EXAMPLER()
 
 
 
+caca = EXAMPLER()
 
-
-
-
-
-# caca.create_min_keys(2)
-caca.comprassion()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-############################################################################################################################################
+print(caca.divider())
