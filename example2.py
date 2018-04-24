@@ -93,6 +93,14 @@ class EXAMPLER:
             return number
 
 
+    def saw(self,first_begin_angle,second_begin_angle):
+        # sawer angles and reducting all sequence
+        first_begin_angle5
+
+
+
+
+
 
 
     def divider(self):
@@ -107,16 +115,16 @@ class EXAMPLER:
             value[3] = 5
         print(new_time_execute)
 
-    def comprassion(self,positon,number):
-        # servo_scale meaning is scale for comprasion with  default scale in minimal interval
-        # he obtain values from servo scale and changed yourself.if servo angle doesn't have position between
-
-        time_execute = self.create_min_keys()
-        servo_scale = self.create_some_servo_angles()
-        for key in time_execute.keys():
-            if key in servo_scale.keys():
-                # division_angles()
-                time_execute[key][positon] = self.division_angles(4,number,number)
+    # def comprassion(self,positon,number):
+    #     # servo_scale meaning is scale for comprasion with  default scale in minimal interval
+    #     # he obtain values from servo scale and changed yourself.if servo angle doesn't have position between
+    #
+    #     time_execute = self.create_min_keys()
+    #     servo_scale = self.create_some_servo_angles()
+    #     for key in time_execute.keys():
+    #         if key in servo_scale.keys():
+    #             # division_angles()
+    #             time_execute[key][positon] = self.division_angles(4,number,number)
 
 
 
