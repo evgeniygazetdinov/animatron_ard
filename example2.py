@@ -13,14 +13,13 @@ class EXAMPLER:
         self.sql_time = 1
         self.duration = 18000
         self.counter  = 0
-
+        # variable for save default keys quantity
+        self.key = 10
 
 
 
     def switcher(self,f,s):
         return f,s
-
-
 
     def generateNumber(self,num,over,shag,values):
         # generate model execute for compare with servo execute
@@ -63,84 +62,81 @@ class EXAMPLER:
         return servo_angle
 
 
-    def division_angles(self,interval_servo,angle,angle1):
-        # division angle depend on minimal interval
-        min_interval = self.find_minimal_interval()
-        division_angle = min_interval/interval_servo
-        angle_for_execute  = division_angle/angle
-        second_angle_for_execute  =  division_angle/angle1
-        return angle_for_execute,second_angle_for_execute
-
-    def call_just_one_angle(self,interval_servo,angle,angle1):
+    def call_just_one_angle(self,one_angle,another_angle):
         # return one value by counter
+        # fix just one TODO
         self.counter +=1
-        if self.counter == 1 :
-            print("1")
-            return self.division_angles(interval_servo,angle,angle1)[0]
+        if self.counter == 1:
+            self.counter+1
+            return one_angle
         if self.counter == 2:
-            print("2")
             self.counter = 0
-            return self.division_angles(interval_servo,angle,angle1)[1]
-
-
-    def calling_division_angle(self,interval_servo,angle,angle1,keys_value):
-        # func call each angle each iteration
-        for _ in range(len(keys_value)):
-            self.call_just_one_angle(interval_servo,angle,angle1)
+            return another_angle
 
 
 
-
-    def divider(self):
-        # use division angle  key - to - key
-        time_execute = self.create_min_keys()
-        servo_execute = self.create_some_servo_angles()
-        new_time_execute = OrderedDict(time_execute)
-        new_servo_execute = OrderedDict(servo_execute)
-        print('time_execute is '+str(new_time_execute.keys()))
-        print('servo_scale is '+str(new_servo_execute.keys()))
-        for  key  in new_time_execute.items():
-            key = self.calling_division_angle(5,88,77,new_time_execute)
-            print(new_time_execute)
-
-
-    def comprassion(self,positon,number):
-        # servo_scale meaning is scale for comprasion with  default scale in minimal interval
-        # he obtain values from servo scale and changed yourself.if servo angle doesn't have position between
-
-        time_execute = self.create_min_keys()
-        servo_scale = self.create_some_servo_angles()
-        for key in time_execute.keys():
-            if key in servo_scale.keys():
-                # division_angles()
-                time_execute[key][positon] = self.division_angles(4,number,number)
+    def keys_finder(self):
+        # first place for global values
+        self.key = len(self.create_min_keys())
+        print('HUEC'+(str(len(self.create_min_keys()))))
 
 
 
 
+    def divider_angle(self,basic_angle):
+        # self.keys_finder()
+        some_execute = []
+        begin = basic_angle
+        final = basic_angle
+        # min_interval = self.find_minimal_interval()
+        min_interval = 0.2
+        div_angle = basic_angle/min_interval
+        print(basic_angle)
+        for _ in range(self.key):
+            basic_angle += div_angle
+            print(basic_angle)
+            some_execute.append(basic_angle)
+            if basic_angle == final:
+                basic_angle -= div_angle
+                print('== final')
+                if basic_angle < begin:
+                    div_angle += basic_angle
+                    print('basic_angle <begin')
+                if basic_angle > final:
+                    basic_angle -= div_angle
+                    print("basic_angle > ")
+        return some_execute
 
-
-
-
+    def servo_on_min_interval(self,number,number_number,position):
+        for f in range(self.keys):
+            digit = self.call_just_one_angle(number,number_number)
+            servo_execute = self.divider_angle(number)
+            execute = self.create_min_keys()
+            for i in range(self.key):
+                execute[position] = reversed(servo_execute[-1])
 
 
     def create_execute(self):
-        min_interval = self.create_min_keys()
-        servo_angle = self.create_some_servo_angles()
-        execute = self.comprassion(0,99)
-        execute = self.comprassion(2,100)
-        execute = self.comprassion(4,120)
-        execute = self.comprassion(6,130)
-        execute = self.comprassion(8,190)
-        execute = self.comprassion(10,220)
-        execute = self.comprassion(12,320)
-        execute = self.comprassion(14,50)
-        execute = self.comprassion(16,999)
+        execute = self.servo_on_min_interval(0,99,1)
+        execute = self.servo_on_min_interval(2,100,2)
+        execute = self.servo_on_min_interval(4,120,3)
+        execute = self.servo_on_min_interval(6,130,4)
+        execute = self.servo_on_min_interval(8,190,5)
+        execute = self.servo_on_min_interval(10,220,6)
+        execute = self.servo_on_min_interval(12,320,7)
+        execute = self.servo_on_min_interval(14,50,8)
+        execute = self.servo_on_min_interval(16,999,9)
         print(execute)
         return execute
 
+    def big_while(self):
+
+        scale = self.create_execute()
+        print(scale)
+        return scale
+
     def use_execute(self):
-        execute = create_execute()
+        execute = self.big_while()
         for key,value in execute.items():
             self.sql_speed1 = value[1]
             self.sql_speed2 = value[3]
@@ -152,14 +148,14 @@ class EXAMPLER:
             self.sql_speed8 = value[15]
             self.sql_speed9 = value[17]
             self.sql_servo_1 = value[0]
-            self.sql_servo_2 = value[0]
-            self.sql_servo_3 = value[0]
-            self.sql_servo_4 = value[0]
-            self.sql_servo_5 = value[0]
-            self.sql_servo_6 = value[0]
-            self.sql_servo_7 = value[0]
-            self.sql_servo_8 = value[0]
-            self.sql_servo_9 = value[0]
+            self.sql_servo_2 = value[2]
+            self.sql_servo_3 = value[4]
+            self.sql_servo_4 = value[6]
+            self.sql_servo_5 = value[8]
+            self.sql_servo_6 = value[10]
+            self.sql_servo_7 = value[12]
+            self.sql_servo_8 = value[14]
+            self.sql_servo_9 = value[16]
 
 
 
@@ -273,5 +269,63 @@ caca =  EXAMPLER()
 
 
 caca = EXAMPLER()
+print(caca.divider_angle(3))
 
-caca.divider()
+
+
+
+
+
+
+
+
+    #
+    # def division_angles(self,interval_servo,angle):
+    #     # division angle depend on minimal interval
+    #     min_interval = 6
+    #     division_angle = min_interval/interval_servo
+    #     angle_for_execute  = division_angle/angle
+    #     return angle_for_execute
+
+
+
+    # def calling_division_angle(self,interval_servo,angle,angle1,keys_value):
+    #     # func call each angle each iteration
+    #     for  _ in range(keys_value):
+    #         print(self.call_just_one_angle(interval_servo,angle,angle1))
+
+
+    #
+    #
+    # def anglw_returner(self,angle,angle_angle):
+    #     returner = True
+    #     if
+    #     return angle
+    #
+
+
+
+
+    #
+    # def divider(self):
+    #     # use division angle  key - to - key
+    #     time_execute = self.create_min_keys()
+    #     servo_execute = self.create_some_servo_angles()
+    #     new_time_execute = OrderedDict(time_execute)
+    #     new_servo_execute = OrderedDict(servo_execute)
+    #     print('time_execute is '+str(new_time_execute.keys()))
+    #     print('servo_scale is '+str(new_servo_execute.keys()))
+    #     for key,value in new_time_execute.items():
+    #         value[3] = 5
+    #     print(new_time_execute)
+
+    # def comprassion(self,positon,number):
+    #     # servo_scale meaning is scale for comprasion with  default scale in minimal interval
+    #     # he obtain values from servo scale and changed yourself.if servo angle doesn't have position between
+    #
+    #     time_execute = self.create_min_keys()
+    #     servo_scale = self.create_some_servo_angles()
+    #     for key in time_execute.keys():
+    #         if key in servo_scale.keys():
+    #             # division_angles()
+    #             time_execute[key][positon] = self.division_angles(4,number,number)
