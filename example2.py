@@ -79,7 +79,8 @@ class EXAMPLER:
         # first place for global values
         self.key = len(self.create_min_keys())
         print('HUEC'+(str(len(self.create_min_keys()))))
-
+    def servo_key_finder(self):
+        pass
 
 
 
@@ -87,24 +88,34 @@ class EXAMPLER:
         # self.keys_finder()
         some_execute = []
         begin = basic_angle
-        final = basic_angle
+        over = 0
         # min_interval = self.find_minimal_interval()
         min_interval = 0.2
-        div_angle = basic_angle/min_interval
-        print(basic_angle)
-        for _ in range(self.key):
-            basic_angle += div_angle
-            print(basic_angle)
+        interval_servo = 0.6
+        interval_div = min_interval/interval_servo
+        div_angle = basic_angle/interval_div
+        print(div_angle)
+        while True:
+            basic_angle -= int(div_angle)
+            if basic_angle <= over :
+                basic_angle += int(div_angle)
+            if basic_angle == begin:
+                basic_angle -= int(div_angle)
+
+
+
+
+
+
+
+
+            #     if basic_angle < begin:
+            #         div_angle += basic_angle
+            #         print('basic_angle <begin')
+            #     if basic_angle > final:
+            #         basic_angle -= div_angle
+            #         print("basic_angle > ")
             some_execute.append(basic_angle)
-            if basic_angle == final:
-                basic_angle -= div_angle
-                print('== final')
-                if basic_angle < begin:
-                    div_angle += basic_angle
-                    print('basic_angle <begin')
-                if basic_angle > final:
-                    basic_angle -= div_angle
-                    print("basic_angle > ")
         return some_execute
 
     def servo_on_min_interval(self,number,number_number,position):
@@ -269,7 +280,7 @@ caca =  EXAMPLER()
 
 
 caca = EXAMPLER()
-print(caca.divider_angle(3))
+print(caca.divider_angle(100))
 
 
 
