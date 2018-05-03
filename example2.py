@@ -190,7 +190,7 @@ class EXAMPLER:
         interval = round(basic_angle / interval_div)
         some_execute = [div_angle]
         for _ in range(self.key):
-            if div_angle => basic_angle:
+            if div_angle >= basic_angle:
                 interval *= -1
             div_angle += interval
             if div_angle <= 0:
@@ -225,9 +225,6 @@ class EXAMPLER:
            execution[key][position_6] = servo_execute6[i]
            execution[key][position_7] = servo_execute7[i]
            execution[key][position_8] = servo_execute8[i]
-
-
-
        return execution
 
 
@@ -245,7 +242,7 @@ class EXAMPLER:
         return scale
 
     def use_execute(self):
-        execute = self.servo_on_min_interval(90,91,92,
+        execute = self.servo_on_min_interval(198,91,92,
                                   93,94,95,
                                   96,97,98,
                                   0,2,4,6,
