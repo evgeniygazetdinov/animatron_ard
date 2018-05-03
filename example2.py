@@ -13,14 +13,96 @@ class EXAMPLER:
         self.sql_time = 1
         self.duration = 18000
         self.counter  = 0
-
-
+        # variable for save default keys quantity
+        self.key = 84
+        self.execution = {'0': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                     '1': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                      '2': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                       '3': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                        '4': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                         '5': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                          '6': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                           '7': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                            '8': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                             '9': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                             '10': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                              '11': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                              '12': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                               '13': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                '14': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                 '15': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                  '16': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                   '17': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                    '18': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                     '19': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                     '20': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                      '21': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                       '22': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                        '23': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                         '24': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50,30, 50, 0, 50],
+                                          '25': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                           '26': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                            '27': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                             '28': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                              '29': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                               '30': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                '31': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                 '32': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                  '33': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                   '34': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                    '35': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                     '36': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30,50, 30, 50, 30, 50, 0, 50],
+                                                      '37': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                       '38': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                        '39': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                         '40': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                          '41': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                           '42': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                            '43': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                             '44': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                              '45': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                               '46': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                               '47': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                '48': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                '49': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                '50': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                 '51': [0, 50, 0, 50, 100, 50, 100, 50,130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                 '52': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                 '53': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                 '54': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                 '55': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                 '56': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                 '57': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                 '58': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                 '59': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                 '60': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                 '61': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                 '62': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                  '63': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                   '64': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                    '65': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                    '66': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                    '67': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                    '68': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                    '69': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                    '70': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                    '71': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                    '72': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                    '73': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                    '74': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                    '75': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                    '76': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                    '77': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                    '78': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                    '79': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                     '80': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                      '81': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                       '82': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
+                                                                        '83': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50]}
 
 
     def switcher(self,f,s):
         return f,s
-
-
 
     def generateNumber(self,num,over,shag,values):
         # generate model execute for compare with servo execute
@@ -31,13 +113,9 @@ class EXAMPLER:
         return model
 
 
-
-
-
-
     def create_intervals(self):
         #obviously create list intervals of all servos
-        my_randoms=[random.randrange(1,101,1) for _ in range (5)]
+        my_randoms=[random.randrange(1,101,1) for _ in range (100)]
         return my_randoms
 
 
@@ -49,11 +127,8 @@ class EXAMPLER:
 
 
     def create_min_keys(self):
-        min_interval = self.find_minimal_interval()
-        # create time scale with keys  and position
-        # time_execute = [self.generateNumber(oldvalues.key,new_values.key,interval)]
-        time_execute = self.generateNumber(0,15,min_interval,self.default_begin)
-
+        min_interval = 0.2
+        time_execute = self.generateNumber(0,80,1,self.default_begin)
         return time_execute
 
 
@@ -63,93 +138,95 @@ class EXAMPLER:
         return servo_angle
 
 
-    def division_angles(self,interval_servo,angle):
-        # division angle depend on minimal interval
-        min_interval = 6
-        division_angle = min_interval/interval_servo
-        angle_for_execute  = division_angle/angle
-        return angle_for_execute
-
-    def call_just_one_angle(self,interval_servo,angle,angle1):
+    def call_just_one_angle(self,one_angle,another_angle):
         # return one value by counter
         # fix just one TODO
         self.counter +=1
-        print(self)
         if self.counter == 1:
-            print(self.counter)
             self.counter+1
-            return self.division_angles(interval_servo,angle)
+            return one_angle
         if self.counter == 2:
-            print("2")
             self.counter = 0
-            print(self.counter)
-            return self.division_angles(interval_servo,angle1)
-
-
-    def calling_division_angle(self,interval_servo,angle,angle1,keys_value):
-        # func call each angle each iteration
-        for  _ in range(keys_value):
-            number = self.call_just_one_angle(interval_servo,angle,angle1)
-            return number
-
-
-    def saw(self,first_begin_angle,second_begin_angle):
-        # sawer angles and reducting all sequence
-        first_begin_angle5
+            return another_angle
 
 
 
+    def keys_finder(self):
+        # first place for global values
+        self.key = len(self.create_min_keys())
+        print('HUEC'+(str(len(self.create_min_keys()))))
+    def servo_key_finder(self):
+        pass
+
+    def divider_angle(self,basic_angle):
+        min_interval = 0.2
+        interval_servo = 0.6
+        interval_div = int((interval_servo * 10) / (min_interval * 10))
+        div_angle = 0
+        interval = round(basic_angle / interval_div)
+        some_execute = [div_angle]
+        for _ in range(self.key):
+            if div_angle >= basic_angle:
+                interval *= -1
+            div_angle += interval
+            if div_angle <= 0:
+                interval *= -1
+            some_execute.append(div_angle)
+
+        return some_execute
+    def servo_on_min_interval(self,number,number_1,number_2,
+                              number_3,number_4,number_5,
+                              number_6,number_7,number_8,
+                              position,position_1,position_2,
+                              position_3,position_4,position_5,
+                              position_6,position_7,position_8):
+       execution = self.execution
+       servo_execute = self.divider_angle(number)
+       servo_execute1 = self.divider_angle(number_1)
+       servo_execute2 = self.divider_angle(number_2)
+       servo_execute3 = self.divider_angle(number_3)
+       servo_execute4 = self.divider_angle(number_4)
+       servo_execute5 = self.divider_angle(number_5)
+       servo_execute6 = self.divider_angle(number_6)
+       servo_execute7 = self.divider_angle(number_7)
+       servo_execute8 = self.divider_angle(number_8)
+
+       for i, key in enumerate(execution):
+           execution[key][position] = servo_execute[i]
+           execution[key][position_1] = servo_execute1[i]
+           execution[key][position_2] = servo_execute2[i]
+           execution[key][position_3] = servo_execute3[i]
+           execution[key][position_4] = servo_execute4[i]
+           execution[key][position_5] = servo_execute5[i]
+           execution[key][position_6] = servo_execute6[i]
+           execution[key][position_7] = servo_execute7[i]
+           execution[key][position_8] = servo_execute8[i]
 
 
 
-
-    def divider(self):
-        # use division angle  key - to - key
-        time_execute = self.create_min_keys()
-        servo_execute = self.create_some_servo_angles()
-        new_time_execute = OrderedDict(time_execute)
-        new_servo_execute = OrderedDict(servo_execute)
-        print('time_execute is '+str(new_time_execute.keys()))
-        print('servo_scale is '+str(new_servo_execute.keys()))
-        for key,value in new_time_execute.items():
-            value[3] = 5
-        print(new_time_execute)
-
-    # def comprassion(self,positon,number):
-    #     # servo_scale meaning is scale for comprasion with  default scale in minimal interval
-    #     # he obtain values from servo scale and changed yourself.if servo angle doesn't have position between
-    #
-    #     time_execute = self.create_min_keys()
-    #     servo_scale = self.create_some_servo_angles()
-    #     for key in time_execute.keys():
-    #         if key in servo_scale.keys():
-    #             # division_angles()
-    #             time_execute[key][positon] = self.division_angles(4,number,number)
-
-
-
-
-
-
-
-
+       return execution
 
 
     def create_execute(self):
-        execute = self.comprassion(0,99)
-        execute = self.comprassion(2,100)
-        execute = self.comprassion(4,120)
-        execute = self.comprassion(6,130)
-        execute = self.comprassion(8,190)
-        execute = self.comprassion(10,220)
-        execute = self.comprassion(12,320)
-        execute = self.comprassion(14,50)
-        execute = self.comprassion(16,999)
-        print(execute)
+        execute = self.servo_on_min_interval(99,0)
+
+
+
         return execute
 
+    def big_while(self):
+
+        scale = self.create_execute()
+        print(scale)
+        return scale
+
     def use_execute(self):
-        execute = create_execute()
+        execute = self.servo_on_min_interval(90,180,33,
+                                  45,14,44,
+                                  66,32,99,
+                                  0,2,4,6,
+                                  8,10,12,
+                                  14,16)
         for key,value in execute.items():
             self.sql_speed1 = value[1]
             self.sql_speed2 = value[3]
@@ -169,7 +246,7 @@ class EXAMPLER:
             self.sql_servo_7 = value[12]
             self.sql_servo_8 = value[14]
             self.sql_servo_9 = value[16]
-
+            self.time = key
 
 
 
@@ -197,6 +274,7 @@ class EXAMPLER:
 
 
     def writing(self):
+        self.use_execute()
         with open('template.h', 'w') as file:
             file.writelines('int time_play={};\n'.format(self.duration))
             file.writelines('int speed_row[] = {')
@@ -282,5 +360,4 @@ caca =  EXAMPLER()
 
 
 caca = EXAMPLER()
-
-print(caca.divider())
+print(caca.writing())
