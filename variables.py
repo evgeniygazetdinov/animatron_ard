@@ -111,4 +111,4 @@ class Variables:
         # self.count=0
         # ############# constants for dictionaries###############
         self.model = {}
-        self.intervals_for_model = {}
+        self.intervals_for_model = []

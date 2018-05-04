@@ -13,10 +13,12 @@ from tkinter.messagebox import showinfo
 from default_positon import Default_position
 from player import Player
 from example2 import EXAMPLER
+from variables import Variables
 from collections import OrderedDict
 
 
-class SERVO_MAN(Player,Default_position,new_base,EXAMPLER):
+class SERVO_MAN(Variables,Player,Default_position,
+                new_base,EXAMPLER,):
     def __init__(self, master):
         self.master = master
         self.master.geometry('950x380')
@@ -24,207 +26,65 @@ class SERVO_MAN(Player,Default_position,new_base,EXAMPLER):
         self.frame.grid_rowconfigure(0, weight=1)
         self.frame.grid_columnconfigure(0, weight=1)
         self.master.title('серво менеджер')
-        self.duration =180
-        #
-        # ##########angles from window######################
-        self.left_eye = 0
-        self.right_e = 0
-        self.right_sholder = 0
-        self.right_hand = 0
-        self.left_hand = 0
-        self.left_leg = 0
-        self.right_leg = 0
-        self.reserved_1 = 0
-        self.reserved_2 = 0
-        # self.count=0
-        # self.counter =0
-        # #################VALUES FOR TIMER##################################
-        # self.timer = False
-        # self.default_seconds = 0
-        # self.timer_seconds = self.default_seconds
-        # self.sql_time = []
-        # self.time = 0
-        # #########values for changer default databases#########
-        # self.current_name_db = ''
-        # self.path = ''
-        ######## additional loop variables ##################
-        self.loop1 = False
-        self.loop2 = False
-        self.loop3 = False
-        self.loop4 = False
-        self.loop5 = False
-        self.loop6 = False
-        self.loop7 = False
-        self.loop8 = False
-        self.loop9 = False
-        ########################
-        self.loop_sec_entry1 = 0
-        self.loop_sec_entry2 = 0
-        self.loop_sec_entry3 = 0
-        self.loop_sec_entry4 = 0
-        self.loop_sec_entry5 = 0
-        self.loop_sec_entry6 = 0
-        self.loop_sec_entry7 = 0
-        self.loop_sec_entry8 = 0
-        self.loop_sec_entry9 = 0
-        ########################
-        #
-        # self.loop_speed1=0
-        # self.loop_speed2=0
-        # self.loop_speed3=0
-        # self.loop_speed4=0
-        # self.loop_speed5=0
-        # self.loop_speed6=0
-        # self.loop_speed7=0
-        # self.loop_speed8=0
-        # self.loop_speed9=0
-        #########################
-        self.loop_int_entry1 = 0
-        self.loop_int_entry2 = 0
-        self.loop_int_entry3 = 0
-        self.loop_int_entry4 = 0
-        self.loop_int_entry5 = 0
-        self.loop_int_entry6 = 0
-        self.loop_int_entry7 = 0
-        self.loop_int_entry8 = 0
-        self.loop_int_entry9 = 0
-        ######################
-        self.interval_1 = 0
-        self.interval_2 = 0
-        self.interval_3 = 0
-        self.interval_4 = 0
-        self.interval_5 = 0
-        self.interval_6 = 0
-        self.interval_7 = 0
-        self.interval_8 = 0
-        self.interval_9 = 0
-        ###################
-        self.angle_box1 = 0
-        self.angle_box2 = 0
-        self.angle_box3 = 0
-        self.angle_box4 = 0
-        self.angle_box5 = 0
-        self.angle_box6 = 0
-        self.angle_box7 = 0
-        self.angle_box8 = 0
-        self.angle_box9 = 0
-        ###################
-        self.lab_ser_1 = 0
-        self.lab_ser_2 = 0
-        self.lab_ser_3 = 0
-        self.lab_ser_4 = 0
-        self.lab_ser_5 = 0
-        self.lab_ser_6 = 0
-        self.lab_ser_7 = 0
-        self.lab_ser_8 = 0
-        self.lab_ser_9 = 0
-        ###################
-
-
-
-
-
-
-
-        # self.primary_time = 0
-        # self.final_time = 0
-        # self.interval_fall_down = 0
-        # self.count=0
-        # ############# constants for dictionaries###############
-        self.model = {}
-        self.intervals_for_model = {}
         ####################
+        # here unpack values from additional files  ===>variables
+        self.values()
         # TODO change this shit on func
-
         self.loop_l_e = ttk.Checkbutton(self.master,
                                         command = lambda: self.one_more_window(self.loop_sec_entry1,self.loop_l_e,2,2,5),
                                         offvalue = tk.DISABLED,onvalue = tk.NORMAL
                                         ).grid(row=1, column=2, padx=10)
-
-        self.lab_ser_2 = ttk.Label(self.master,text='глаз правый').grid(row=4, column=1)
-
         self.loop_r_e = ttk.Checkbutton(self.master,
                                         command = lambda: self.one_more_window(self.loop_sec_entry2,self.loop_r_e,5,2,5),
                                         offvalue = tk.DISABLED,onvalue = tk.NORMAL
                                         ).grid(row=4, column=2, padx=10)
-
-        self.lab_ser_3 = ttk.Label(self.master, text='плечо левое').grid(row=8, column=1)
-
         self.loop_r_s = ttk.Checkbutton(self.master).grid(row=8, column=2, padx=10)
-        self.lab_ser_4 = ttk.Label(self.master, text='плечо правое').grid(row=1, column=3, )
         self.loop_r_h = ttk.Checkbutton(self.master).grid(row=1, column=4, padx=10)
-        self.lab_ser_5 = ttk.Label(self.master, text='рука левая').grid(row=4, column=3)
-
         self.loop_r_l = ttk.Checkbutton(self.master).grid(row=4, column=4, padx=10)
-        self.lab_ser_6 = ttk.Label(self.master, text='рука правая').grid(row=8, column=3)
         self.loop_l_l = ttk.Checkbutton(self.master).grid(row=8, column=4, padx=10)
-
-        self.lab_ser_7 = ttk.Label(self.master, text='нога правая ').grid(row=1, column=6)
         self.loop_r_l = ttk.Checkbutton(self.master).grid(row=1, column=7, padx=10)
-        self.lab_ser_8 = ttk.Label(self.master, text='нога левая ').grid(row=4, column=6)
         self.loop_res = ttk.Checkbutton(self.master).grid(row=4, column=7, padx=10)
-        self.lab_ser_9 = ttk.Label(self.master, text='жопа ').grid(row=8, column=6)
         self.loop_res2 = ttk.Checkbutton(self.master).grid(row=8, column=7, padx=10)
         self.play_butt = ttk.Button(self.master,text='проиграть',).grid(row=12, column=3)
         self.button = ttk.Button(self.master, text='записать позиции')
         self.button.grid(row=10, column=3,columnspan=1)
-        self.button_save = ttk.Button(self.master,
-                            text='сохранить сценарий ').grid(row=11, column=3)
-
-
-        self.window_db = Listbox(self.master, width=28, height=8)
-        self.window_db.grid(row=2, column=8,rowspan=8,columnspan=10)
-        self.request_butt = ttk.Label(self.master, text='текущая база данных: не выбрана',)
-        self.request_butt .grid(row=10, column=8,columnspan=4)
-        self.current_music = ttk.Label(self.master, text='музыка : --  ',)
-        self.choose_current_music =ttk.Button(self.master,
-                                              text = 'музыка',
-                                             )
-        self.show_last_values = Listbox(self.master, width=62, height=5,selectmode=tk.MULTIPLE)
-        self.show_last_values_label = Label(text = 'последние значения').grid(row=16, column=8,columnspan=15)
-        self.show_last_values.grid(row=17 ,column=8,rowspan=8,columnspan=12)
-
-
+        self.button_save = ttk.Button(self.master,text='сохранить сценарий ').grid(row=11, column=3)
+        self.choose_current_music =ttk.Button(self.master,text = 'музыка',)
         self.choose_current_music.grid(row=11, column=9,columnspan=15)
-
-        self.current_music.grid(row=11, column=7,columnspan=3,)
-
-        self.sql_model_upload = ttk.Button(self.master,
-                                           text = 'проиграть существующий сценарий',
-                                          )
-        self.clean_model_button = ttk.Button(self.master,text = 'удалить',
-                                            ).grid(row=10, column=3,columnspan=6)
+        self.sql_model_upload = ttk.Button(self.master,text = 'проиграть существующий сценарий',)
+        self.clean_model_button = ttk.Button(self.master,text = 'удалить',).grid(row=10, column=3,columnspan=6)
         self.sql_model_upload.grid(row=12, column=8,columnspan=15)
-
-        self.label_time = ttk.Label(self.master)
-        self.label_time.grid(row=11, column=3)
-
-        self.time_scale = ttk.Scale(self.master,
-                                    orient='horizontal',
-                                    length=400,
-                                    from_=0, to=self.duration,
-                                    command = self.printime
-                                    )
-        self.time_scale.grid(row=19, column=0, columnspan=8)
-        # digit near "время"
-        self.time_label = ttk.Label(self.master, text="время").grid(row=17, column=1)
-
-        self.time_digit = ttk.Label(self.master)
-        self.time_digit.grid(row=17, column=0,rowspan=1,columnspan=7)
-
-        self.speed_label = ttk.Label(self.master, text="cкорость").grid(row=22, column=1)
-
-        self.speed_digit = ttk.Label(self.master)
-        self.speed_digit.grid(row=22, column=1,columnspan=6)
-
         self.speed_slider = ttk.Scale(self.master,
                                       orient="horizontal",
                                       length=100,
                                       from_=0, to=200,command=self.printspeed
                                       )
+        self.time_scale = ttk.Scale(self.master,orient='horizontal',length=400,from_=0, to=self.duration,
+                                    command = self.printime)
+        self.time_scale.grid(row=19, column=0, columnspan=8)
+        # digit near "время"
+
+
+        self.window_db = Listbox(self.master, width=28, height=8)
+        self.window_db.grid(row=2, column=8,rowspan=8,columnspan=10)
         self.speed_slider.grid(row=23, column=0,columnspan=3)
         # bigin speed state 50
         self.speed_slider.set(50)
+        self.show_last_values = Listbox(self.master, width=62, height=5,selectmode=tk.MULTIPLE)
+        self.show_last_values.grid(row=17 ,column=8,rowspan=8,columnspan=12)
+        self.request_butt = ttk.Label(self.master, text='текущая база данных: не выбрана',)
+        self.request_butt.grid(row=10, column=8,columnspan=4)
+        self.current_music = ttk.Label(self.master, text='музыка : --  ',)
+        self.current_music.grid(row=11, column=7,columnspan=3,)
+        self.time_label = ttk.Label(self.master, text="время").grid(row=17, column=1)
+        self.time_digit = ttk.Label(self.master)
+        self.time_digit.grid(row=17, column=0,rowspan=1,columnspan=7)
+        self.speed_label = ttk.Label(self.master, text="cкорость").grid(row=22, column=1)
+        self.speed_digit = ttk.Label(self.master)
+        self.speed_digit.grid(row=22, column=1,columnspan=6)
+        self.show_last_values_label = Label(text = 'последние значения').grid(row=16, column=8,columnspan=15)
+        self.label_time = ttk.Label(self.master)
+        self.label_time.grid(row=11, column=3)
 
         # create interval_window
         self.draw_entrys(self.loop_int_entry1,self.interval_1,2,2,5,
@@ -247,8 +107,16 @@ class SERVO_MAN(Player,Default_position,new_base,EXAMPLER):
                         self.right_leg,self.angle_box7,2,6,0,
                         self.reserved_1,self.angle_box8,5,6,0,
                         self.reserved_2,self.angle_box9,9,6,0)
-        self.draw_labels(self.lab_ser_1,'глаз левый',1,1)
 
+        self.draw_labels(self.lab_ser_1,'глаз левый',1,1,
+                         self.lab_ser_2,'глаз правый',4,1,
+                         self.lab_ser_3,'плечо левое',8,1,
+                         self.lab_ser_4,'плечо правое',1,3,
+                         self.lab_ser_5,'рука левая',4,3,
+                         self.lab_ser_6,'рука правая',8,3,
+                         self.lab_ser_7,'нога правая',1,6,
+                         self.lab_ser_8,'нога левая',4,6,
+                         self.lab_ser_9,'жопа',8,6)
 
 
 
@@ -260,8 +128,8 @@ class SERVO_MAN(Player,Default_position,new_base,EXAMPLER):
     # draw func
 
     def draw_label(self,name,text,row,column):
-        name = ttk.Label(self.master,text='{}'.format(text).grid(row=row, column=column))
-
+        name = ttk.Label(self.master,text='{}'.format(text))
+        name.grid(row=row, column=column)
     def draw_buttons(self,name,text,row,column,columnspan):
         name = ttk.Label(self.master, text='{}'.format(text))
         name.grid(row=row, column=column,columnspan=columnspan)
@@ -291,7 +159,15 @@ class SERVO_MAN(Player,Default_position,new_base,EXAMPLER):
         self.one_more_window(variable8,name8,row8,column8,pad8,)
         self.one_more_window(variable9,name9,row9,column9,pad9,)
 
-    def draw_labels(self,*args):
+    def draw_labels(self,name,text,row,column,
+                            name1,text1,row1,column1,
+                            name2,text2,row2,column2,
+                            name3,text3,row3,column3,
+                            name4,text4,row4,column4,
+                            name5,text5,row5,column5,
+                            name6,text6,row6,column6,
+                            name7,text7,row7,column7,
+                            name8,text9,row9,column9):
         self.draw_label(name,text,row,column)
         self.draw_label(name1,text1,row1,column1)
         self.draw_label(name2,text2,row2,column2)
@@ -316,7 +192,6 @@ class SERVO_MAN(Player,Default_position,new_base,EXAMPLER):
         # right sholder
         self.stand_default_position(self.angle_box4,100,270)
         # hand left
-
         self.stand_default_position(self.angle_box5,130,270)
         # hand right
         self.stand_default_position(self.angle_box6,30,270)
@@ -355,57 +230,29 @@ class SERVO_MAN(Player,Default_position,new_base,EXAMPLER):
     def adden_key_to_model(self):
         #obtain values from windows
         self.default()
-        # just change if key exist in model
-        if '{}'.format(self.time_scale.get()*1000) in self.model:
-            current = self.model['{}'.format(self.time_scale.get()*1000)]
-            self.model['{}'.format(self.time_scale.get() * 1000)] = current
-            current[0] = self.left_eye.get()
-            current[2] = self.right_e.get()
-            current[4] = self.right_sholder.get()
-            current[6] = self.right_hand.get()
-            current[8] = self.left_hand.get()
-            current[10] = self.left_leg.get()
-            current[12] = self.right_leg.get()
-            current[14] = self.reserved_1.get()
-            current[16] = self.reserved_2.get()
-            self.counter=+1
-            last_values = OrderedDict(self.model)
-            if (round(self.time_scale.get())) == sorted(last_values.keys())[-1]:
-                self.counter = round(self.time_scale.get())
-                self.time_scale.set(self.counter+1)
+        self.model[round(self.time_scale.get()*1000)] = [
+        self.left_eye.get(), round(self.speed_slider.get()),
+        self.right_e.get(),round(self.speed_slider.get()),
+        self.right_sholder.get(),round(self.speed_slider.get()),
+        self.right_hand.get(),round(self.speed_slider.get()),
+        self.left_hand.get(),round(self.speed_slider.get()),
+        self.left_leg.get(),round(self.speed_slider.get()),
+        self.right_leg.get(),round(self.speed_slider.get()),
+        self.reserved_1.get(),round(self.speed_slider.get()),
+        self.reserved_2.get(),round(self.speed_slider.get()),]
+        self.intervals_for_model.append(self.loop_int_entry1.get(),
+                                  self.loop_int_entry2.get(),
+                                  self.loop_int_entry3.get(),
+                                  self.loop_int_entry4.get(),
+                                  self.loop_int_entry5.get(),
+                                  self.loop_int_entry6.get(),
+                                  self.loop_int_entry7.get(),
+                                  self.loop_int_entry8.get(),
+                                  self.loop_int_entry9.get())
 
-        else:
-            # just add to model
-            self.model[round(self.time_scale.get()*1000)] = [
-            self.left_eye.get(), round(self.speed_slider.get()),
-            self.right_e.get(),round(self.speed_slider.get()),
-            self.right_sholder.get(),round(self.speed_slider.get()),
-            self.right_hand.get(),round(self.speed_slider.get()),
-            self.left_hand.get(),round(self.speed_slider.get()),
-            self.left_leg.get(),round(self.speed_slider.get()),
-            self.right_leg.get(),round(self.speed_slider.get()),
-            self.reserved_1.get(),round(self.speed_slider.get()),
-            self.reserved_2.get(),round(self.speed_slider.get()),
-                    ]
-            # plus one if slider dont move for remove usefull repeat values
-
-            last_values = OrderedDict(self.model)
-            self.counter=+1
-            if (round(self.time_scale.get()*1000)) in sorted(last_values.keys()):
-                self.counter = round(self.time_scale.get())
-                self.time_scale.set(self.counter+1)
 
         self.show_dict()
         print(self.model)
-
-
-
-    # loop func write loop from 4 values taken this from loop window.
-    #  and will do check for comparison values with exist to model 9 window and 18 checks
-    # very important saving sequense on second comparison.there obtain from second window values
-
-
-
 
     def count_clicks(self, calling_loop):
         self.count+= 1
