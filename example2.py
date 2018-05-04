@@ -189,12 +189,17 @@ class EXAMPLER:
         div_angle = 0
         interval = round(basic_angle / interval_div)
         some_execute = [div_angle]
-        for _ in range(self.key):
-            if div_angle >= basic_angle:
-                interval *= -1
+        for _ in range(10):
             div_angle += interval
-            if div_angle <= 0:
+            if div_angle > basic_angle:
                 interval *= -1
+                div_angle += interval
+                continue
+            if div_angle < 0:
+                interval *= -1
+                div_angle += interval
+                continue
+
             some_execute.append(div_angle)
 
         return some_execute
@@ -372,22 +377,7 @@ class EXAMPLER:
 
 
 
-caca =  EXAMPLER()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 caca = EXAMPLER()
-print(caca.writing())
+print(caca.divider_angle(95))
