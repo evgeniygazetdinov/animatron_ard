@@ -94,16 +94,15 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
         self.RESERVED_1 = 7
         self.RESERVED_2 = 8
 
-        self.LEFT_EYE_SPEED = 10
-        self.RIGHT_EYE_SPEED = 11
-        self.RIGHT_SHOLDER_SPEED = 12
-        self.RIGHT_HAND_SPEED = 13
-        self.LEFT_HAND_SPEED = 14
-        self.LEFT_LEG_SPEED = 15
-        self.RIGHT_LEG_SPEED = 16
-        self.RESERVED_1_SPEED = 17
-        self.RESERVED_2_SPEED = 18
-
+        self.loop1 = False
+        self.loop2 = False
+        self.loop3 = False
+        self.loop4 = False
+        self.loop5 = False
+        self.loop6 = False
+        self.loop7 = False
+        self.loop8 = False
+        self.loop9 = False
 
 
 
@@ -242,18 +241,37 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
 
         self.speed_sevos ={}
         self.model = {}
+        # to declare default values on new window
         self.default()
+###################for save variables beside loop by loop###################################################
+        self.sp_variable_loop1 = round(self.speed_slider.get())
+        self.sp_variable_loop2 = round(self.speed_slider.get())
+        self.sp_variable_loop3 = round(self.speed_slider.get())
+        self.sp_variable_loop4 = round(self.speed_slider.get())
+        self.sp_variable_loop5 = round(self.speed_slider.get())
+        self.sp_variable_loop6 = round(self.speed_slider.get())
+        self.sp_variable_loop7 = round(self.speed_slider.get())
+        self.sp_variable_loop8 = round(self.speed_slider.get())
+        self.sp_variable_loop9 = round(self.speed_slider.get())
     def default(self):
-        self.stand_default_position(self.angle_box1,0)
-        self.stand_default_position(self.angle_box2,0)
-        self.stand_default_position(self.angle_box3,0)
-        self.stand_default_position(self.angle_box4,0)
-        self.stand_default_position(self.angle_box5,0)
-        self.stand_default_position(self.angle_box6,0)
-        self.stand_default_position(self.angle_box7,30)
-        self.stand_default_position(self.angle_box8,30)
-        self.stand_default_position(self.angle_box9,0)
-
+        #left_eye
+        self.stand_default_position(self.angle_box1,0,270)
+        #right_eye
+        self.stand_default_position(self.angle_box2,0,270)
+        # left sholder
+        self.stand_default_position(self.angle_box3,0,270)
+        # right sholder
+        self.stand_default_position(self.angle_box4,0,270)
+        # hand left
+        self.stand_default_position(self.angle_box5,0,270)
+        # hand right
+        self.stand_default_position(self.angle_box6,0,270)
+        # leg right
+        self.stand_default_position(self.angle_box7,30,90)
+        # leg left
+        self.stand_default_position(self.angle_box8,30,90)
+        # ass
+        self.stand_default_position(self.angle_box9,0,270)
 
 
     def some_play(self):
@@ -289,20 +307,7 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
         if sec in self.model['scenario_stack']:
             self.update_view(self.model['scenario_stack'][sec])
 
-    def update_view(self,sec):
-        #for return old values from model
-        self.model = {
 
-                round(self.time_scale.get()): [
-                    self.left_eye.get(), self.right_e.get(),
-                    self.right_hand.get(), self.left_hand.get(),
-                    self.left_leg.get(), self.right_leg.get(),
-                    self.reserved_1.get(), self.reserved_2.get(),
-                    self.speed_slider.get()
-                ]
-
-        }
-        print(self.model)
 
 
 
@@ -327,39 +332,29 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
 
 
 
-
     def adden_key_to_model(self):
-        #obtain values from windows
-        self.default()
-        if '{}'.format(self.time_scale.get()*1000) in self.model:
-            current = self.model['{}'.format(self.time_scale.get()*1000)]
-            self.model['{}'.format(self.time_scale.get() * 1000)] = current
-            current[0] = self.left_eye.get()
-            current[1] = self.right_e.get()
-            current[2] = self.right_sholder.get()
-            current[3] = self.right_hand.get()
-            current[4] = self.left_hand.get()
-            current[5] = self.left_leg.get()
-            current[6] = self.right_leg.get()
-            current[7] = self.reserved_1.get()
-            current[8] = self.reserved_2.get()
-        else:
-            self.model[round(self.time_scale.get()*1000)]=[
-            self.left_eye.get(), self.right_e.get(),
-            self.right_sholder.get(),self.right_hand.get(),
-            self.left_hand.get(),self.left_leg.get(),
-            self.right_leg.get(),self.reserved_1.get(),
-            self.reserved_2.get(),round(self.speed_slider.get()),
+        #for return old values from model
+        self.model = {
 
-        ]
+                round(self.time_scale.get()): [
+                    self.left_eye.get(), round(self.speed_slider.get()),
+                    self.right_e.get(),round(self.speed_slider.get()),
+                    self.right_sholder.get(),round(self.speed_slider.get()),
+                    self.right_hand.get(),round(self.speed_slider.get()),
+                    self.left_hand.get(),round(self.speed_slider.get()),
+                    self.left_leg.get(),round(self.speed_slider.get()),
+                    self.right_leg.get(),round(self.speed_slider.get()),
+                    self.reserved_1.get(),round(self.speed_slider.get()),
+                    self.reserved_2.get(),round(self.speed_slider.get()),
+                ]
+        }
         print(self.model)
 
 
 
 
-
     def check_loop(self):
-        self.loop1 = True
+
         newonfWindow = tk.Toplevel(self.master)
         newonfWindow.geometry('200x130')
         newonfWindow.title('цикл1')
@@ -385,9 +380,9 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
         cancell_but = ttk.Button(newonfWindow, text='отмена', command=lambda: newonfWindow.destroy())
         cancell_but.grid(row=5, column=2)
         temp_time = ttk.Button(newonfWindow,text = 'засечь время',command= lambda: self.count_clicks(self.loop_to)).grid(row=5,column=1)
-        # self.speed_servey(self.check_loop,self.loop_speed1.get())
+
     def check_loop2(self):
-        self.loop2 = True
+
         newonfWindow = tk.Toplevel(self.master)
         newonfWindow.geometry('200x130')
         newonfWindow.title('цикл2')
@@ -417,7 +412,7 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
             row=5, column=1)
 
     def check_loop3(self):
-        self.loop3 = True
+
         newonfWindow = tk.Toplevel(self.master)
         newonfWindow.geometry('200x130')
         newonfWindow.title('цикл3')
@@ -448,7 +443,7 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
 
 
     def check_loop4(self):
-        self.loop4 = True
+
         newonfWindow = tk.Toplevel(self.master)
         newonfWindow.geometry('200x130')
         newonfWindow.title('цикл4')
@@ -477,7 +472,7 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
                                command=lambda: self.count_clicks(self.loop_to4)).grid(row=5, column=1)
 
     def check_loop5(self):
-        self.loop5 = True
+
         newonfWindow = tk.Toplevel(self.master)
         newonfWindow.geometry('200x130')
         newonfWindow.title('цикл5')
@@ -507,7 +502,7 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
                            command=lambda: self.count_clicks(self.loop_to5)).grid(row=5, column=1)
 
     def check_loop6(self):
-        self.loop6 = True
+
         newonfWindow = tk.Toplevel(self.master)
         newonfWindow.geometry('200x130')
         newonfWindow.title('цикл6')
@@ -537,7 +532,7 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
                            command=lambda: self.count_clicks(self.loop_to6)).grid(row=5, column=1)
 
     def check_loop7(self):
-        self.loop7 = True
+
         newonfWindow = tk.Toplevel(self.master)
         newonfWindow.geometry('200x130')
         newonfWindow.title('цикл7')
@@ -567,7 +562,7 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
                                command=lambda: self.count_clicks(self.loop_to7)).grid(row=5, column=1)
 
     def check_loop8(self):
-        self.loop8 = True
+
         newonfWindow = tk.Toplevel(self.master)
         newonfWindow.geometry('200x130')
         newonfWindow.title('цикл8')
@@ -596,7 +591,7 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
         temp_time = ttk.Button(newonfWindow, text='засечь время',
                                command=lambda: self.count_clicks(self.loop_to8)).grid(row=5, column=1)
     def check_loop9(self):
-        self.loop9 = True 
+
         newonfWindow = tk.Toplevel(self.master)
         newonfWindow.geometry('200x130')
         newonfWindow.title('цикл9')
@@ -644,37 +639,50 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
                     if '{}'.format(primary_time) in self.model:
                         current = self.model['{}'.format(primary_time)]
                         current[0] = self.left_eye.get()
-                        current[9] = self.loop_speed1.get()
+                        current[1] = self.loop_speed1.get()
                         self.model['{}'.format(primary_time)] = current
                     else:
                         self.model['{}'.format(primary_time)] = [
-                        self.left_eye.get(), self.right_e.get(),
-                        self.right_sholder.get(),self.right_hand.get(),
-                        self.left_hand.get(),self.left_leg.get(),
-                        self.right_leg.get(),self.reserved_1.get(),
-                        self.reserved_2.get(),round(self.loop_speed1.get())]
+                        self.left_eye.get(), self.loop_speed1.get(),
+                        self.right_e.get(),self.sp_variable_loop2,
+                        self.right_sholder.get(),self.sp_variable_loop3,
+                        self.right_hand.get(),self.sp_variable_loop4,
+                        self.left_hand.get(),self.sp_variable_loop5,
+                        self.left_leg.get(),self.sp_variable_loop6,
+                        self.right_leg.get(),self.sp_variable_loop7,
+                        self.reserved_1.get(),self.sp_variable_loop8,
+                        self.reserved_2.get(),self.sp_variable_loop9,
+                        ],
                 if range_index % 2 !=  0:
                     if '{}'.format(primary_time) in self.model:
                         current = self.model['{}'.format(primary_time)]
                         current[0] = self.loop_sec_entry1.get()
-                        current[9] = self.loop_speed1.get()
+                        current[1] = self.loop_speed1.get()
                         self.model['{}'.format(primary_time)] = current
                     else:
-                        self.model['{}'.format(primary_time)] = [
-                        self.loop_sec_entry1.get(), self.right_e.get(),
-                        self.right_sholder.get(), self.right_hand.get(),
-                        self.left_hand.get(), self.left_leg.get(),
-                        self.right_leg.get(), self.reserved_1.get(),
-                        self.reserved_2.get(), round(self.loop_speed1.get())]
-                range_index += 1
+                        self.model['{}'.format(primary_time)] = current[
+                        2132323, self.loop_speed1.get(),
+                        self.right_e.get(),self.sp_variable_loop2,
+                        self.right_sholder.get(),self.sp_variable_loop3,
+                        self.right_hand.get(),self.sp_variable_loop4,
+                        self.left_hand.get(),self.sp_variable_loop5,
+                        self.left_leg.get(),self.sp_variable_loop6,
+                        self.right_leg.get(),self.sp_variable_loop7,
+                        self.reserved_1.get(),self.sp_variable_loop8,
+                        self.reserved_2.get(),self.sp_variable_loop9],
+                        self.sp_variable_loop1 =self.loop_speed1
+                range_index +=1
                 print(self.model)
+
         except ValueError:
             messagebox.showwarning("ОШИБКА", "  НУЛЕВОЙ ИНТЕРВАЛ\n")
 
 
 
 
+
     def loop_to2(self):
+
         # call to each calling func to
         print('loop2')
         range_index = 0
@@ -688,37 +696,48 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
                 if range_index % 2 == 0:
                     if '{}'.format(primary_time) in self.model:
                         current = self.model['{}'.format(primary_time)]
-                        current[1] = self.right_e.get()
-                        current[9] = self.loop_speed2.get()
+                        current[2] = self.right_e.get()
                         self.model['{}'.format(primary_time)] = current
+                        self.sp_variable_loop2 = self.loop_speed2.get()
+
                     else:
                         self.model['{}'.format(primary_time)] = [
-                        self.left_eye.get(), self.right_e.get(),
-                        self.right_sholder.get(), self.right_hand.get(),
-                        self.left_hand.get(), self.left_leg.get(),
-                        self.right_leg.get(), self.reserved_1.get(),
-                        self.reserved_2.get(), round(self.loop_speed2.get())]
+                        self.left_eye.get(), self.sp_variable_loop1,
+                        self.right_e.get(),self.sp_variable_loop2,
+                        self.right_sholder.get(),self.sp_variable_loop3,
+                        self.right_hand.get(),self.sp_variable_loop4,
+                        self.left_hand.get(),self.sp_variable_loop5,
+                        self.left_leg.get(),self.sp_variable_loop6,
+                        self.right_leg.get(),self.sp_variable_loop7,
+                        self.reserved_1.get(),self.sp_variable_loop8,
+                        self.reserved_2.get(),self.sp_variable_loop9,
+                        ],
+                    self.sp_variable_loop2 = self.loop_speed2.get()
 
                 if range_index % 2 != 0:
                     if '{}'.format(primary_time) in self.model:
                         current = self.model['{}'.format(primary_time)]
-                        current[1] = self.loop_sec_entry2.get()
-                        current[9] = self.loop_speed2.get()
+                        current[2] = self.loop_sec_entry2.get()
                         self.model['{}'.format(primary_time)] = current
+                        self.sp_variable_loop2 = self.loop_speed2.get()
                     else:
                         self.model['{}'.format(primary_time)] = [
-                        self.left_eye.get(), self.loop_sec_entry2.get(),
-                        self.right_sholder.get(), self.right_hand.get(),
-                        self.left_hand.get(), self.left_leg.get(),
-                        self.right_leg.get(), self.reserved_1.get(),
-                        self.reserved_2.get(), round(self.loop_speed2.get())]
-                range_index += 1
+                            self.left_eye.get(), self.sp_variable_loop1,
+                            self.loop_sec_entry2.get(),self.sp_variable_loop2,
+                            self.right_sholder.get(),self.sp_variable_loop3,
+                            self.right_hand.get(),self.sp_variable_loop4,
+                            self.left_hand.get(),self.sp_variable_loop5,
+                            self.left_leg.get(),self.sp_variable_loop6,
+                            self.right_leg.get(),self.sp_variable_loop7,
+                            self.reserved_1.get(),self.sp_variable_loop8,
+                            self.reserved_2.get(),self.sp_variable_loop9,
+                            ],
+                        self.sp_variable_loop2=self.loop_speed2.get()
                 print(self.model)
+
+                range_index += 1
         except ValueError:
             messagebox.showwarning("ОШИБКА", "  НУЛЕВОЙ ИНТЕРВАЛ\n")
-
-
-
 
     def loop_to3(self):
         # call to each calling func to
@@ -734,123 +753,54 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
                 if range_index % 2 == 0:
                     if '{}'.format(primary_time) in self.model:
                         current = self.model['{}'.format(primary_time)]
-                        current[2] = self.right_sholder.get()
-                        current[9] = self.loop_speed3.get()
+                        current[4] = self.right_sholder.get()
+                        current[5] = self.loop_speed3.get()
                         self.model['{}'.format(primary_time)] = current
                     else:
                         self.model['{}'.format(primary_time)] = [
-                        self.left_eye.get(), self.right_e.get(),
-                        self.right_sholder.get(), self.right_hand.get(),
-                        self.left_hand.get(), self.left_leg.get(),
-                        self.right_leg.get(), self.reserved_1.get(),
-                        self.reserved_2.get(), round(self.loop_speed3.get())]
+                        self.left_eye.get(),self.sp_variable_loop1,
+                        self.right_e.get(),self.sp_variable_loop2,
+                        self.right_sholder.get(),self.sp_variable_loop3,
+                        self.right_hand.get(),self.sp_variable_loop4,
+                        self.left_hand.get(),self.sp_variable_loop5,
+                        self.left_leg.get(),self.sp_variable_loop6,
+                        self.right_leg.get(),self.sp_variable_loop7,
+                        self.reserved_1.get(),self.sp_variable_loop8,
+                        self.reserved_2.get(),self.sp_variable_loop9],
+                        self.sp_variable_loop3 =self.loop_speed3.get()
+
+
+
                 if range_index % 2 != 0:
                     if '{}'.format(primary_time) in self.model:
                         current = self.model['{}'.format(primary_time)]
-                        current[2] = self.loop_sec_entry3.get()
-                        current[9] = self.loop_speed3.get()
+                        current[4] = self.loop_sec_entry3.get()
+                        current[5] = self.sp_variable_loop3
                         self.model['{}'.format(primary_time)] = current
                     else:
                         self.model['{}'.format(primary_time)] = [
-                        self.left_eye.get(), self.right_e.get(),
-                        self.loop_sec_entry3.get(), self.right_hand.get(),
-                        self.left_hand.get(), self.left_leg.get(),
-                        self.right_leg.get(), self.reserved_1.get(),
-                        self.reserved_2.get(), round(self.loop_speed3.get())]
+                        self.left_eye.get(),self.sp_variable_loop1,
+                        self.right_e.get(),self.sp_variable_loop2,
+                        self.loop_sec_entry3.get(),self.sp_variable_loop3,
+                        self.right_hand.get(),self.sp_variable_loop4,
+                        self.left_hand.get(),self.sp_variable_loop5,
+                        self.left_leg.get(),self.sp_variable_loop6,
+                        self.right_leg.get(),self.sp_variable_loop7,
+                        self.reserved_1.get(),self.sp_variable_loop8,
+                        self.reserved_2.get(),self.sp_variable_loop9],
+                        self.sp_variable_loop3 =self.loop_speed3.get()
                 range_index += 1
                 print(self.model)
         except ValueError:
             messagebox.showwarning("ОШИБКА", "  НУЛЕВОЙ ИНТЕРВАЛ\n")
+
 
 
 
 
     def loop_to4(self):
         # call to each calling func to
-        print('loop4')
-        range_index = 0
-        primary_time = self.primary_time
-        final_time = self.final_time
-        try:
-            for i in range(int(primary_time),
-                           int(self.final_time),
-                           int(self.loop_int_entry.get() * 1000)):
-                primary_time += int(self.loop_int_entry.get() * 1000)
-                if range_index % 2 == 0:
-                    if '{}'.format(primary_time) in self.model:
-                        current = self.model['{}'.format(primary_time)]
-                        current[3] = self.right_hand.get()
-                        current[9] = self.loop_speed4.get()
-                        self.model['{}'.format(primary_time)] = current
-                    else:
-                        self.model['{}'.format(primary_time)] = [
-                        self.left_eye.get(), self.right_e.get(),
-                        self.right_sholder.get(), self.right_hand.get(),
-                        self.left_hand.get(), self.left_leg.get(),
-                        self.right_leg.get(), self.reserved_1.get(),
-                        self.reserved_2.get(), round(self.loop_speed4.get())]
-
-                if range_index % 2 != 0:
-                    if '{}'.format(primary_time) in self.model:
-                        current = self.model['{}'.format(primary_time)]
-                        current[3] = self.loop_sec_entry4.get()
-                        current[9] = self.loop_speed4.get()
-                        self.model['{}'.format(primary_time)] = current
-                    else:
-                        self.model['{}'.format(primary_time)] = [
-                        self.left_eye.get(),self.right_e.get(),
-                        self.right_sholder.get(), self.loop_sec_entry4.get(),
-                        self.left_hand.get(), self.left_leg.get(),
-                        self.right_leg.get(), self.reserved_1.get(),
-                        self.reserved_2.get(), round(self.loop_speed4.get())]
-                range_index += 1
-                print(self.model)
-        except ValueError:
-            messagebox.showwarning("ОШИБКА", "  НУЛЕВОЙ ИНТЕРВАЛ\n")
-
-    def loop_to5(self):
-        # call to each calling func to
-        print('loop5 left hand')
-        range_index = 0
-        primary_time = self.primary_time
-        final_time = self.final_time
-        try:
-            for i in range(int(primary_time),
-                           int(self.final_time),
-                           int(self.loop_int_entry.get() * 1000)):
-                primary_time += int(self.loop_int_entry.get() * 1000)
-                if range_index % 2 == 0:
-                    if '{}'.format(primary_time) in self.model:
-                        current = self.model['{}'.format(primary_time)]
-                        current[4] = self.left_hand.get()
-                        current[9] = self.loop_speed5.get()
-                        self.model['{}'.format(primary_time)] = current
-                    else:
-                        self.model['{}'.format(primary_time)] = [
-                        self.left_eye.get(), self.right_e.get(),
-                        self.right_sholder.get(), self.right_hand.get(),
-                        self.left_hand.get(), self.left_leg.get(),
-                        self.right_leg.get(), self.reserved_1.get(),
-                        self.reserved_2.get(), round(self.loop_speed5.get())]
-
-                if range_index % 2 != 0:
-                    if '{}'.format(primary_time) in self.model:
-                        current = self.model['{}'.format(primary_time)]
-                        current[4] = self.loop_sec_entry5.get()
-                        current[9] = self.loop_speed5.get()
-                        self.model['{}'.format(primary_time)] = current
-                    else:
-                        self.model['{}'.format(primary_time)] = [
-                        self.left_eye.get(),self.right_e.get(),
-                        self.right_sholder.get(), self.right_hand.get(),
-                        self.loop_sec_entry5.get(), self.left_leg.get(),
-                        self.right_leg.get(), self.reserved_1.get(),
-                        self.reserved_2.get(), round(self.loop_speed5.get())]
-
-                range_index += 1
-                print(self.model)
-        except ValueError:
-            messagebox.showwarning("ОШИБКА", "  НУЛЕВОЙ ИНТЕРВАЛ\n")
+        pass
 
 
 
@@ -1035,6 +985,27 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
 
 
 
+
+    def speed_available_from_loop(self):
+        if self.loop1 == True:
+            pass
+        if self.loop2 == True:
+            pass
+        if self.loop3 == True:
+            pass
+        if self.loop4 == True:
+            pass
+        if self.loop5 == True:
+            pass
+        if self.loop6 == True:
+            pass
+        if self.loop7 == True:
+            pass
+        if self.loop8 == True:
+            pass
+        if self.loop9 == True:
+            pass
+
     def count_clicks(self, calling_loop):
         self.count += 1
         # TODO ALL REFACTOR BELLOW
@@ -1051,7 +1022,7 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
 
 
     def write_changes_to_sql(self):
-        conn = sqlite3.connect(self.path)  # here will be avalibale data bases
+        conn = sqlite3.connect(self.path)  # here will be ibale data bases
         cursor = conn.cursor()
         for key,values in self.model.items():
             cursor.execute(""" insert into`servo_0`values( % d)""" % (values[self.LEFT_EYE]))
@@ -1112,14 +1083,71 @@ class SERVO_MAN(Player,LoopCheck,Default_position):
             # servo_9
             cursor.execute("SELECT * FROM `servo_8`  ")
             sql_servo_9 = cursor.fetchall()
-            cursor.execute("SELECT * FROM `speed_common` order by  `speed_common_pos` ")
-            sql_speed = cursor.fetchall()
 
+            cursor.execute("SELECT * FROM `speed_0` order by  `speed_0pos` ")
+            sql_speed1 = cursor.fetchall()
+
+            cursor.execute("SELECT * FROM `speed_1` order by  `speed_1pos` ")
+            sql_speed2 = cursor.fetchall()
+
+            cursor.execute("SELECT * FROM `speed_2` order by  `speed_2pos` ")
+            sql_speed3 = cursor.fetchall()
+
+            cursor.execute("SELECT * FROM `speed_3` order by  `speed_3pos` ")
+            sql_speed4 = cursor.fetchall()
+
+            cursor.execute("SELECT * FROM `speed_4` order by  `speed_4pos` ")
+            sql_speed5 = cursor.fetchall()
+
+            cursor.execute("SELECT * FROM `speed_5` order by  `speed_5pos` ")
+            sql_speed6 = cursor.fetchall()
+
+            cursor.execute("SELECT * FROM `speed_6` order by  `speed_6pos` ")
+            sql_speed7 = cursor.fetchall()
+
+            cursor.execute("SELECT * FROM `speed_7` order by  `speed_7pos` ")
+            sql_speed8 = cursor.fetchall()
+
+            cursor.execute("SELECT * FROM `speed_8` order by  `speed_8pos` ")
+            sql_speed9 = cursor.fetchall()
+
+            cursor.execute("SELECT * FROM `speed_common` order by  `speed_common_pos` ")
+            sql_speed_common = cursor.fetchall()
             # servo_1
             with open('template.h', 'w') as file:
                 file.writelines('int time_play=18000;\n')
-                file.writelines('int speed_row[] = {')
-                file.writelines(str(sql_speed))
+                file.writelines('int speed_row1[] = {')
+                file.writelines(str(sql_speed1))
+                file.writelines('};\n')
+                file.writelines('int speed_row2[] = {')
+                file.writelines(str(sql_speed2))
+                file.writelines('};\n')
+                file.writelines('int speed_row3[] = {')
+                file.writelines(str(sql_speed3))
+                file.writelines('};\n')
+                file.writelines('int speed_row3[] = {')
+                file.writelines(str(sql_speed3))
+                file.writelines('};\n')
+                file.writelines('int speed_row4[] = {')
+                file.writelines(str(sql_speed4))
+                file.writelines('};\n')
+                file.writelines('int speed_row5[] = {')
+                file.writelines(str(sql_speed5))
+                file.writelines('};\n')
+                file.writelines('int speed_row6[] = {')
+                file.writelines(str(sql_speed6))
+                file.writelines('};\n')
+                file.writelines('int speed_row7[] = {')
+                file.writelines(str(sql_speed7))
+                file.writelines('};\n')
+                file.writelines('int speed_row8[] = {')
+                file.writelines(str(sql_speed8))
+                file.writelines('};\n')
+                file.writelines('int speed_row9[] = {')
+                file.writelines(str(sql_speed9))
+                file.writelines('};\n')
+                file.writelines('int speed_row_common[] = {')
+                file.writelines(str(sql_speed_common))
                 file.writelines('};\n')
                 file.writelines('int LEyeArray[][] = {')
                 file.writelines(str(sql_servo_1))

@@ -4,12 +4,6 @@
 
 class Default_position:
 
-    def __init__(self):
-        pass
-
-
-
-
     def stand_default_position(self,window,value,sec_value):
             if int(window.get()) < int(value) or int(window.get()) > int(sec_value):
                 window.delete(0, 'end')
@@ -35,6 +29,8 @@ class Default_position:
                 window.set(100)
                 self.master.after(500,self.speedlimit_starter(window))
 
+    def stand_min_interval(self,interv):
+        interv.set(1)
 
 
 
@@ -45,3 +41,8 @@ class Default_position:
         if self.interval_fall_down > self.loop_int_entry.get():
             self.loop_int_entry.set(self.interval_fall_down)
             print('=+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+
+    def zero_intervals(self):
+        value = self.loop_int_entry.get()
+        if self.loop_int_entry.get() <1 and self.loop_int_entry.get() !=0:
+            self.loop_int_entry.set(int(value))/10
