@@ -186,7 +186,7 @@ class EXAMPLER:
                        min,interval_servo,key_number):
         # just return quantity angles (more important quantity)
         some_execute = []
-        for _in range(key_number):
+        for _ in range(key_number):
             some_execute.append(angle_for_repeat)
         return some_execute
 
@@ -213,38 +213,59 @@ class EXAMPLER:
             some_execute.append(div_angle)
 
         return some_execute
-    def switcher(self,first_angle,second_angle,min,interval_servo
+    def switcher(self,first_angle,second_angle,min,interval_servo,
                  begin_divider,key_number):
+        loop = []
         # this func must be change angle passing just one  loop with quantity keys
-        # this stuff be responsobility by loooop
+        # this stuff be responsibility by loop
         # in my mind just one sequence divide angle after she begin anothe with another angle
         # for example first angle 180 begin by 20 and interval =10 second angle 60 begin by 20 and interval 5
         # 20 30 40 50 60 70 80 90  etc 180 170 160 150 etc 20 25 30 35 etc 60 55 50 45 40 35 30 25 20  etc 180
         # simple implementation is divider angle launched 2
-        for _ in range(key_number)
-            self.divider_angle(first_angle,min,interval_servo,
-                              begin_divider,key_number)
-            self.divider_angle(second_angle,min,interval_servo,
-                              begin_divider,key_number)
-            if key_number
+        loop.append(self.divider_angle(first_angle,min,interval_servo,
+                          begin_divider,key_number))
+        loop.append(self.divider_angle(second_angle,min,interval_servo,
+                          begin_divider,key_number))
+        final_loop = limiter_for_switcher(loop,keys)
+        return final_loop
+            # rebuild stuff in side 2divider angle create commona list with values.lenght this list depend on quantity keys
+            # after return list with values .Which is will add on commom scale with minamal interval.
+
+    def limiter_for_switcher(self,loop,keys):
+        # this func need for right quantity values from exiting from loop
+        # she add or delete excess digit from list
+        new_loop = loop
+        while len(loop) != keys:
+            if len(loop) > keys:
+                del loop[-1]
+                print(loop)
+                print(new_new_loop)
+            # if len(loop) < keys:
+            #     loop.append(modern_loop[-1])
+            if len(loop) == 0:
+                break
 
 
-    def modern_divider(self):
-        if angle == begin:
-            angle = second_angle
-            else:
+            # # if  len(loop) == keys:
+            # #     print("equal")
+            # #     break
+            # else:
+            #     print('+')
+            #     loop.append(loop[-1])
+            # return loop
+            # print(loop)
 
 
 
 
 
-    def selector(self,loop,,basic_angle,min,interval_servo,
+
+    def selector(self,loop,basic_angle,min,interval_servo,
                       begin_divider,key_number):
         # choose prefer method put values on scale_with_interval
         if loop == True:
-
-            switcher(first_angle,second_angle,min,interval_servo
-                         begin_divider,key_number):
+            switcher(first_angle,second_angle,min,interval_servo,
+                         begin_divider,key_number)
         else:
             single_repeater(basic_angle,min,interval_servo,key_number)
 
@@ -440,3 +461,8 @@ class EXAMPLER:
         call('rm template.h', shell=True)
         shutil.move("/home/qbc/PycharmProjects/ard/VAL.h",
                     "/usr/share/arduino/hardware/arduino/cores/arduino/VAL.h")
+
+
+loop = [i for i in range(100)]
+xaxa =  EXAMPLER()
+print(xaxa.limiter_for_switcher(loop,10))
