@@ -131,10 +131,11 @@ class EXAMPLER:
     def generateNumber(self,num,over,shag,values):
         # generate model execute for compare with servo execute
         model = {}
-        for i in range(num,over,shag):
+        for i in range(int(num),int(over),int(shag)):
             model['{}'.format(i)] = values
 
         return model
+
 
 
     def create_intervals(self):
@@ -143,9 +144,9 @@ class EXAMPLER:
         return my_randoms
 
 
-    def find_minimal_interval(self):
+    def find_minimal_interval(self,interval):
         # compare all intervals
-        my_intervals = self.create_intervals()
+        my_intervals = interval
         min_interval = min(my_intervals)
         return min_interval
 
@@ -179,17 +180,27 @@ class EXAMPLER:
         # first place for global values
         self.key = len(self.create_min_keys())
         print('HUEC'+(str(len(self.create_min_keys()))))
-    def servo_key_finder(self):
-        pass
 
-    def divider_angle(self,basic_angle):
-        min_interval = 0.2
-        interval_servo = 0.6
+
+    def single_repeater(self,angle_for_repeat,
+                       min,interval_servo,key_number):
+        # just return quantity angles (more important quantity)
+        some_execute = []
+        for _in range(key_number):
+            some_execute.append(angle_for_repeat)
+        return some_execute
+
+    def divider_angle(self,basic_angle,min,interval_servo,
+                      begin_divider,key_number):
+        # get in angle for divide,min interval,interval servo,
+        # number from which begin divide,and quantity key for divide
+        min_interval = min
+        interval_servo = interval_servo
         interval_div = int((interval_servo * 10) / (min_interval * 10))
-        div_angle = 0
-        interval = round(basic_angle / interval_div)
+        div_angle = begin_divider
+        interval = int(basic_angle / interval_div)
         some_execute = [div_angle]
-        for _ in range(10):
+        for _ in range(key_number):
             div_angle += interval
             if div_angle > basic_angle:
                 interval *= -1
@@ -199,17 +210,74 @@ class EXAMPLER:
                 interval *= -1
                 div_angle += interval
                 continue
-
             some_execute.append(div_angle)
 
         return some_execute
-    def servo_on_min_interval(self,number,number_1,number_2,
+    def switcher(self,first_angle,second_angle,min,interval_servo
+                 begin_divider,key_number):
+        # this func must be change angle passing just one  loop with quantity keys
+        # this stuff be responsobility by loooop
+        # in my mind just one sequence divide angle after she begin anothe with another angle
+        # for example first angle 180 begin by 20 and interval =10 second angle 60 begin by 20 and interval 5
+        # 20 30 40 50 60 70 80 90  etc 180 170 160 150 etc 20 25 30 35 etc 60 55 50 45 40 35 30 25 20  etc 180
+        # simple implementation is divider angle launched 2
+        for _ in range(key_number)
+            self.divider_angle(first_angle,min,interval_servo,
+                              begin_divider,key_number)
+            self.divider_angle(second_angle,min,interval_servo,
+                              begin_divider,key_number)
+            if key_number
+
+
+    def modern_divider(self):
+        if angle == begin:
+            angle = second_angle
+            else:
+
+
+
+
+
+    def selector(self,loop,,basic_angle,min,interval_servo,
+                      begin_divider,key_number):
+        # choose prefer method put values on scale_with_interval
+        if loop == True:
+
+            switcher(first_angle,second_angle,min,interval_servo
+                         begin_divider,key_number):
+        else:
+            single_repeater(basic_angle,min,interval_servo,key_number)
+
+    def comparer_two_list(self,first_serif,second_serif,):
+        # this func must be return begins and over for divider_angle
+        for serif in first_serif:
+            if serif in second_serif:
+                pass
+
+
+
+
+    def modern_servo_on_min_interval(self,execute,number,number_1,number_2,
                               number_3,number_4,number_5,
                               number_6,number_7,number_8,
                               position,position_1,position_2,
                               position_3,position_4,position_5,
                               position_6,position_7,position_8):
-       execution = self.execution
+                              pass
+
+
+
+
+
+
+
+    def servo_on_min_interval(self,execute,number,number_1,number_2,
+                              number_3,number_4,number_5,
+                              number_6,number_7,number_8,
+                              position,position_1,position_2,
+                              position_3,position_4,position_5,
+                              position_6,position_7,position_8):
+       execution = execute
        servo_execute = self.divider_angle(number)
        servo_execute1 = self.divider_angle(number_1)
        servo_execute2 = self.divider_angle(number_2)
@@ -230,6 +298,7 @@ class EXAMPLER:
            execution[key][position_6] = servo_execute6[i]
            execution[key][position_7] = servo_execute7[i]
            execution[key][position_8] = servo_execute8[i]
+           print([key],position,i)
        return execution
 
 
@@ -244,7 +313,7 @@ class EXAMPLER:
 
         scale = self.create_execute()
         print(scale)
-        return scale
+        return scale3
 
     def use_execute(self):
         execute = self.servo_on_min_interval(198,91,92,
@@ -252,7 +321,7 @@ class EXAMPLER:
                                   96,97,98,
                                   0,2,4,6,
                                   8,10,12,
-                                  14,16)
+                                  14,1)
         for key,values  in execute.items():
             print(str(key),str(values)+'\n')
 
@@ -276,9 +345,6 @@ class EXAMPLER:
             self.sql_servo_8.append(value[14])
             self.sql_servo_9.append(value[16])
             self.time.append(key)
-
-
-
 
 
     def clear_strings(self):
@@ -374,10 +440,3 @@ class EXAMPLER:
         call('rm template.h', shell=True)
         shutil.move("/home/qbc/PycharmProjects/ard/VAL.h",
                     "/usr/share/arduino/hardware/arduino/cores/arduino/VAL.h")
-
-
-
-
-
-caca = EXAMPLER()
-print(caca.divider_angle(95))
