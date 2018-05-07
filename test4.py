@@ -185,7 +185,7 @@ class SERVO_MAN(Variables,Player,Default_position,
                                     ).grid(row=12, column=3)
         self.button = ttk.Button(self.master,
                                  text='записать позиции',
-                                 command = self.count_clicks)
+                                 command = self.adden_key_to_model)
         self.button.grid(row=10, column=3,columnspan=1)
         self.button_save = ttk.Button(self.master,
                             text='сохранить сценарий ',
@@ -364,6 +364,8 @@ class SERVO_MAN(Variables,Player,Default_position,
         self.right_leg.get(),round(self.speed_slider.get()),
         self.reserved_1.get(),round(self.speed_slider.get()),
         self.reserved_2.get(),round(self.speed_slider.get()),]
+        print(self.model)
+        self.show_dict()
         return self.model
     def adden_intervals_for_keys(self):
         # list for divider angle
@@ -385,7 +387,10 @@ class SERVO_MAN(Variables,Player,Default_position,
 
 
         execute = self.generateNumber(time_begin,time_over,int(min_interval)*100,fi)
+        #rebuld main func which bulid scale need some more flexibile
+        #when  be taken first key with list after values second and first  model must be compare
         print(execute)
+        #add here some check if values on first and second same each other
         execute_with_servo = self.servo_on_min_interval(
                                     execute,self.left_eye.get(),self.right_e.get(),
                                     self.right_sholder.get(),self.right_hand.get(),
@@ -395,6 +400,25 @@ class SERVO_MAN(Variables,Player,Default_position,
                                     0,2,4,
                                     6,8,10,
                                     12,14,16)
+
+
+
+    def compare_values(self):
+        # if values on list equal each other return values
+        # if values not equal call servo on minimal interval
+        pass
+
+
+
+
+    def put_values_on_minimal_intervals(self,begin,over,min_interval):
+        # bring scale witn min interval draw key from interval and after
+        pass
+
+
+
+
+
 
 
 
@@ -409,9 +433,8 @@ class SERVO_MAN(Variables,Player,Default_position,
             self.count = 0
             messagebox.showinfo("значение", "записано второе значение ")
             self.final_time = round(self.time_scale.get() * 1000)
-
-            self.calculate_scale(self.primary_time, self.final_time
-                                 ,self.first_p)
+            self.second_p = self.adden_key_to_model()
+            self.calculate_scale(self.primary_time, self.final_time,self.first_p)
             self.show_dict()
             print(self.model)
             print(self.intervals_for_model)

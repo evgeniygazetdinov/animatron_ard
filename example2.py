@@ -236,13 +236,8 @@ class EXAMPLER:
 
     def create_execute(self):
         execute = self.servo_on_min_interval(99,0)
-
-
-
         return execute
-
     def big_while(self):
-
         scale = self.create_execute()
         print(scale)
         return scale3
