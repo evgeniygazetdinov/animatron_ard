@@ -144,12 +144,6 @@ class EXAMPLER:
             return loop
 
 
-
-
-
-
-
-
     def switcher(self,first_angle,second_angle,min,interval_servo,
                  begin_divider,key_number):
         loop = []
@@ -170,7 +164,6 @@ class EXAMPLER:
             total_loop += i
         print(total_loop)
 
-        # # TODO rebuld divider angle output 'he has wrong structure'
         final_loop = self.limiter_for_switcher(total_loop,key_number)
         return final_loop
             # rebuild stuff in side 2divider angle create common list with values.lenght this list depend on quantity keys
@@ -186,6 +179,14 @@ class EXAMPLER:
                          begin_divider,key_number)
         else:
             single_repeater(basic_angle,min,interval_servo,key_number)
+
+
+    def compare_values(self,first_list,second_list,position,loop,basic_angle,min,interval_servo,
+                      begin_divider,key_number):
+        # decide which number worthy
+        if first_list[position] != second_list[position]:
+            self.selector
+        if first_list[position] == second_list[position]:
 
 
 

@@ -121,7 +121,7 @@ class SERVO_MAN(Variables,Player,Default_position,
         self.loop_l_e = ttk.Checkbutton(self.master,
                                         onvalue =1,offvalue = 0,
                                         command = lambda: self.loop_enabler(self.interval_1,self.loop)).grid(row=1, column=2, padx=10)
-
+                                                                            #TODO change variable to some thing special
         self.lab_ser_2 = ttk.Label(self.master,text='глаз правый').grid(row=4, column=1)
         self.right_e = IntVar()
         self.angle_box2 = ttk.Entry(self.master, textvariable=self.right_e, width=3)
@@ -326,7 +326,7 @@ class SERVO_MAN(Variables,Player,Default_position,
         # draw addional window
         # and stand flag appropriate window True
         self.loop_activator(loop_entr,loop)
-        loop_window = ttk.Checkbutton(self.master,
+        loop_window = ttk.Entry(self.master, textvariable=self.left_leg, width=3)
 
 
     def default(self):
