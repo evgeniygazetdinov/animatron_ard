@@ -119,8 +119,8 @@ class SERVO_MAN(Variables,Player,Default_position,
                                     textvariable=self.left_eye)
         self.angle_box1.grid(row=2, column=1)
         self.loop_l_e = ttk.Checkbutton(self.master,
-
-                                        ).grid(row=1, column=2, padx=10)
+                                        onvalue =1,offvalue = 0,
+                                        command = lambda: self.loop_enabler(self.interval_1,self.loop)).grid(row=1, column=2, padx=10)
 
         self.lab_ser_2 = ttk.Label(self.master,text='глаз правый').grid(row=4, column=1)
         self.right_e = IntVar()
@@ -267,7 +267,8 @@ class SERVO_MAN(Variables,Player,Default_position,
         self.loop9 = False
     # draw func
         self.interval_1 = IntVar()
-        self.loop_int_entry1 = ttk.Entry(self.master,textvariable = self.interval_1,width =2)
+        self.loop_int_entry1 = ttk.Entry(self.master,textvariable = self.interval_1,width =2,)
+
         self.loop_int_entry1.grid(row =2,column =2 ,padx = 0)
         self.interval_2 = IntVar()
         self.loop_int_entry2 = ttk.Entry(self.master,textvariable = self.interval_2,width =2)
@@ -302,6 +303,30 @@ class SERVO_MAN(Variables,Player,Default_position,
     def draw_buttons(self,name,text,row,column,columnspan):
         name = ttk.Label(self.master, text='{}'.format(text))
         name.grid(row=row, column=column,columnspan=columnspan)
+
+
+
+
+
+
+    def loop_activator(self,loop_entr,loop):
+        # this stuff must be indicating = if on or not on loop
+        if loop_entr.get() == 1:
+            loop = True
+            print('True')
+        if loop_entr.get() == 0:
+            loop = False
+            print('False')
+            loop_entr.set(1)
+        else:
+            loop_entr.set(0)
+
+    def loop_enabler(self,loop_entr,loop):
+        # action with active loop shit
+        # draw addional window
+        # and stand flag appropriate window True
+        self.loop_activator(loop_entr,loop)
+        loop_window = ttk.Checkbutton(self.master,
 
 
     def default(self):
@@ -341,8 +366,6 @@ class SERVO_MAN(Variables,Player,Default_position,
 
     def printime(self, val):
         # define for TIME
-
-
         time = self.time_scale.get()
         m = time // 60
         s = time - m * 60
@@ -408,7 +431,7 @@ class SERVO_MAN(Variables,Player,Default_position,
         # if values not equal call servo on minimal interval
         for item1 in list1:
                 if item1 in list2:
-                pass
+                    pass
 
 
 
@@ -420,16 +443,9 @@ class SERVO_MAN(Variables,Player,Default_position,
 
 
 
-
-
     def put_values_on_minimal_intervals(self,begin,over,min_interval):
         # bring scale witn min interval draw key from interval and after
         pass
-
-
-
-
-
 
 
 
@@ -453,14 +469,6 @@ class SERVO_MAN(Variables,Player,Default_position,
         if round(self.time_scale.get()*1000)<=self.final_time:
             self.time_scale.set(self.final_time/1000)
             self.stop = True
-
-
-
-
-
-
-
-
 
     def saving_changes(self):
         self.write_changes_to_sql('template.db')

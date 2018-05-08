@@ -4,7 +4,7 @@ from sketchbooks.SW.run_servo import compiling
 from random import randint
 import random
 from collections import  OrderedDict
-
+import  itertools
 class EXAMPLER:
     def __init__(self):
         i=10
@@ -122,30 +122,38 @@ class EXAMPLER:
                 continue
             some_execute.append(div_angle)
 
+
         return some_execute
 
     def limiter_for_switcher(self,loop,keys):
         # this func need for right quantity values from exiting from loop
         # she add or delete excess digit from list
         while len(loop) != keys:
-            if len(loop)>keys:
+            if len(loop) > keys:
                 del loop[-1]
-                print(loop)
-                print(len(loop))
-            if len(loop)< keys:
+                if len(loop) == keys:
+                    break
+            if len(loop) <  keys:
                 for item in loop:
-                    loop.append(loop[item])
+                    loop.append(int(loop[item]))
+                    # if item :
+                    #     item/2
                     if len(loop) == keys:
-                        print(loop)
-                        print(len(loop))
                         break
+            print(len(loop))
             return loop
+
+
+
+
+
 
 
 
     def switcher(self,first_angle,second_angle,min,interval_servo,
                  begin_divider,key_number):
         loop = []
+        total_loop = []
         # this func must be change angle passing just one  loop with quantity keys
         # this stuff be responsibility by loop
         # in my mind just one sequence divide angle after she begin anothe with another angle
@@ -154,11 +162,18 @@ class EXAMPLER:
         # simple implementation is divider angle launched 2
         loop.append(self.divider_angle(first_angle,min,interval_servo,
                           begin_divider,key_number))
+
         loop.append(self.divider_angle(second_angle,min,interval_servo,
                           begin_divider,key_number))
-        final_loop = self.limiter_for_switcher(loop,key_number)
+        # this place for merging to list in one
+        for i in loop:
+            total_loop += i
+        print(total_loop)
+
+        # # TODO rebuld divider angle output 'he has wrong structure'
+        final_loop = self.limiter_for_switcher(total_loop,key_number)
         return final_loop
-            # rebuild stuff in side 2divider angle create commona list with values.lenght this list depend on quantity keys
+            # rebuild stuff in side 2divider angle create common list with values.lenght this list depend on quantity keys
             # after return list with values .Which is will add on commom scale with minamal interval.
 
 
@@ -189,15 +204,15 @@ class EXAMPLER:
                               position_6,position_7,position_8):
         # big staff loop for insert values in keys
        execution = execute
-       servo_execute = self.divider_angle(number)
-       servo_execute1 = self.divider_angle(number_1)
-       servo_execute2 = self.divider_angle(number_2)
-       servo_execute3 = self.divider_angle(number_3)
-       servo_execute4 = self.divider_angle(number_4)
-       servo_execute5 = self.divider_angle(number_5)
-       servo_execute6 = self.divider_angle(number_6)
-       servo_execute7 = self.divider_angle(number_7)
-       servo_execute8 = self.divider_angle(number_8)
+       servo_execute = self.selector(number)
+       servo_execute1 = self.selector(number_1)
+       servo_execute2 = self.selector(number_2)
+       servo_execute3 = self.selector(number_3)
+       servo_execute4 = self.selector(number_4)
+       servo_execute5 = self.selector(number_5)
+       servo_execute6 = self.selector(number_6)
+       servo_execute7 = self.selector(number_7)
+       servo_execute8 = self.selector(number_8)
 
        for i, key in enumerate(execution):
            execution[key][position] = servo_execute[i]
@@ -212,13 +227,6 @@ class EXAMPLER:
            print([key],position,i)
        return execution
 
-
-    def create_execute(self):
-        execute = self.servo_on_min_interval(99,0)
-
-
-
-        return execute
 
     def big_while(self):
 
@@ -353,6 +361,7 @@ class EXAMPLER:
                     "/usr/share/arduino/hardware/arduino/cores/arduino/VAL.h")
 
 
-loop = [i for i in range(10)]
-xaxa =  EXAMPLER()
-print(xaxa.switcher(90,33,0.2,0.2,20,100))
+loop = [i for i in range(20)]
+# xaxa =  EXAMPLER()
+# print(xaxa.switcher(44,99,0.1,0.4,
+#              20,99))
