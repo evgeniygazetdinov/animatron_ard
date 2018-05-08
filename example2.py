@@ -195,9 +195,25 @@ class EXAMPLER:
 
     def comparer_two_list(self,first_serif,second_serif,):
         # this func must be return begins and over for divider_angle
-        for serif in first_serif:
-            if serif in second_serif:
-                
+        self.compare_values(first_serif,second_serif,position,loop,basic_angle,min,interval_servo,
+                          begin_divider,key_number)
+        self.compare_values(first_serif,second_serif,position,loop,basic_angle,min,interval_servo,
+                          begin_divider,key_number)
+        self.compare_values(first_serif,second_serif,position,loop,basic_angle,min,interval_servo,
+                          begin_divider,key_number)
+        self.compare_values(first_serif,second_serif,position,loop,basic_angle,min,interval_servo,
+                          begin_divider,key_number)
+        self.compare_values(first_serif,second_serif,position,loop,basic_angle,min,interval_servo,
+                          begin_divider,key_number)
+        self.compare_values(first_serif,second_serif,position,loop,basic_angle,min,interval_servo,
+                          begin_divider,key_number)
+        self.compare_values(first_serif,second_serif,position,loop,basic_angle,min,interval_servo,
+                          begin_divider,key_number)
+        self.compare_values(first_serif,second_serif,position,loop,basic_angle,min,interval_servo,
+                          begin_divider,key_number)
+        self.compare_values(first_serif,second_serif,position,loop,basic_angle,min,interval_servo,
+                          begin_divider,key_number)
+
 
 
     def servo_on_min_interval(self,execute,number,number_1,number_2,
@@ -206,6 +222,7 @@ class EXAMPLER:
                               position,position_1,position_2,
                               position_3,position_4,position_5,
                               position_6,position_7,position_8):
+        # TODO rebuld after on list with values
         # big staff loop for insert values in keys
        execution = execute
        servo_execute = self.selector(number)
