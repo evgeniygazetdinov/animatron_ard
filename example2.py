@@ -178,23 +178,26 @@ class EXAMPLER:
             switcher(first_angle,second_angle,min,interval_servo,
                          begin_divider,key_number)
         else:
-            single_repeater(basic_angle,min,interval_servo,key_number)
+            self.divider_angle(basic_angle,min,interval_servo,
+                              begin_divider,key_number))
+
 
 
     def compare_values(self,first_list,second_list,position,loop,basic_angle,min,interval_servo,
                       begin_divider,key_number):
         # decide which number worthy
         if first_list[position] != second_list[position]:
-            self.selector
+            self.selector(loop,basic_angle,min,interval_servo,
+                              begin_divider,key_number)
         if first_list[position] == second_list[position]:
-
+            single_repeater(basic_angle,min,interval_servo,key_number)
 
 
     def comparer_two_list(self,first_serif,second_serif,):
         # this func must be return begins and over for divider_angle
         for serif in first_serif:
             if serif in second_serif:
-                pass
+                
 
 
     def servo_on_min_interval(self,execute,number,number_1,number_2,
