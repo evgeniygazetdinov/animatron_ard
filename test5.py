@@ -40,6 +40,7 @@ class SERVO_MAN(Variables,Player,Default_position,
         self.duration =180
         self.count=0
         self.counter =0
+        self.min_interval = 0
         #################VALUES FOR TIMER##################################
         self.timer = False
         self.default_seconds = 0
@@ -185,7 +186,7 @@ class SERVO_MAN(Variables,Player,Default_position,
                                     ).grid(row=12, column=3)
         self.button = ttk.Button(self.master,
                                  text='записать позиции',
-                                 command = self.adden_key_to_model)
+                                 command = self.count_clicks)
         self.button.grid(row=10, column=3,columnspan=1)
         self.button_save = ttk.Button(self.master,
                             text='сохранить сценарий ',
@@ -321,12 +322,13 @@ class SERVO_MAN(Variables,Player,Default_position,
         else:
             loop_entr.set(0)
 
-    def loop_enabler(self,loop_entr,loop):
+    def loop_enabler(self,loop_entr,loop_window,variable,row,column):
         # action with active loop shit
         # draw addional window
         # and stand flag appropriate window True
         self.loop_activator(loop_entr,loop)
-        loop_window = ttk.Entry(self.master, textvariable=self.left_leg, width=3)
+        loop_window = ttk.Entry(self.master, textvariable=variable, width=3)
+        loop_window.grid(row = row,column =column)
 
 
     def default(self):
@@ -403,35 +405,55 @@ class SERVO_MAN(Variables,Player,Default_position,
         intervals_for_model.append(self.loop_int_entry8.get())
         intervals_for_model.append(self.loop_int_entry9.get())
         return intervals_for_model
+    # def extract_key(self,dict):
+    #     for key in dict.items():
+    #         return key
+
+
+
+
     def calculate_scale(self,
                         time_begin,time_over,fi,):
-        # create execution from 2 serifs with minimal interval
-        min_interval = self.find_minimal_interval(self.adden_intervals_for_keys())
+        # create execution from 2 serifs with minimal
 
-
-        execute = self.generateNumber(time_begin,time_over,int(min_interval)*100,fi)
+        self.min_interval = self.find_minimal_interval(self.adden_intervals_for_keys())
+        # time_begin = self.extract_key(time_begin)
+        # time_over = self.extract_key(time_over)
+        execute = self.generateNumber(time_begin,time_over,int(self.min_interval)*100,fi)
         #rebuld main func which bulid scale need some more flexibile
         #when  be taken first key with list after values second and first  model must be compare
         print(execute)
+        return execute
         #add here some check if values on first and second same each other
-        execute_with_servo = self.servo_on_min_interval(
-                                    execute,self.left_eye.get(),self.right_e.get(),
-                                    self.right_sholder.get(),self.right_hand.get(),
-                                    self.left_hand.get(),self.left_leg.get(),
-                                    self.right_leg.get(),self.reserved_1.get(),
-                                    self.reserved_2.get(),
-                                    0,2,4,
-                                    6,8,10,
-                                    12,14,16)
+        # execute_with_servo = self.servo_on_min_interval(
+        #                             execute,self.left_eye.get(),self.right_e.get(),
+        #                             self.right_sholder.get(),self.right_hand.get(),
+        #                             self.left_hand.get(),self.left_leg.get(),
+        #                             self.right_leg.get(),self.reserved_1.get(),
+        #                             self.reserved_2.get(),
+        #                             0,2,4,
+        #                             6,8,10,
+        #                             12,14,16)
+        #change here first abstration func which is fetch 2 position with values and he divede angles
+        #after he bring scale numbers
 
 
 
-    def compare_values(self,list1,list2):
-        # if values on list equal each other return values
-        # if values not equal call servo on minimal interval
-        for item1 in list1:
-                if item1 in list2:
-                    pass
+
+
+    # def compare_values(self,execute,
+    #                           number,number_1,
+    #                           number_2,number_3,number_4,
+    #                           number_5,number_6,number_7,number_8,
+    #                           position,position_1,position_2,position_3,
+    #                           position_4,position_5,position_6,position_7,
+    #                           position_8,first_serif,second_serif,position,
+    #                           loop,basic_angle,min,interval_servo,begin_divider1,
+    #                           begin_divider2,begin_divider3,begin_divider4,begin_divider5,
+    #                           begin_divider6,begin_divider7,begin_divider8,begin_divider9,key_number):
+    #     # time begin is key from first serif and second key from second serif
+    #
+    #     self.servo_on_min_interval()
 
 
 
@@ -461,7 +483,16 @@ class SERVO_MAN(Variables,Player,Default_position,
             messagebox.showinfo("значение", "записано второе значение ")
             self.final_time = round(self.time_scale.get() * 1000)
             self.second_p = self.adden_key_to_model()
-            self.calculate_scale(self.primary_time, self.final_time,self.first_p)
+            interval_servo = self.adden_intervals_for_keys()
+            execute = self.calculate_scale(self.primary_time, self.final_time,self.first_p)
+            print("HUETS"+str(len(execute.keys())))
+            self.servo_on_min_interval(execute,self.first_p,self.second_p,0,2,4,6,8,10,12,14,16,
+                                      self.loop1,self.loop2,self.loop3,self.loop4,self.loop5,self.loop6,
+                                      self.loop7,self.loop8,self.loop9,self.left_eye.get(),self.right_e.get(),
+                                      self.right_sholder.get(),self.right_hand.get(),self.left_hand.get(),self.left_leg.get(),
+                                      self.right_leg.get(),self.reserved_1.get(),self.reserved_2.get(),interval_servo[0],
+                                      interval_servo[1],interval_servo[2],interval_servo[3],interval_servo[4],interval_servo[5],
+                                      99,97,0,0,0,0,0,0,0,0,0,0,len(execute),len(execute.keys()))
             self.show_dict()
             print(self.model)
             print(self.intervals_for_model)

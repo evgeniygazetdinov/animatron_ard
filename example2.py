@@ -89,8 +89,8 @@ class EXAMPLER:
 
     def keys_finder(self):
         # first place for global values
-        self.key = len(self.create_min_keys())
-        print('HUEC'+(str(len(self.create_min_keys()))))
+        key = len(self.create_min_keys())
+        return key
 
 
     def single_repeater(self,angle_for_repeat,key_number):
@@ -140,7 +140,6 @@ class EXAMPLER:
                     #     item/2
                     if len(loop) == keys:
                         break
-            print(len(loop))
             return loop
 
 
@@ -179,74 +178,105 @@ class EXAMPLER:
                          begin_divider,key_number)
         else:
             self.divider_angle(basic_angle,min,interval_servo,
-                              begin_divider,key_number))
+                              begin_divider,key_number)
 
 
 
     def compare_values(self,first_list,second_list,position,loop,basic_angle,min,interval_servo,
                       begin_divider,key_number):
         # decide which number worthy
-        if first_list[position] != second_list[position]:
-            self.selector(loop,basic_angle,min,interval_servo,
-                              begin_divider,key_number)
-        if first_list[position] == second_list[position]:
-            single_repeater(basic_angle,min,interval_servo,key_number)
+        for value1 in first_list.values():
+            for values2 in second_list.values():
+                if value1[position] != values2[position]:
+                    self.selector(loop,basic_angle,min,interval_servo,
+                                      begin_divider,key_number)
+                if value1[position] != values2[position]:
+                    self.single_repeater(basic_angle,key_number)
 
 
-    def comparer_two_list(self,first_serif,second_serif,):
+    def comparer_two_list(self,first_serif,second_serif,position1,
+                          position2,position3,position4,position5,
+                          position6,position7,position8,position9,loop1,loop2,
+                          loop3,loop4,loop5,loop6,loop7,loop8,loop9,
+                          basic_angle1,basic_angle2,basic_angle3,basic_angle4,
+                          basic_angle5,basic_angle6,basic_angle7,basic_angle8,
+                          basic_angle9,min,interval_servo1,interval_servo2,
+                          interval_servo3,interval_servo4,interval_servo5,
+                          interval_servo6,interval_servo7,interval_servo8,
+                          interval_servo9,begin_divider1,begin_divider2,
+                          begin_divider3,begin_divider4,begin_divider5,
+                          begin_divider6,begin_divider7,begin_divider8,
+                          begin_divider9,key_number):
         # this func must be return begins and over for divider_angle
-        self.compare_values(first_serif,second_serif,position,loop,basic_angle,min,interval_servo,
-                          begin_divider,key_number)
-        self.compare_values(first_serif,second_serif,position,loop,basic_angle,min,interval_servo,
-                          begin_divider,key_number)
-        self.compare_values(first_serif,second_serif,position,loop,basic_angle,min,interval_servo,
-                          begin_divider,key_number)
-        self.compare_values(first_serif,second_serif,position,loop,basic_angle,min,interval_servo,
-                          begin_divider,key_number)
-        self.compare_values(first_serif,second_serif,position,loop,basic_angle,min,interval_servo,
-                          begin_divider,key_number)
-        self.compare_values(first_serif,second_serif,position,loop,basic_angle,min,interval_servo,
-                          begin_divider,key_number)
-        self.compare_values(first_serif,second_serif,position,loop,basic_angle,min,interval_servo,
-                          begin_divider,key_number)
-        self.compare_values(first_serif,second_serif,position,loop,basic_angle,min,interval_servo,
-                          begin_divider,key_number)
-        self.compare_values(first_serif,second_serif,position,loop,basic_angle,min,interval_servo,
-                          begin_divider,key_number)
+        self.compare_values(first_serif,second_serif,position1,loop1,basic_angle1,min,interval_servo1,
+                          begin_divider1,key_number)
+        self.compare_values(first_serif,second_serif,position2,loop2,basic_angle2,min,interval_servo2,
+                          begin_divider2,key_number)
+        self.compare_values(first_serif,second_serif,position3,loop3,basic_angle3,min,interval_servo3,
+                          begin_divider3,key_number)
+        self.compare_values(first_serif,second_serif,position4,loo4p,basic_angle4,min,interval_servo4,
+                          begin_divider4,key_number)
+        self.compare_values(first_serif,second_serif,position5,loop5,basic_angle5,min,interval_servo5,
+                          begin_divider5,key_number)
+        self.compare_values(first_serif,second_serif,position6,loop6,basic_angle6,min,interval_servo6,
+                          begin_divider6,key_number)
+        self.compare_values(first_serif,second_serif,position7,loop7,basic_angle7,min,interval_servo7,
+                          begin_divider7,key_number)
+        self.compare_values(first_serif,second_serif,position8,loop8,basic_angle8,min,interval_servo8,
+                          begin_divider8,key_number)
+        self.compare_values(first_serif,second_serif,position9,loop9,basic_angle9,min,interval_servo9,
+                          begin_divider9,key_number)
 
 
 
-    def servo_on_min_interval(self,execute,number,number_1,number_2,
-                              number_3,number_4,number_5,
-                              number_6,number_7,number_8,
-                              position,position_1,position_2,
-                              position_3,position_4,position_5,
-                              position_6,position_7,position_8):
-        # TODO rebuld after on list with values
-        # big staff loop for insert values in keys
-       execution = execute
-       servo_execute = self.selector(number)
-       servo_execute1 = self.selector(number_1)
-       servo_execute2 = self.selector(number_2)
-       servo_execute3 = self.selector(number_3)
-       servo_execute4 = self.selector(number_4)
-       servo_execute5 = self.selector(number_5)
-       servo_execute6 = self.selector(number_6)
-       servo_execute7 = self.selector(number_7)
-       servo_execute8 = self.selector(number_8)
+    def servo_on_min_interval(self,execute,first_serif,second_serif,position1,
+                            position2,position3,position4,position5,
+                            position6,position7,position8,position9,loop1,loop2,
+                            loop3,loop4,loop5,loop6,loop7,loop8,loop9,
+                            basic_angle1,basic_angle2,basic_angle3,basic_angle4,
+                            basic_angle5,basic_angle6,basic_angle7,basic_angle8,
+                            basic_angle9,min,interval_servo1,interval_servo2,
+                            interval_servo3,interval_servo4,interval_servo5,
+                            interval_servo6,interval_servo7,interval_servo8,
+                            interval_servo9,begin_divider1,begin_divider2,
+                            begin_divider3,begin_divider4,begin_divider5,
+                            begin_divider6,begin_divider7,begin_divider8,
+                            begin_divider9,key_number):
+        print("HUETS"+str(execute)+'\n')
 
-       for i, key in enumerate(execution):
-           execution[key][position] = servo_execute[i]
-           execution[key][position_1] = servo_execute1[i]
-           execution[key][position_2] = servo_execute2[i]
-           execution[key][position_3] = servo_execute3[i]
-           execution[key][position_4] = servo_execute4[i]
-           execution[key][position_5] = servo_execute5[i]
-           execution[key][position_6] = servo_execute6[i]
-           execution[key][position_7] = servo_execute7[i]
-           execution[key][position_8] = servo_execute8[i]
-           print([key],position,i)
-       return execution
+        execution = execute
+
+        servo_execute = self.compare_values(first_serif,second_serif,position1,loop1,basic_angle1,min,interval_servo1,
+                         begin_divider1,key_number)
+        servo_execute1 = self.compare_values(first_serif,second_serif,position2,loop2,basic_angle2,min,interval_servo2,
+                         begin_divider2,key_number)
+        servo_execute2 = self.compare_values(first_serif,second_serif,position3,loop3,basic_angle3,min,interval_servo3,
+                         begin_divider3,key_number)
+        servo_execute3 = self.compare_values(first_serif,second_serif,position4,loop4,basic_angle4,min,interval_servo4,
+                         begin_divider4,key_number)
+        servo_execute4 = self.compare_values(first_serif,second_serif,position5,loop5,basic_angle5,min,interval_servo5,
+                         begin_divider5,key_number)
+        servo_execute5 = self.compare_values(first_serif,second_serif,position6,loop6,basic_angle6,min,interval_servo6,
+                         begin_divider6,key_number)
+        servo_execute6 = self.compare_values(first_serif,second_serif,position7,loop7,basic_angle7,min,interval_servo7,
+                         begin_divider7,key_number)
+        servo_execute7 = self.compare_values(first_serif,second_serif,position8,loop8,basic_angle8,min,interval_servo8,
+                         begin_divider8,key_number)
+        servo_execute8 = self.compare_values(first_serif,second_serif,position9,loop9,basic_angle9,min,interval_servo9,
+                         begin_divider9,key_number)
+
+        for i, key in enumerate(execution):
+            execution[key][position] = servo_execute[i]
+            execution[key][position_1] = servo_execute1[i]
+            execution[key][position_2] = servo_execute2[i]
+            execution[key][position_3] = servo_execute3[i]
+            execution[key][position_4] = servo_execute4[i]
+            execution[key][position_5] = servo_execute5[i]
+            execution[key][position_6] = servo_execute6[i]
+            execution[key][position_7] = servo_execute7[i]
+            execution[key][position_8] = servo_execute8[i]
+            print([key],position,i)
+        return execution
 
 
     def big_while(self):
