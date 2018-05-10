@@ -15,6 +15,14 @@ class Default_position:
                 self.master.after(500,self.stand_default_position(window,value,sec_value))
 
 
+    def stand_min_interval(self,interv):
+        interv.set(1)
+
+
+
+
+
+
 
 
 # in w_v meaning is window variable(all 4 :2window and 2limit for each )
