@@ -61,7 +61,15 @@ class SERVO_MAN(Variables,Player,Default_position,
         self.loop_sec_entry7 = 0
         self.loop_sec_entry8 = 0
         self.loop_sec_entry9 = 0
-
+        self.loop1 = True
+        self.loop2 = False
+        self.loop3 = False
+        self.loop4 = False
+        self.loop5 = False
+        self.loop6 = False
+        self.loop7 = False
+        self.loop8 = False
+        self.loop9 = False
 
         self.loop_speed1=0
         self.loop_speed2=0
@@ -82,6 +90,7 @@ class SERVO_MAN(Variables,Player,Default_position,
         self.loop_int_entry7 = 0
         self.loop_int_entry8 = 0
         self.loop_int_entry9 = 0
+        # variable for independent servos interval
         self.interval_1 = 0
         self.interval_2 = 0
         self.interval_3 = 0
@@ -91,7 +100,16 @@ class SERVO_MAN(Variables,Player,Default_position,
         self.interval_7 = 0
         self.interval_8 = 0
         self.interval_9 = 0
-
+        # variable for choose loop on or off
+        self.loop_variator = IntVar()
+        self.loop_variator1 = IntVar()
+        self.loop_variator2 = IntVar()
+        self.loop_variator3 = IntVar()
+        self.loop_variator4 = IntVar()
+        self.loop_variator5 = IntVar()
+        self.loop_variator6 = IntVar()
+        self.loop_variator7 = IntVar()
+        self.loop_variator8 = IntVar()
 
         self.primary_time = 0
         self.final_time = 0
@@ -120,14 +138,15 @@ class SERVO_MAN(Variables,Player,Default_position,
                                     textvariable=self.left_eye)
         self.angle_box1.grid(row=2, column=1)
         self.loop_l_e = ttk.Checkbutton(self.master,
-                                        onvalue =1,offvalue = 0,
-                                        command = lambda: self.loop_enabler(self.interval_1,self.loop)).grid(row=1, column=2, padx=10)
-                                                                            #TODO change variable to some thing special
+                                        onvalue =1,offvalue  =0,
+                                        command = lambda: self.loop_enabler(self.loop_variator,self.loop1)).grid(row=1, column=2, padx=10)
+
         self.lab_ser_2 = ttk.Label(self.master,text='глаз правый').grid(row=4, column=1)
         self.right_e = IntVar()
         self.angle_box2 = ttk.Entry(self.master, textvariable=self.right_e, width=3)
         self.angle_box2.grid(row=5, column=1)
         self.loop_r_e = ttk.Checkbutton(self.master,
+                                        command = lambda: self.loop_enabler(self.loop_variator1,self.loop2)
                                         ).grid(row=4, column=2, padx=10)
 
         self.lab_ser_3 = ttk.Label(self.master, text='плечо левое').grid(row=8, column=1)
@@ -135,50 +154,44 @@ class SERVO_MAN(Variables,Player,Default_position,
         self.angle_box3 = ttk.Entry(self.master,
                                     textvariable=self.right_sholder, width=3)
         self.angle_box3.grid(row=9, column=1)
-        self.loop_r_s = ttk.Checkbutton(self.master
-                                        ).grid(row=8, column=2, padx=10)
+        self.loop_r_s = ttk.Checkbutton(self.master,command = lambda: self.loop_enabler(self.loop_variator2,self.loop3)).grid(row=8, column=2, padx=10)
 
         self.lab_ser_4 = ttk.Label(self.master, text='плечо правое').grid(row=1, column=3, )
         self.right_hand = IntVar()
         self.angle_box4 = ttk.Entry(self.master, textvariable=self.right_hand, width=3)
         self.angle_box4.grid(row=2, column=3)
-        self.loop_r_h = ttk.Checkbutton(self.master,
-                                        ).grid(row=1, column=4, padx=10)
+        self.loop_r_h = ttk.Checkbutton(self.master,command = lambda: self.loop_enabler(self.loop_variator3,self.loop4)).grid(row=1, column=4, padx=10)
 
         self.lab_ser_5 = ttk.Label(self.master, text='рука левая').grid(row=4, column=3)
         self.left_hand = IntVar()
         self.angle_box5 = ttk.Entry(self.master, textvariable=self.left_hand, width=3)
         self.angle_box5.grid(row=5, column=3)
-        self.loop_r_l = ttk.Checkbutton(self.master,
-                                        ).grid(row=4, column=4, padx=10)
+        self.loop_r_l = ttk.Checkbutton(self.master,command = lambda: self.loop_enabler(self.loop_variator4,self.loop5)).grid(row=4, column=4, padx=10)
 
         self.lab_ser_6 = ttk.Label(self.master, text='рука правая').grid(row=8, column=3)
         self.left_leg = IntVar()
         self.angle_box6 = ttk.Entry(self.master, textvariable=self.left_leg, width=3)
         self.angle_box6.grid(row=9, column=3)
-        self.loop_l_l = ttk.Checkbutton(self.master,
-                                        ).grid(row=8, column=4, padx=10)
+        self.loop_l_l = ttk.Checkbutton(self.master,command = lambda: self.loop_enabler(self.loop_variator5,self.loop6)).grid(row=8, column=4, padx=10)
 
         self.lab_ser_7 = ttk.Label(self.master, text='нога правая ').grid(row=1, column=6)
         self.right_leg = IntVar()
         self.angle_box7 = ttk.Entry(self.master, textvariable=self.right_leg, width=3)
         self.angle_box7.grid(row=2, column=6)
 
-        self.loop_r_l = ttk.Checkbutton(self.master,
-                                        ).grid(row=1, column=7, padx=10)
+        self.loop_r_l = ttk.Checkbutton(self.master,command = lambda: self.loop_enabler(self.loop_variator6,self.loop7)).grid(row=1, column=7, padx=10)
 
         self.lab_ser_8 = ttk.Label(self.master, text='нога левая ').grid(row=4, column=6)
         self.reserved_1 = IntVar()
         self.angle_box8 = ttk.Entry(self.master, textvariable=self.reserved_1, width=3)
         self.angle_box8.grid(row=5, column=6)
-        self.loop_res = ttk.Checkbutton(self.master,
-                                        ).grid(row=4, column=7, padx=10)
+        self.loop_res = ttk.Checkbutton(self.master,command = lambda: self.loop_enabler(self.loop_variator7,self.loop8)).grid(row=4, column=7, padx=10)
 
         self.lab_ser_9 = ttk.Label(self.master, text='жопа ').grid(row=8, column=6)
         self.reserved_2 = IntVar()
         self.angle_box9 = ttk.Entry(self.master, textvariable=self.reserved_2, width=3)
         self.angle_box9.grid(row=9, column=6)
-        self.loop_res2 = ttk.Checkbutton(self.master,
+        self.loop_res2 = ttk.Checkbutton(self.master,command = lambda: self.loop_enabler(self.loop_variator8,self.loop9)
                                         ).grid(row=8, column=7, padx=10)
 
         self.play_butt = ttk.Button(self.master,
@@ -257,19 +270,15 @@ class SERVO_MAN(Variables,Player,Default_position,
 
         # stand default position for servo before start
 
-        self.loop1 = False
-        self.loop2 = False
-        self.loop3 = False
-        self.loop4 = False
-        self.loop5 = False
-        self.loop6 = False
-        self.loop7 = False
-        self.loop8 = False
-        self.loop9 = False
+
+
+
+
+
+
     # draw func
         self.interval_1 = IntVar()
         self.loop_int_entry1 = ttk.Entry(self.master,textvariable = self.interval_1,width =2,)
-
         self.loop_int_entry1.grid(row =2,column =2 ,padx = 0)
         self.interval_2 = IntVar()
         self.loop_int_entry2 = ttk.Entry(self.master,textvariable = self.interval_2,width =2)
@@ -310,6 +319,7 @@ class SERVO_MAN(Variables,Player,Default_position,
 
 
 
+
     def loop_activator(self,loop_entr,loop):
         # this stuff must be indicating = if on or not on loop
         if loop_entr.get() == 1:
@@ -322,13 +332,13 @@ class SERVO_MAN(Variables,Player,Default_position,
         else:
             loop_entr.set(0)
 
-    def loop_enabler(self,loop_entr,loop_window,variable,row,column):
+    def loop_enabler(self,loop_entr,loop):
         # action with active loop shit
         # draw addional window
         # and stand flag appropriate window True
         self.loop_activator(loop_entr,loop)
-        loop_window = ttk.Entry(self.master, textvariable=variable, width=3)
-        loop_window.grid(row = row,column =column)
+        # loop_window = ttk.Entry(self.master, textvariable=variable, width=3)
+        # loop_window.grid(row = row,column =column)
 
 
     def default(self):
@@ -351,7 +361,7 @@ class SERVO_MAN(Variables,Player,Default_position,
         self.stand_default_position(self.angle_box8,30,90)
         # ass
         self.stand_default_position(self.angle_box9,0,270)
-        self.stand_min_interval(self.interval_1)
+
         self.stand_min_interval(self.interval_2)
         self.stand_min_interval(self.interval_3)
         self.stand_min_interval(self.interval_4)
@@ -360,6 +370,15 @@ class SERVO_MAN(Variables,Player,Default_position,
         self.stand_min_interval(self.interval_7)
         self.stand_min_interval(self.interval_8)
         self.stand_min_interval(self.interval_9)
+        self.stand_min_interval(self.loop_variator)
+        self.stand_min_interval(self.loop_variator1)
+        self.stand_min_interval(self.loop_variator2)
+        self.stand_min_interval(self.loop_variator3)
+        self.stand_min_interval(self.loop_variator4)
+        self.stand_min_interval(self.loop_variator5)
+        self.stand_min_interval(self.loop_variator6)
+        self.stand_min_interval(self.loop_variator7)
+        self.stand_min_interval(self.loop_variator8)
     def printspeed(self, val):
         # define for speed
         speed = round(float(val))
@@ -490,7 +509,7 @@ class SERVO_MAN(Variables,Player,Default_position,
                                       self.right_sholder.get(),self.right_hand.get(),self.left_hand.get(),self.left_leg.get(),
                                       self.right_leg.get(),self.reserved_1.get(),self.reserved_2.get(),interval_servo[0],
                                       interval_servo[1],interval_servo[2],interval_servo[3],interval_servo[4],interval_servo[5],
-                                      interval_servo[6],interval_servo[7],interval_servo[8],0,0,0,0,0,0,0,0,0,len(execute.keys()),len(execute.keys()))
+                                      interval_servo[6],interval_servo[7],interval_servo[8],1,0,0,0,0,0,0,0,0,len(execute.keys()),len(execute.keys()))
             self.show_dict()
     def stopper(self):
         if round(self.time_scale.get()*1000)<=self.final_time:
@@ -559,8 +578,8 @@ class SERVO_MAN(Variables,Player,Default_position,
 
     def choose_db(self):
         fname = askopenfilename(filetypes=(("scenario", "*.db"),
-                                           ("All files", "*.*")),
-                                initialdir='~/PycharmProjects/ard/')
+                                           ("All files", "*.*")))
+
         base=fname.split('/')
         self.current_name_db = fname
         self.window_db.insert(END, base[-1] + '\n')
