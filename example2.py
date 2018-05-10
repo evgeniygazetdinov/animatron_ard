@@ -4,7 +4,7 @@ from sketchbooks.SW.run_servo import compiling
 from random import randint
 import random
 from collections import  OrderedDict
-
+import  itertools
 class EXAMPLER:
     def __init__(self):
         i=10
@@ -34,95 +34,6 @@ class EXAMPLER:
         self.sql_servo_8 = []
         self.sql_servo_9 = []
         self.time = []
-
-
-
-
-
-        self.execution = {'0': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                     '1': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                      '2': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                       '3': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                        '4': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                         '5': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                          '6': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                           '7': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                            '8': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                             '9': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                             '10': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                              '11': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                              '12': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                               '13': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                '14': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                 '15': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                  '16': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                   '17': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                    '18': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                     '19': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                     '20': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                      '21': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                       '22': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                        '23': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                         '24': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50,30, 50, 0, 50],
-                                          '25': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                           '26': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                            '27': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                             '28': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                              '29': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                               '30': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                '31': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                 '32': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                  '33': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                   '34': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                    '35': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                     '36': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30,50, 30, 50, 30, 50, 0, 50],
-                                                      '37': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                       '38': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                        '39': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                         '40': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                          '41': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                           '42': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                            '43': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                             '44': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                              '45': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                               '46': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                               '47': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                '48': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                '49': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                '50': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                 '51': [0, 50, 0, 50, 100, 50, 100, 50,130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                 '52': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                 '53': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                 '54': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                 '55': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                 '56': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                 '57': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                 '58': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                 '59': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                 '60': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                 '61': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                 '62': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                  '63': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                   '64': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                    '65': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                    '66': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                    '67': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                    '68': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                    '69': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                    '70': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                    '71': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                    '72': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                    '73': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                    '74': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                    '75': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                    '76': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                    '77': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                    '78': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                    '79': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                     '80': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                      '81': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                       '82': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50],
-                                                                        '83': [0, 50, 0, 50, 100, 50, 100, 50, 130, 50, 30, 50, 30, 50, 30, 50, 0, 50]}
 
 
     def switcher(self,f,s):
@@ -178,19 +89,28 @@ class EXAMPLER:
 
     def keys_finder(self):
         # first place for global values
-        self.key = len(self.create_min_keys())
-        print('HUEC'+(str(len(self.create_min_keys()))))
-    def servo_key_finder(self):
-        pass
+        key = len(self.create_min_keys())
+        return key
 
-    def divider_angle(self,basic_angle):
-        min_interval = 0.2
-        interval_servo = 0.6
+
+    def single_repeater(self,angle_for_repeat,key_number):
+        # just return quantity angles (more important quantity)
+        some_execute = []
+        for _ in range(key_number):
+            some_execute.append(angle_for_repeat)
+        return some_execute
+
+    def divider_angle(self,basic_angle,min,interval_servo,
+                      begin_divider,key_number):
+        # get in angle for divide,min interval,interval servo,
+        # number from which begin divide,and quantity key for divide
+        min_interval = min
+        interval_servo = interval_servo
         interval_div = int((interval_servo * 10) / (min_interval * 10))
-        div_angle = 0
+        div_angle = begin_divider
         interval = int(basic_angle / interval_div)
         some_execute = [div_angle]
-        for _ in range(10):
+        for _ in range(key_number):
             div_angle += interval
             if div_angle > basic_angle:
                 interval *= -1
@@ -202,23 +122,146 @@ class EXAMPLER:
                 continue
             some_execute.append(div_angle)
 
+
         return some_execute
-    def servo_on_min_interval(self,execute,number,number_1,number_2,
-                              number_3,number_4,number_5,
-                              number_6,number_7,number_8,
-                              position,position_1,position_2,
-                              position_3,position_4,position_5,
-                              position_6,position_7,position_8):
+
+    def limiter_for_switcher(self,loop,keys):
+        # this func need for right quantity values from exiting from loop
+        # she add or delete excess digit from list
+        while len(loop) != keys:
+            if len(loop) > keys:
+                del loop[-1]
+                if len(loop) == keys:
+                    break
+            if len(loop) <  keys:
+                for item in loop:
+                    loop.append(int(loop[item]))
+                    # if item :
+                    #     item/2
+                    if len(loop) == keys:
+                        break
+            print(len(loop))
+            return loop
+
+
+    def switcher(self,first_angle,second_angle,min,interval_servo,
+                 begin_divider,key_number):
+        loop = []
+        total_loop = []
+        # this func must be change angle passing just one  loop with quantity keys
+        # this stuff be responsibility by loop
+        # in my mind just one sequence divide angle after she begin anothe with another angle
+        # for example first angle 180 begin by 20 and interval =10 second angle 60 begin by 20 and interval 5
+        # 20 30 40 50 60 70 80 90  etc 180 170 160 150 etc 20 25 30 35 etc 60 55 50 45 40 35 30 25 20  etc 180
+        # simple implementation is divider angle launched 2
+        loop.append(self.divider_angle(first_angle,min,interval_servo,
+                          begin_divider,key_number))
+
+        loop.append(self.divider_angle(second_angle,min,interval_servo,
+                          begin_divider,key_number))
+        # this place for merging to list in one
+        for i in loop:
+            total_loop += i
+        print(total_loop)
+
+        final_loop = self.limiter_for_switcher(total_loop,key_number)
+        return final_loop
+            # rebuild stuff in side 2divider angle create common list with values.lenght this list depend on quantity keys
+            # after return list with values .Which is will add on commom scale with minamal interval.
+
+
+
+    def selector(self,loop,basic_angle,min,interval_servo,
+                      begin_divider,key_number):
+        # choose prefer method put values on scale_with_interval
+        if loop == True:
+            switcher(first_angle,second_angle,min,interval_servo,
+                         begin_divider,key_number)
+        else:
+            self.divider_angle(basic_angle,min,interval_servo,
+                              begin_divider,key_number)
+
+
+
+    def compare_values(self,first_list,second_list,position,loop,basic_angle,min,interval_servo,
+                      begin_divider,key_number):
+        # decide which number worthy
+        if first_list[position] != second_list[position]:
+            self.selector(loop,basic_angle,min,interval_servo,
+                              begin_divider,key_number)
+        if first_list[position] == second_list[position]:
+            single_repeater(basic_angle,min,interval_servo,key_number)
+
+
+    def comparer_two_list(self,first_serif,second_serif,position1,
+                          position2,position3,position4,position5,
+                          position6,position8,position9,loop1,loop2,
+                          loop3,loop4,loop5,loop6,loop7,loop8,loop9,
+                          basic_angle1,basic_angle2,basic_angle3,basic_angle4,
+                          basic_angle5,basic_angle6,basic_angle7,basic_angle8,
+                          basic_angle9,min,interval_servo1,interval_servo2,
+                          interval_servo3,interval_servo4,interval_servo5,
+                          interval_servo6,interval_servo7,interval_servo8,
+                          interval_servo9,begin_divider1,
+                          begin_divider2,begin_divider3,begin_divider4,
+                          begin_divider5,begin_divider6,begin_divider7,
+                          begin_divider8,begin_divider9,key_number):
+        # this func must be return begins and over for divider_angle
+        self.compare_values(first_serif,second_serif,position1,loop1,basic_angle1,min,interval_servo1,
+                          begin_divider1,key_number)
+        self.compare_values(first_serif,second_serif,position2,loop2,basic_angle2,min,interval_servo2,
+                          begin_divider2,key_number)
+        self.compare_values(first_serif,second_serif,position3,loop3,basic_angle3,min,interval_servo3,
+                          begin_divider3,key_number)
+        self.compare_values(first_serif,second_serif,position4,loo4p,basic_angle4,min,interval_servo4,
+                          begin_divider4,key_number)
+        self.compare_values(first_serif,second_serif,position5,loop5,basic_angle5,min,interval_servo5,
+                          begin_divider5,key_number)
+        self.compare_values(first_serif,second_serif,position6,loop6,basic_angle6,min,interval_servo6,
+                          begin_divider6,key_number)
+        self.compare_values(first_serif,second_serif,position7,loop7,basic_angle7,min,interval_servo7,
+                          begin_divider7,key_number)
+        self.compare_values(first_serif,second_serif,position8,loop8,basic_angle8,min,interval_servo8,
+                          begin_divider8,key_number)
+        self.compare_values(first_serif,second_serif,position9,loop9,basic_angle9,min,interval_servo9,
+                          begin_divider9,key_number)
+
+
+
+    def servo_on_min_interval(self,execute,first_serif,second_serif,position1,
+                            position2,position3,position4,position5,
+                            position6,position8,position9,loop1,loop2,
+                            loop3,loop4,loop5,loop6,loop7,loop8,loop9,
+                            basic_angle1,basic_angle2,basic_angle3,basic_angle4,
+                            basic_angle5,basic_angle6,basic_angle7,basic_angle8,
+                            basic_angle9,min,interval_servo1,interval_servo2,
+                            interval_servo3,interval_servo4,interval_servo5,
+                            interval_servo6,interval_servo7,interval_servo8,
+                            interval_servo9,begin_divider1,begin_divider2,
+                            begin_divider3,begin_divider4,begin_divider5,
+                            begin_divider6,begin_divider7,begin_divider8,
+                            begin_divider9,key_number,):
+        # TODO rebuld after on list with values
+        # big staff loop for insert values in keys
        execution = execute
-       servo_execute = self.divider_angle(number)
-       servo_execute1 = self.divider_angle(number_1)
-       servo_execute2 = self.divider_angle(number_2)
-       servo_execute3 = self.divider_angle(number_3)
-       servo_execute4 = self.divider_angle(number_4)
-       servo_execute5 = self.divider_angle(number_5)
-       servo_execute6 = self.divider_angle(number_6)
-       servo_execute7 = self.divider_angle(number_7)
-       servo_execute8 = self.divider_angle(number_8)
+       servo_execute = self.comparer_two_list(first_serif,second_serif,position1,loop1,basic_angle1,min,interval_servo,
+                         begin_divider1,key_number)
+       servo_execute1 = self.comparer_two_list(first_serif,second_serif,position2,loop2,basic_angle2,min,interval_servo,
+                         begin_divider2,key_number)
+       servo_execute2 = self.comparer_two_list(first_serif,second_serif,position3,loop3,basic_angle3,min,interval_servo,
+                         begin_divider3,key_number)
+       servo_execute3 = self.comparer_two_list(first_serif,second_serif,position4,loop4,basic_angle4,min,interval_servo,
+                         begin_divider4,key_number)
+       servo_execute4 = self.comparer_two_list(first_serif,second_serif,position5,loop5,basic_angle5,min,interval_servo,
+                         begin_divider5,key_number)
+       servo_execute5 = self.comparer_two_list(first_serif,second_serif,position6,loop6,basic_angle6,min,interval_servo,
+                         begin_divider6,key_number)
+       servo_execute6 = self.comparer_two_list(first_serif,second_serif,position7,loop7,basic_angle7,min,interval_servo,
+                         begin_divider7,key_number)
+       servo_execute7 = self.comparer_two_list(first_serif,second_serif,position8,loop8,basic_angle8,min,interval_servo,
+                         begin_divider8,key_number)
+       servo_execute8 = self.comparer_two_list(first_serif,second_serif,position9,loop9,basic_angle9,min,interval_servo9,
+                         begin_divider9,key_number)
 
        for i, key in enumerate(execution):
            execution[key][position] = servo_execute[i]
@@ -234,10 +277,8 @@ class EXAMPLER:
        return execution
 
 
-    def create_execute(self):
-        execute = self.servo_on_min_interval(99,0)
-        return execute
     def big_while(self):
+
         scale = self.create_execute()
         print(scale)
         return scale3
@@ -367,3 +408,9 @@ class EXAMPLER:
         call('rm template.h', shell=True)
         shutil.move("/home/qbc/PycharmProjects/ard/VAL.h",
                     "/usr/share/arduino/hardware/arduino/cores/arduino/VAL.h")
+
+
+loop = [i for i in range(20)]
+# xaxa =  EXAMPLER()
+# print(xaxa.switcher(44,99,0.1,0.4,
+#              20,99))
