@@ -186,7 +186,7 @@ class SERVO_MAN(Variables,Player,Default_position,
                                     ).grid(row=12, column=3)
         self.button = ttk.Button(self.master,
                                  text='записать позиции',
-                                 command = self.adden_key_to_model)
+                                 command = self.count_clicks)
         self.button.grid(row=10, column=3,columnspan=1)
         self.button_save = ttk.Button(self.master,
                             text='сохранить сценарий ',
@@ -389,7 +389,6 @@ class SERVO_MAN(Variables,Player,Default_position,
         self.right_leg.get(),round(self.speed_slider.get()),
         self.reserved_1.get(),round(self.speed_slider.get()),
         self.reserved_2.get(),round(self.speed_slider.get()),]
-        print(self.model)
         self.show_dict()
         return self.model
     def adden_intervals_for_keys(self):
@@ -419,7 +418,7 @@ class SERVO_MAN(Variables,Player,Default_position,
         self.min_interval = self.find_minimal_interval(self.adden_intervals_for_keys())
         # time_begin = self.extract_key(time_begin)
         # time_over = self.extract_key(time_over)
-        execute = self.generateNumber(time_begin,time_over,int(min_interval)*100,fi)
+        execute = self.generateNumber(time_begin,time_over,int(self.min_interval)*100,fi)
         #rebuld main func which bulid scale need some more flexibile
         #when  be taken first key with list after values second and first  model must be compare
         print(execute)
@@ -483,23 +482,16 @@ class SERVO_MAN(Variables,Player,Default_position,
             messagebox.showinfo("значение", "записано второе значение ")
             self.final_time = round(self.time_scale.get() * 1000)
             self.second_p = self.adden_key_to_model()
-            interval_servo = adden_intervals_for_keys()
+            interval_servo = self.adden_intervals_for_keys()
             execute = self.calculate_scale(self.primary_time, self.final_time,self.first_p)
-            self.servo_on_min_interval(execute,self.first_p,self.second_p,
-                                      0,2,4,6,8,10,12,14,16,self.loop1,self.loop2,
-                                      self.loop3,self.loop4,self.loop5,self.loop6,
-                                      self.loop6,self.loop7,self.loop8,self.loop9,
-                                      self.left_eye.get(),self.right_e.get(),
-                                      self.right_sholder.get(),self.right_hand.get(),
-                                      self.left_hand.get(),self.left_leg.get(),
-                                      self.right_leg.get(),self.reserved_1.get(),
-                                      self.reserved_2.get(),self.min_interval[0],
-                                      self.min_interval[1],self.min_interval[2],self.min_interval[3],
-                                      self.min_interval[4],self.min_interval[5],self.min_interval[6],
-                                      self.min_interval[7],self.min_interval[8],0,0,0,0,0,0,0,0,0,len(execute))
+            self.servo_on_min_interval(execute,self.first_p,self.second_p,0,2,4,6,8,10,12,14,16,
+                                      self.loop1,self.loop2,self.loop3,self.loop4,self.loop5,self.loop6,
+                                      self.loop7,self.loop8,self.loop9,self.left_eye.get(),self.right_e.get(),
+                                      self.right_sholder.get(),self.right_hand.get(),self.left_hand.get(),self.left_leg.get(),
+                                      self.right_leg.get(),self.reserved_1.get(),self.reserved_2.get(),interval_servo[0],
+                                      interval_servo[1],interval_servo[2],interval_servo[3],interval_servo[4],interval_servo[5],
+                                      interval_servo[6],interval_servo[7],interval_servo[8],0,0,0,0,0,0,0,0,0,len(execute.keys()),len(execute.keys()))
             self.show_dict()
-            print(self.model)
-            print(self.intervals_for_model)
     def stopper(self):
         if round(self.time_scale.get()*1000)<=self.final_time:
             self.time_scale.set(self.final_time/1000)
