@@ -1,6 +1,8 @@
+
 from subprocess import call
 import shutil
 from sketchbooks.SW.run_servo import compiling
+from itertools import chain
 from random import randint
 import random
 from collections import  OrderedDict
@@ -104,9 +106,11 @@ class EXAMPLER:
                           begin_divider,key_number):
         min_interval = min
         interval_servo = interval_servo
-        interval_div = int((interval_servo * 10) / (min_interval * 10))
-        div_angle = 0
+        interval_div = int(int(interval_servo * 100) / int(min_interval * 100))
+
+        div_angle = begin_divider
         interval = round(basic_angle / interval_div)
+
         some_execute = [div_angle]
         for _ in range(key_number):
             div_angle += interval
@@ -131,17 +135,20 @@ class EXAMPLER:
                     break
             if len(loop) <  keys:
                 for item in loop:
-                    loop.append(int(loop[item]))
-                    # if item :
-                    #     item/2
+                    # loop.append(int(loop[item]))
                     if len(loop) == keys:
                         break
             return loop
+    def find_right_way(self,list1,list2):
+        # sorting in begin one value after second
+        right_sequense = list(chain.from_iterable(zip(list1,list2)))
+        return right_sequense
 
 
-    def switcher(self,first_angle,second_angle,min,interval_servo,
-                 begin_divider,key_number):
-        loop = []
+    def switcher(self,first_angle,min,interval_servo,
+                 begin_divider,key_number,second_angle = 90):
+        loop1 = []
+        loop2 = []
         total_loop = []
         # this func must be change angle passing just one  loop with quantity keys
         # this stuff be responsibility by loop
@@ -149,18 +156,16 @@ class EXAMPLER:
         # for example first angle 180 begin by 20 and interval =10 second angle 60 begin by 20 and interval 5
         # 20 30 40 50 60 70 80 90  etc 180 170 160 150 etc 20 25 30 35 etc 60 55 50 45 40 35 30 25 20  etc 180
         # simple implementation is divider angle launched 2
-        loop.append(self.divider_angle(first_angle,min,interval_servo,
+        loop1.append(self.divider_angle(first_angle,min,interval_servo,
                           begin_divider,key_number))
 
-        loop.append(self.divider_angle(second_angle,min,interval_servo,
+        loop2.append(self.divider_angle(second_angle,min,interval_servo,
                           begin_divider,key_number))
-        # this place for merging to list in one
-        for i in loop:
-            total_loop += i
-        print(total_loop)
 
-        final_loop = self.limiter_for_switcher(total_loop,key_number)
-        return final_loop
+        total_loop = self.find_right_way(loop1,loop2)
+        # it second right length
+        # final_loop = self.limiter_for_switcher(total_loop,key_number)
+        return total_loop
         print("switcher")
             # rebuild stuff in side 2divider angle create common list with values.lenght this list depend on quantity keys
             # after return list with values .Which is will add on commom scale with minamal interval.
@@ -200,44 +205,44 @@ class EXAMPLER:
                     print("freestyler")
 
 
-    def comparer_two_list(self,first_serif,second_serif,position1,
-                          position2,position3,position4,position5,
-                          position6,position7,position8,position9,loop1,loop2,
-                          loop3,loop4,loop5,loop6,loop7,loop8,loop9,
-                          basic_angle1,basic_angle2,basic_angle3,basic_angle4,
-                          basic_angle5,basic_angle6,basic_angle7,basic_angle8,
-                          basic_angle9,min,interval_servo1,interval_servo2,
-                          interval_servo3,interval_servo4,interval_servo5,
-                          interval_servo6,interval_servo7,interval_servo8,
-                          interval_servo9,begin_divider1,begin_divider2,
-                          begin_divider3,begin_divider4,begin_divider5,
-                          begin_divider6,begin_divider7,begin_divider8,
-                          begin_divider9,key_number):
-        # this func must be return begins and over for divider_angle
-        self.compare_values(first_serif,second_serif,position1,loop1,basic_angle1,min,interval_servo1,
-                          begin_divider1,key_number)
-        self.compare_values(first_serif,second_serif,position2,loop2,basic_angle2,min,interval_servo2,
-                          begin_divider2,key_number)
-        self.compare_values(first_serif,second_serif,position3,loop3,basic_angle3,min,interval_servo3,
-                          begin_divider3,key_number)
-        self.compare_values(first_serif,second_serif,position4,loo4p,basic_angle4,min,interval_servo4,
-                          begin_divider4,key_number)
-        self.compare_values(first_serif,second_serif,position5,loop5,basic_angle5,min,interval_servo5,
-                          begin_divider5,key_number)
-        self.compare_values(first_serif,second_serif,position6,loop6,basic_angle6,min,interval_servo6,
-                          begin_divider6,key_number)
-        self.compare_values(first_serif,second_serif,position7,loop7,basic_angle7,min,interval_servo7,
-                          begin_divider7,key_number)
-        self.compare_values(first_serif,second_serif,position8,loop8,basic_angle8,min,interval_servo8,
-                          begin_divider8,key_number)
-        self.compare_values(first_serif,second_serif,position9,loop9,basic_angle9,min,interval_servo9,
-                          begin_divider9,key_number)
+    # def comparer_two_list(self,first_serif,second_serif,position1,
+    #                       position2,position3,position4,position5,
+    #                       position6,position7,position8,position9,loop1,loop2,
+    #                       loop3,loop4,loop5,loop6,loop7,loop8,loop9,
+    #                       basic_angle1,basic_angle2,basic_angle3,basic_angle4,
+    #                       basic_angle5,basic_angle6,basic_angle7,basic_angle8,
+    #                       basic_angle9,min,interval_servo1,interval_servo2,
+    #                       interval_servo3,interval_servo4,interval_servo5,
+    #                       interval_servo6,interval_servo7,interval_servo8,
+    #                       interval_servo9,begin_divider1,begin_divider2,
+    #                       begin_divider3,begin_divider4,begin_divider5,
+    #                       begin_divider6,begin_divider7,begin_divider8,
+    #                       begin_divider9,key_number):
+    #     # this func must be return begins and over for divider_angle
+    #     self.compare_values(first_serif,second_serif,position1,loop1,basic_angle1,min,interval_servo1,
+    #                       begin_divider1,key_number)
+    #     self.compare_values(first_serif,second_serif,position2,loop2,basic_angle2,min,interval_servo2,
+    #                       begin_divider2,key_number)
+    #     self.compare_values(first_serif,second_serif,position3,loop3,basic_angle3,min,interval_servo3,
+    #                       begin_divider3,key_number)
+    #     self.compare_values(first_serif,second_serif,position4,loo4p,basic_angle4,min,interval_servo4,
+    #                       begin_divider4,key_number)
+    #     self.compare_values(first_serif,second_serif,position5,loop5,basic_angle5,min,interval_servo5,
+    #                       begin_divider5,key_number)
+    #     self.compare_values(first_serif,second_serif,position6,loop6,basic_angle6,min,interval_servo6,
+    #                       begin_divider6,key_number)
+    #     self.compare_values(first_serif,second_serif,position7,loop7,basic_angle7,min,interval_servo7,
+    #                       begin_divider7,key_number)
+    #     self.compare_values(first_serif,second_serif,position8,loop8,basic_angle8,min,interval_servo8,
+    #                       begin_divider8,key_number)
+    #     self.compare_values(first_serif,second_serif,position9,loop9,basic_angle9,min,interval_servo9,
+    #                       begin_divider9,key_number)
 
 
 
-    def servo_on_min_interval(self,execute,first_serif,second_serif,position1,
+    def servo_on_min_interval(self,execute,first_serif,second_serif,position,
                             position2,position3,position4,position5,
-                            position6,position7,position8,position9,loop1,loop2,
+                            position6,position7,position8,loop1,loop2,
                             loop3,loop4,loop5,loop6,loop7,loop8,loop9,
                             basic_angle1,basic_angle2,basic_angle3,basic_angle4,
                             basic_angle5,basic_angle6,basic_angle7,basic_angle8,
@@ -252,8 +257,8 @@ class EXAMPLER:
 
         execution = execute
         # TODO find servos execute
-        servo_execute = self.selector(loop,basic_angle1,min,interval_servo1,
-                          begin_divider1,key_number)
+        servo_execute = self.switcher(basic_angle1,min,interval_servo1,
+                     begin_divider1,key_number,second_angle=90)
         # servo_execute1 = self.divider_angle(basic_angle2,min,interval_servo2,
         #                   begin_divider2,key_number)
         # servo_execute2 = self.divider_angle(basic_angle3,min,interval_servo3,
@@ -270,8 +275,8 @@ class EXAMPLER:
         #                   begin_divider8,key_number)
         # servo_execute8 = self.divider_angle(basic_angle9,min,interval_servo9,
         #                   begin_divider9,key_number)
-        print(str(servo_execute))
-        # print(servo_execute1)
+
+        print(servo_execute)
         # print(servo_execute2)
         # print(servo_execute3)
         # print(servo_execute4)
@@ -280,17 +285,17 @@ class EXAMPLER:
         # print(servo_execute7)
         # print(servo_execute8)
 
-        # for i, key in enumerate(execution):
-        #     execution[key][position] = servo_execute[i]
-        #     execution[key][position_1] = servo_execute1[i]
-        #     execution[key][position_2] = servo_execute2[i]
-        #     execution[key][position_3] = servo_execute3[i]
-        #     execution[key][position_4] = servo_execute4[i]
-        #     execution[key][position_5] = servo_execute5[i]
-        #     execution[key][position_6] = servo_execute6[i]
-        #     execution[key][position_7] = servo_execute7[i]
-        #     execution[key][position_8] = servo_execute8[i]
-        # print(execution)
+        for i, key in enumerate(execution):
+            execution[key][position] = servo_execute[i]
+            execution[key][position_1] = servo_execute1[i]
+            execution[key][position_2] = servo_execute2[i]
+            execution[key][position_3] = servo_execute3[i]
+            execution[key][position_4] = servo_execute4[i]
+            execution[key][position_5] = servo_execute5[i]
+            execution[key][position_6] = servo_execute6[i]
+            execution[key][position_7] = servo_execute7[i]
+            execution[key][position_8] = servo_execute8[i]
+        print(execution)
         return execution
 
 
@@ -428,6 +433,5 @@ class EXAMPLER:
 
 
 loop = [i for i in range(20)]
-# xaxa =  EXAMPLER()
-# print(xaxa.switcher(44,99,0.1,0.4,
-#              20,99))
+xaxa =  EXAMPLER()
+print(xaxa.switcher(40,1,8,0,99))
