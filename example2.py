@@ -193,6 +193,7 @@ class EXAMPLER:
         # decide which number worthy
         # get list wanted values
             if first_list[position] != first_list[position]:
+                print("frfrfrrfrfrffrrrfrfrffrfrfrfrfrfrfeferferfreferfer")
                 return self.divider_angle(basic_angle,min,interval_servo,
                                   begin_divider,key_number)
             else:
@@ -290,6 +291,7 @@ class EXAMPLER:
             execution[key][position8] = servo_execute8[position8]
         print(execution)
         print(self.first_p)
+        print(self.second_p)
         return execution
 
 
