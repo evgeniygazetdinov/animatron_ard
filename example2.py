@@ -110,7 +110,6 @@ class EXAMPLER:
 
         div_angle = begin_divider
         interval = round(basic_angle / interval_div)
-
         some_execute = [div_angle]
         for _ in range(key_number):
             div_angle += interval
@@ -147,25 +146,28 @@ class EXAMPLER:
 
     def switcher(self,first_angle,min,interval_servo,
                  begin_divider,key_number,second_angle = 90):
-        loop1 = []
-        loop2 = []
-        total_loop = []
+        loop1 = 0
+        loop2 = 0
+        total_loop = 0
+        final_loop = 0
         # this func must be change angle passing just one  loop with quantity keys
         # this stuff be responsibility by loop
         # in my mind just one sequence divide angle after she begin anothe with another angle
         # for example first angle 180 begin by 20 and interval =10 second angle 60 begin by 20 and interval 5
         # 20 30 40 50 60 70 80 90  etc 180 170 160 150 etc 20 25 30 35 etc 60 55 50 45 40 35 30 25 20  etc 180
         # simple implementation is divider angle launched 2
-        loop1.append(self.divider_angle(first_angle,min,interval_servo,
+        loop1 = (self.divider_angle(first_angle,min,interval_servo,
                           begin_divider,key_number))
 
-        loop2.append(self.divider_angle(second_angle,min,interval_servo,
+        loop2 = (self.divider_angle(second_angle,min,interval_servo,
                           begin_divider,key_number))
-
         total_loop = self.find_right_way(loop1,loop2)
+        for i in total_loop:
+            final_loop += i
         # it second right length
-        # final_loop = self.limiter_for_switcher(total_loop,key_number)
-        return total_loop
+        final_loop = self.limiter_for_switcher(total_loop,key_number)
+        print(key_number)
+        print(total_loop)
         print("switcher")
             # rebuild stuff in side 2divider angle create common list with values.lenght this list depend on quantity keys
             # after return list with values .Which is will add on commom scale with minamal interval.
@@ -434,4 +436,4 @@ class EXAMPLER:
 
 loop = [i for i in range(20)]
 xaxa =  EXAMPLER()
-print(xaxa.switcher(40,1,8,0,99))
+xaxa.switcher(40,1,8,0,10)
