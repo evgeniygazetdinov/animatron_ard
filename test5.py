@@ -495,14 +495,18 @@ class SERVO_MAN(Variables,Player,Default_position,
             self.second_p = self.adden_key_to_model()
             interval_servo = self.adden_intervals_for_keys()
             execute = self.calculate_scale(self.primary_time, self.final_time,self.first_p)
-
-            self.servo_on_min_interval(execute,self.first_p,self.second_p,0,2,4,6,8,10,12,14,16,
-                                      self.loop1,self.loop2,self.loop3,self.loop4,self.loop5,self.loop6,
-                                      self.loop7,self.loop8,self.loop9,self.left_eye.get(),self.right_e.get(),
-                                      self.right_sholder.get(),self.right_hand.get(),self.left_hand.get(),self.left_leg.get(),
-                                      self.right_leg.get(),self.reserved_1.get(),self.reserved_2.get(),interval_servo[0],
-                                      interval_servo[1],interval_servo[2],interval_servo[3],interval_servo[4],interval_servo[5],
-                                      interval_servo[6],interval_servo[7],interval_servo[8],0,0,0,0,0,0,0,0,0,len(execute.keys()))
+            final_execute = self.servo_on_min_interval(execute,self.first_p,self.second_p
+                                                        ,0,2,4,6,8,10,12,14,16,
+                                                        self.second_p[0],self.second_p[2],self.second_p[4],
+                                                        self.second_p[6],self.second_p[8],self.second_p[10],
+                                                        self.second_p[12],self.second_p[14],self.second_p[16],self.min_interval,
+                                                        interval_servo[0],interval_servo[1],interval_servo[2],
+                                                        interval_servo[3],interval_servo[4],interval_servo[5],
+                                                        interval_servo[6],interval_servo[7],interval_servo[8],
+                                                        self.first_p[0],self.first_p[2],self.first_p[4],
+                                                        self.first_p[6],self.first_p[8],self.first_p[10],
+                                                        self.first_p[12],self.first_p[14],self.first_p[16],
+                                                        len(execute))
             self.show_dict()
     def stopper(self):
         if round(self.time_scale.get()*1000)<=self.final_time:
