@@ -99,17 +99,19 @@ class EXAMPLER:
         for i in range(key_number):
 
             some_execute.append(angle_for_repeat)
-
-        print("reapeter")
-        print("HUETA"+str(angle_for_repeat))
         return some_execute
 
     def divider_angle(self,basic_angle,min,interval_servo,
                           begin_divider,key_number):
         min_interval = min
         interval_servo = interval_servo
-        interval_div = int(int(interval_servo * 100) / int(min_interval * 100))
-
+        try:
+            interval_div = int(int(interval_servo*10 ) / int(min_interval*10))
+        except ZeroDivisionError:
+            pass
+        finally:
+            interval_servo = 1
+            begin_divider = 1
         div_angle = begin_divider
         interval = round(basic_angle / interval_div)
         some_execute = [div_angle]
@@ -124,7 +126,6 @@ class EXAMPLER:
                 div_angle += interval
                 continue
             some_execute.append(div_angle)
-        print('LENGHT                                                                                  '+str(key_number))
         return some_execute
 
     def limiter_for_switcher(self,loop,keys):
@@ -251,12 +252,30 @@ class EXAMPLER:
                             begin_divider6,begin_divider7,begin_divider8,
                             begin_divider9,key_number):
         execute  = {str(i): self.adden_key_to_model() for i in range(key_number)}
+
         servo_execute = self.compare_values(first_serif,second_serif,position,basic_angle1,min,interval_servo1,begin_divider1,key_number)
-        servo_execute1 = self.compare_values(first_serif,second_serif,position1,basic_angle2,min,interval_servo1,begin_divider2,key_number)
+        servo_execute1 = self.compare_values(first_serif,second_serif,position1,basic_angle2,min,interval_servo2,basic_angle2,key_number)
+        servo_execute2 = self.compare_values(first_serif,second_serif,position2,basic_angle3,min,interval_servo3,basic_angle3,key_number)
+        servo_execute3 = self.compare_values(first_serif,second_serif,position3,basic_angle4,min,interval_servo4,basic_angle4,key_number)
+        servo_execute4 = self.compare_values(first_serif,second_serif,position4,basic_angle5,min,interval_servo5,basic_angle5,key_number)
+        servo_execute5 = self.compare_values(first_serif,second_serif,position5,basic_angle6,min,interval_servo6,basic_angle6,key_number)
+        servo_execute6 = self.compare_values(first_serif,second_serif,position6,basic_angle7,min,interval_servo6,basic_angle7,key_number)
+        servo_execute7 = self.compare_values(first_serif,second_serif,position7,basic_angle8,min,interval_servo7,basic_angle8,key_number)
+        servo_execute8 = self.compare_values(first_serif,second_serif,position8,basic_angle9,min,interval_servo8,basic_angle9,key_number)
+        print(servo_execute)
         for i ,value in enumerate(execute.values()):
             value[0] = servo_execute[i]
-        print(execute)
+            value[2] = servo_execute1[i]
+            value[4] = servo_execute2[i]
+            value[6] = servo_execute3[i]
+            value[8] = servo_execute4[i]
+            value[10] = servo_execute5[i]
+            value[12] = servo_execute6[i]
+            value[14] = servo_execute7[i]
+            value[16] = servo_execute8[i]
 
+        print(execute)
+        return execute
     def big_while(self):
 
         scale = self.create_execute()
