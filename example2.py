@@ -1,5 +1,4 @@
-
-from subprocess import call
+from subprocess import *
 import shutil
 from sketchbooks.SW.run_servo import compiling
 from itertools import chain
@@ -46,7 +45,7 @@ class EXAMPLER:
         model = {}
         for i in range(int(num),int(over),int(shag)):
             model['{}'.format(i)] = values
-
+        print(str(model)+"this is models")
         return model
 
 
@@ -97,9 +96,14 @@ class EXAMPLER:
 
     def single_repeater(self,angle_for_repeat,key_number):
         # just return quantity angles (more important quantity)
+
         some_execute = []
-        for _ in range(key_number):
+        for i in range(key_number):
+
             some_execute.append(angle_for_repeat)
+
+        print("reapeter")
+        print("HUETA"+str(angle_for_repeat))
         return some_execute
 
     def divider_angle(self,basic_angle,min,interval_servo,
@@ -111,7 +115,7 @@ class EXAMPLER:
         div_angle = begin_divider
         interval = round(basic_angle / interval_div)
         some_execute = [div_angle]
-        for _ in range(key_number):
+        for _ in range(key_number*2):
             div_angle += interval
             if div_angle > basic_angle:
                 interval *= -1
@@ -122,21 +126,22 @@ class EXAMPLER:
                 div_angle += interval
                 continue
             some_execute.append(div_angle)
+        print('LENGHT'+str(key_number))
         return some_execute
 
     def limiter_for_switcher(self,loop,keys):
         # this func need for right quantity values from exiting from loop
         # she add or delete excess digit from list
-        while len(loop) != keys:
-            if len(loop) > keys:
+        while len(loop) != len(keys):
+            if len(loop) >  len(keys):
                 del loop[-1]
+                if len(loop) == len(keys):
+                    break
+            if len(loop) <   len(keys):
+                for item in loop:
+                    loop.insert(-1,loop[item])
                 if len(loop) == keys:
                     break
-            if len(loop) <  keys:
-                for item in loop:
-                    # loop.append(int(loop[item]))
-                    if len(loop) == keys:
-                        break
             return loop
     def find_right_way(self,list1,list2):
         # sorting in begin one value after second
@@ -191,14 +196,14 @@ class EXAMPLER:
     def compare_values(self,first_list,second_list,position,basic_angle,min,interval_servo,
                       begin_divider,key_number):
         # decide which number worthy
-        # get list wanted values
-            if first_list[position] != first_list[position]:
-                print("frfrfrrfrfrffrrrfrfrffrfrfrfrfrfrfeferferfreferfer")
+            print('first list is'+str(first_list[position])+'\n'+'second list is '+str(second_list[position]))
+            if first_list[position] != second_list[position]:
+                print("divider")
                 return self.divider_angle(basic_angle,min,interval_servo,
                                   begin_divider,key_number)
-            else:
+            if first_list[position] == second_list[position]:
+                print("repeaterS")
                 return self.single_repeater(basic_angle,key_number)
-
 
 
     def comparer_two_list(self,first_serif,second_serif,position1,
@@ -248,18 +253,18 @@ class EXAMPLER:
                             begin_divider6,begin_divider7,begin_divider8,
                             begin_divider9,key_number):
 
-
+        print('LEN'+str(key_number))
         execution = execute
         # TODO find servos execute
-        servo_execute = self.compare_values(first_serif,second_serif,position1,basic_angle1,min,interval_servo1,
+        servo_execute = self.compare_values(first_serif,second_serif,position,basic_angle1,min,interval_servo1,
                           begin_divider1,key_number)
-        servo_execute1 = self.compare_values(first_serif,second_serif,position2,basic_angle2,min,interval_servo2,
+        servo_execute1 = self.compare_values(first_serif,second_serif,position1,basic_angle2,min,interval_servo2,
                           begin_divider2,key_number)
-        servo_execute2 = self.compare_values(first_serif,second_serif,position3,basic_angle3,min,interval_servo3,
+        servo_execute2 = self.compare_values(first_serif,second_serif,position2,basic_angle3,min,interval_servo3,
                               begin_divider3,key_number)
-        servo_execute3 = self.compare_values(first_serif,second_serif,position4,basic_angle4,min,interval_servo4,
+        servo_execute3 = self.compare_values(first_serif,second_serif,position3,basic_angle4,min,interval_servo4,
                           begin_divider4,key_number)
-        servo_execute4 = self.compare_values(first_serif,second_serif,position5,basic_angle5,min,interval_servo5,
+        servo_execute4 = self.compare_values(first_serif,second_serif,position4,basic_angle5,min,interval_servo5,
                           begin_divider5,key_number)
         servo_execute5 = self.compare_values(first_serif,second_serif,position5,basic_angle5,min,interval_servo5,
                           begin_divider5,key_number)
@@ -278,20 +283,32 @@ class EXAMPLER:
         print(servo_execute6)
         print(servo_execute7)
         print(servo_execute8)
+        print(len(servo_execute))
+        print(len(servo_execute2))
+        print(len(servo_execute3))
+        print(len(servo_execute4))
+        print(len(servo_execute5))
+        print(len(servo_execute6))
+        print(len(servo_execute7))
+        print(len(servo_execute8))
 
         for i, key in enumerate(execution):
-            execution[key][position] = servo_execute[position]
-            execution[key][position1] = servo_execute1[position1]
-            execution[key][position2] = servo_execute2[position2]
-            execution[key][position3] = servo_execute3[position3]
-            execution[key][position4] = servo_execute4[position4]
-            execution[key][position5] = servo_execute5[position5]
-            execution[key][position6] = servo_execute6[position6]
-            execution[key][position7] = servo_execute7[position7]
-            execution[key][position8] = servo_execute8[position8]
+            # if len(execution) != len(servo_execute):
+            #     servo_execute = self.limiter_for_switcher(servo_execute,execution)
+            # else:
+            execution[key][position] = servo_execute[i]
+            # execution[key][position1] = servo_execute1[i]
+            # execution[key][position2] = servo_execute2[i]
+            # execution[key][position3] = servo_execute3[i]
+            # execution[key][position4] = servo_execute4[i]
+            # execution[key][position5] = servo_execute5[i]
+            # execution[key][position6] = servo_execute6[i]
+            # execution[key][position7] = servo_execute7[i]
+            # execution[key][position8] = servo_execute8[i]
+            print('position'+str(execution[key][position]))
+            print(str(len(execution))+'len execute')
+            print(str(len(servo_execute))+'len servo_execute')
         print(execution)
-        print(self.first_p)
-        print(self.second_p)
         return execution
 
 

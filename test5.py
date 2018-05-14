@@ -146,7 +146,7 @@ class SERVO_MAN(Variables,Player,Default_position,
                                    text='глаз левый ').grid(row=1, column=1)
         self.left_eye = IntVar()
         self.angle_box1 = ttk.Entry(self.master,
-                                    width=2,
+                                    width=3,
                                     textvariable=self.left_eye)
         self.angle_box1.grid(row=2, column=0,columnspan =2)
         self.loop_l_e = ttk.Checkbutton(self.master,
@@ -155,7 +155,7 @@ class SERVO_MAN(Variables,Player,Default_position,
 
         self.lab_ser_2 = ttk.Label(self.master,text='глаз правый').grid(row=4, column=1)
         self.right_e = IntVar()
-        self.angle_box2 = ttk.Entry(self.master, textvariable=self.right_e, width=2)
+        self.angle_box2 = ttk.Entry(self.master, textvariable=self.right_e, width=3)
         self.angle_box2.grid(row=5, column=1)
         self.loop_r_e = ttk.Checkbutton(self.master,
                                         command = lambda: self.loop_enabler(self.loop_variator1,self.loop2,self.loop_sec_entry2,5,0,2,self.loop_variable1)
@@ -164,44 +164,44 @@ class SERVO_MAN(Variables,Player,Default_position,
         self.lab_ser_3 = ttk.Label(self.master, text='плечо левое').grid(row=8, column=1)
         self.right_sholder = IntVar()
         self.angle_box3 = ttk.Entry(self.master,
-                                    textvariable=self.right_sholder, width=2)
+                                    textvariable=self.right_sholder, width=3)
         self.angle_box3.grid(row=9, column=0,columnspan =2)
         self.loop_r_s = ttk.Checkbutton(self.master,command = lambda: self.loop_enabler(self.loop_variator2,self.loop3,self.loop_sec_entry3,9,0,2,self.loop_variable2)).grid(row=8, column=2, padx=10)
 
         self.lab_ser_4 = ttk.Label(self.master, text='плечо правое').grid(row=1, column=3, )
         self.right_hand = IntVar()
-        self.angle_box4 = ttk.Entry(self.master, textvariable=self.right_hand, width=2)
+        self.angle_box4 = ttk.Entry(self.master, textvariable=self.right_hand, width=3)
         self.angle_box4.grid(row=2, column=2,columnspan = 3 )
         self.loop_r_h = ttk.Checkbutton(self.master,command = lambda: self.loop_enabler(self.loop_variator3,self.loop4,self.loop_sec_entry4,2,2,4,self.loop_variable3)).grid(row=1, column=4, padx=10)
 
         self.lab_ser_5 = ttk.Label(self.master, text='рука левая').grid(row=4, column=3)
         self.left_hand = IntVar()
-        self.angle_box5 = ttk.Entry(self.master, textvariable=self.left_hand, width=2)
+        self.angle_box5 = ttk.Entry(self.master, textvariable=self.left_hand, width=3)
         self.angle_box5.grid(row=5, column=3)
         self.loop_r_l = ttk.Checkbutton(self.master,command = lambda: self.loop_enabler(self.loop_variator4,self.loop5,self.loop_sec_entry5,5,2,4,self.loop_variable4)).grid(row=4, column=4, padx=10)
 
         self.lab_ser_6 = ttk.Label(self.master, text='рука правая').grid(row=8, column=3)
         self.left_leg = IntVar()
-        self.angle_box6 = ttk.Entry(self.master, textvariable=self.left_leg, width=2)
-        self.angle_box6.grid(row=9, column=3,columnspan = 3 )
+        self.angle_box6 = ttk.Entry(self.master, textvariable=self.left_leg, width=3)
+        self.angle_box6.grid(row=9, column=3)
         self.loop_l_l = ttk.Checkbutton(self.master,command = lambda: self.loop_enabler(self.loop_variator5,self.loop6,self.loop_sec_entry6,9,2,4,self.loop_variable5)).grid(row=8, column=4, padx=10)
 
         self.lab_ser_7 = ttk.Label(self.master, text='нога правая ').grid(row=1, column=6)
         self.right_leg = IntVar()
         self.angle_box7 = ttk.Entry(self.master, textvariable=self.right_leg, width=3)
-        self.angle_box7.grid(row=2, column=6,columnspan = 3 )
+        self.angle_box7.grid(row=2, column=6)
 
         self.loop_r_l = ttk.Checkbutton(self.master,command = lambda: self.loop_enabler(self.loop_variator6,self.loop7,self.loop_sec_entry7,2,7,4,self.loop_variable6)).grid(row=1, column=7, padx=10)
 
         self.lab_ser_8 = ttk.Label(self.master, text='нога левая ').grid(row=4, column=6)
         self.reserved_1 = IntVar()
-        self.angle_box8 = ttk.Entry(self.master, textvariable=self.reserved_1, width=2)
+        self.angle_box8 = ttk.Entry(self.master, textvariable=self.reserved_1, width=3)
         self.angle_box8.grid(row=5, column=6)
         self.loop_res = ttk.Checkbutton(self.master,command = lambda: self.loop_enabler(self.loop_variator7,self.loop8,self.loop_sec_entry8,5,7,4,self.loop_variable7)).grid(row=4, column=7, padx=10)
 
         self.lab_ser_9 = ttk.Label(self.master, text='жопа ').grid(row=8, column=6)
         self.reserved_2 = IntVar()
-        self.angle_box9 = ttk.Entry(self.master, textvariable=self.reserved_2, width=2)
+        self.angle_box9 = ttk.Entry(self.master, textvariable=self.reserved_2, width=3)
         self.angle_box9.grid(row=9, column=6)
         self.loop_res2 = ttk.Checkbutton(self.master,command = lambda: self.loop_enabler(self.loop_variator8,self.loop9,self.loop_sec_entry8,5,7,4,self.loop_variable7)
                                         ).grid(row=8, column=7, padx=10)
@@ -432,7 +432,7 @@ class SERVO_MAN(Variables,Player,Default_position,
 
     def adden_key_to_model(self):
         #obtain values from windows
-        self.model = [self.left_eye.get(), round(self.speed_slider.get()),
+        model = [self.left_eye.get(), round(self.speed_slider.get()),
         self.right_e.get(),round(self.speed_slider.get()),
         self.right_sholder.get(),round(self.speed_slider.get()),
         self.right_hand.get(),round(self.speed_slider.get()),
@@ -441,8 +441,8 @@ class SERVO_MAN(Variables,Player,Default_position,
         self.right_leg.get(),round(self.speed_slider.get()),
         self.reserved_1.get(),round(self.speed_slider.get()),
         self.reserved_2.get(),round(self.speed_slider.get())]
-        self.show_dict()
-        return self.model
+        self.show_dict(model)
+        return model
     def adden_intervals_for_keys(self):
         # list for divider angle
         intervals_for_model = []
@@ -462,8 +462,9 @@ class SERVO_MAN(Variables,Player,Default_position,
                         time_begin,time_over,fi,):
         # create execution from 2 serifs with minimal
         self.min_interval = self.find_minimal_interval(self.adden_intervals_for_keys())
+        print(self.min_interval)
         execute = self.generateNumber(time_begin,time_over,int(self.min_interval)*100,fi)
-        print(execute)
+        print("execute"+str(execute))
         return execute
 
 
@@ -483,6 +484,7 @@ class SERVO_MAN(Variables,Player,Default_position,
 
     def count_clicks(self):
         self.count+= 1
+
         # TODO ALL REFACTOR BELLOW
         if self.count == 1:
             self.primary_time = round(self.time_scale.get() * 1000)
@@ -491,10 +493,10 @@ class SERVO_MAN(Variables,Player,Default_position,
         if self.count == 2:
             self.count = 0
             messagebox.showinfo("значение", "записано второе значение ")
-            self.final_time = round(self.time_scale.get() * 1000)
+            final_time = round(self.time_scale.get() * 1000)
             self.second_p = self.adden_key_to_model()
             interval_servo = self.adden_intervals_for_keys()
-            execute = self.calculate_scale(self.primary_time, self.final_time,self.first_p)
+            execute = self.calculate_scale(self.primary_time,final_time,self.first_p)
             final_execute = self.servo_on_min_interval(execute,self.first_p,self.second_p
                                                         ,0,2,4,6,8,10,12,14,16,
                                                         self.second_p[0],self.second_p[2],self.second_p[4],
@@ -507,7 +509,7 @@ class SERVO_MAN(Variables,Player,Default_position,
                                                         self.first_p[6],self.first_p[8],self.first_p[10],
                                                         self.first_p[12],self.first_p[14],self.first_p[16],
                                                         len(execute))
-            self.show_dict()
+            self.show_dict(final_execute)
     def stopper(self):
         if round(self.time_scale.get()*1000)<=self.final_time:
             self.time_scale.set(self.final_time/1000)
@@ -566,8 +568,9 @@ class SERVO_MAN(Variables,Player,Default_position,
         except KeyError:
             messagebox.showwarning('ошибка','нет значений')
         self.show_dict()
-    def show_dict(self):
+    def show_dict(self,input):
         # separate model for display on listb
+        self.model.append(input)
         base=str(self.model).split('],')
         self.show_last_values.insert(END,base[-1])
 
