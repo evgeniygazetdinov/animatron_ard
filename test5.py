@@ -492,7 +492,9 @@ class SERVO_MAN(Variables,Player,Default_position,
         if self.count == 2:
             self.count = 0
             messagebox.showinfo("значение", "записано второе значение ")
-            final_time = round(self.time_scale.get() * 1000)
+
+            final_time = round(self.time_scale.get())
+            self.final_time = final_time
             self.second_p = self.adden_key_to_model()
             interval_servo = self.adden_intervals_for_keys()
             execute = self.calculate_scale(self.primary_time,final_time,self.first_p)
@@ -511,8 +513,8 @@ class SERVO_MAN(Variables,Player,Default_position,
                                                         len(execute))
             self.show_dict(final_execute)
     def stopper(self):
-        if round(self.time_scale.get()*1000)<=self.final_time:
-            self.time_scale.set(self.final_time/1000)
+        if round(self.time_scale.get())<=self.final_time:
+            self.time_scale.set(self.final_time)
             self.stop = True
 
     def saving_changes(self):
