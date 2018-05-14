@@ -464,7 +464,6 @@ class SERVO_MAN(Variables,Player,Default_position,
         self.min_interval = self.find_minimal_interval(self.adden_intervals_for_keys())
         print(self.min_interval)
         execute = self.generateNumber(time_begin,time_over,int(self.min_interval)*100,fi)
-        print("execute"+str(execute))
         return execute
 
 
@@ -501,7 +500,8 @@ class SERVO_MAN(Variables,Player,Default_position,
                                                         ,0,2,4,6,8,10,12,14,16,
                                                         self.second_p[0],self.second_p[2],self.second_p[4],
                                                         self.second_p[6],self.second_p[8],self.second_p[10],
-                                                        self.second_p[12],self.second_p[14],self.second_p[16],self.min_interval,
+                                                        self.second_p[12],self.second_p[14],self.second_p[16],
+                                                        self.min_interval,
                                                         interval_servo[0],interval_servo[1],interval_servo[2],
                                                         interval_servo[3],interval_servo[4],interval_servo[5],
                                                         interval_servo[6],interval_servo[7],interval_servo[8],

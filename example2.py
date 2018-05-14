@@ -42,10 +42,8 @@ class EXAMPLER:
 
     def generateNumber(self,num,over,shag,values):
         # generate model execute for compare with servo execute
-        model = {}
-        for i in range(int(num),int(over),int(shag)):
-            model['{}'.format(i)] = values
-        print(str(model)+"this is models")
+        model ={str(i): values for i in range(int(num),int(over),int(shag))}
+
         return model
 
 
@@ -115,7 +113,7 @@ class EXAMPLER:
         div_angle = begin_divider
         interval = round(basic_angle / interval_div)
         some_execute = [div_angle]
-        for _ in range(key_number*2):
+        for _ in range((key_number*2)-1):
             div_angle += interval
             if div_angle > basic_angle:
                 interval *= -1
@@ -126,7 +124,7 @@ class EXAMPLER:
                 div_angle += interval
                 continue
             some_execute.append(div_angle)
-        print('LENGHT'+str(key_number))
+        print('LENGHT                                                                                  '+str(key_number))
         return some_execute
 
     def limiter_for_switcher(self,loop,keys):
@@ -202,7 +200,7 @@ class EXAMPLER:
                 return self.divider_angle(basic_angle,min,interval_servo,
                                   begin_divider,key_number)
             if first_list[position] == second_list[position]:
-                print("repeaterS")
+                print("repeater")
                 return self.single_repeater(basic_angle,key_number)
 
 
@@ -252,65 +250,12 @@ class EXAMPLER:
                             begin_divider3,begin_divider4,begin_divider5,
                             begin_divider6,begin_divider7,begin_divider8,
                             begin_divider9,key_number):
-
-        print('LEN'+str(key_number))
-        execution = execute
-        # TODO find servos execute
-        servo_execute = self.compare_values(first_serif,second_serif,position,basic_angle1,min,interval_servo1,
-                          begin_divider1,key_number)
-        servo_execute1 = self.compare_values(first_serif,second_serif,position1,basic_angle2,min,interval_servo2,
-                          begin_divider2,key_number)
-        servo_execute2 = self.compare_values(first_serif,second_serif,position2,basic_angle3,min,interval_servo3,
-                              begin_divider3,key_number)
-        servo_execute3 = self.compare_values(first_serif,second_serif,position3,basic_angle4,min,interval_servo4,
-                          begin_divider4,key_number)
-        servo_execute4 = self.compare_values(first_serif,second_serif,position4,basic_angle5,min,interval_servo5,
-                          begin_divider5,key_number)
-        servo_execute5 = self.compare_values(first_serif,second_serif,position5,basic_angle5,min,interval_servo5,
-                          begin_divider5,key_number)
-        servo_execute6 = self.compare_values(first_serif,second_serif,position6,basic_angle6,min,interval_servo6,
-                              begin_divider6,key_number)
-        servo_execute7 = self.compare_values(first_serif,second_serif,position7,basic_angle7,min,interval_servo7,
-                              begin_divider7,key_number)
-        servo_execute8 = self.compare_values(first_serif,second_serif,position8,basic_angle8,min,interval_servo8,
-                              begin_divider8,key_number)
-
-        print(servo_execute)
-        print(servo_execute2)
-        print(servo_execute3)
-        print(servo_execute4)
-        print(servo_execute5)
-        print(servo_execute6)
-        print(servo_execute7)
-        print(servo_execute8)
-        print(len(servo_execute))
-        print(len(servo_execute2))
-        print(len(servo_execute3))
-        print(len(servo_execute4))
-        print(len(servo_execute5))
-        print(len(servo_execute6))
-        print(len(servo_execute7))
-        print(len(servo_execute8))
-
-        for i, key in enumerate(execution):
-            # if len(execution) != len(servo_execute):
-            #     servo_execute = self.limiter_for_switcher(servo_execute,execution)
-            # else:
-            execution[key][position] = servo_execute[i]
-            # execution[key][position1] = servo_execute1[i]
-            # execution[key][position2] = servo_execute2[i]
-            # execution[key][position3] = servo_execute3[i]
-            # execution[key][position4] = servo_execute4[i]
-            # execution[key][position5] = servo_execute5[i]
-            # execution[key][position6] = servo_execute6[i]
-            # execution[key][position7] = servo_execute7[i]
-            # execution[key][position8] = servo_execute8[i]
-            print('position'+str(execution[key][position]))
-            print(str(len(execution))+'len execute')
-            print(str(len(servo_execute))+'len servo_execute')
-        print(execution)
-        return execution
-
+        execute  = {str(i): self.adden_key_to_model() for i in range(key_number)}
+        servo_execute = self.compare_values(first_serif,second_serif,position,basic_angle1,min,interval_servo1,begin_divider1,key_number)
+        servo_execute1 = self.compare_values(first_serif,second_serif,position1,basic_angle2,min,interval_servo1,begin_divider2,key_number)
+        for i ,value in enumerate(execute.values()):
+            value[0] = servo_execute[i]
+        print(execute)
 
     def big_while(self):
 
