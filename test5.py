@@ -12,10 +12,10 @@ from db_input import *
 from tkinter.messagebox import showinfo
 from default_positon import Default_position
 from player import Player
-from example2 import EXAMPLER
+from example3 import EXAMPLER
 from variables import Variables
 from collections import OrderedDict
-
+import time
 
 class SERVO_MAN(Variables,Player,Default_position,
                 new_base,EXAMPLER,):
@@ -140,6 +140,7 @@ class SERVO_MAN(Variables,Player,Default_position,
         ####################
         self.model =[]
         self.intervals_for_model = []
+        self.GRAND_MODEL = {}
         ####################
 
         self.lab_ser_1 = ttk.Label(self.master,
@@ -277,7 +278,7 @@ class SERVO_MAN(Variables,Player,Default_position,
         self.speed_slider.grid(row=23, column=0,columnspan=3)
         # bigin speed state 50
         self.speed_slider.set(50)
-
+        self.stop = False
         # stand default position for servo before start
 
 
@@ -473,16 +474,17 @@ class SERVO_MAN(Variables,Player,Default_position,
 
         # TODO ALL REFACTOR BELLOW
         if self.count == 1:
-            self.primary_time = round(self.time_scale.get() * 1000)
+            self.primary_time = round(self.time_scale.get())
             messagebox.showinfo("значение", "записано первое значение")
             self.first_p = self.adden_key_to_model()
+            print('write first key')
         if self.count == 2:
-
             self.count = 0
             messagebox.showinfo("значение", "записано второе значение ")
-
             final_time = round(self.time_scale.get())
+            # this part breaks down stopper
             self.final_time = final_time
+            print('write sevcond key')
             self.second_p = self.adden_key_to_model()
             interval_servo = self.adden_intervals_for_keys()
             execute = self.calculate_scale(self.primary_time,final_time,self.first_p)
@@ -500,11 +502,29 @@ class SERVO_MAN(Variables,Player,Default_position,
                                                         self.first_p[6],self.first_p[8],self.first_p[10],
                                                         self.first_p[12],self.first_p[14],self.first_p[16],
                                                         len(execute))
-            self.show_dict(final_execute)
+
+
+
+            self.get_more_position(final_execute)
+            self.show_dict(self.GRAND_MODEL)
+            print(str(self.GRAND_MODEL)+"this is GRAND MODEL!!!!")
+
+
+
+
+
+
     def stopper(self):
+        self.stop = True
         if round(self.time_scale.get())<=self.final_time:
+
             self.time_scale.set(self.final_time)
-            self.stop = True
+
+    def get_more_position(self,new):
+            self.GRAND_MODEL = {**self.GRAND_MODEL,**new}
+
+
+
 
     def saving_changes(self):
         self.write_changes_to_sql('template.db')
@@ -544,6 +564,7 @@ class SERVO_MAN(Variables,Player,Default_position,
 
 
     def _play_exist_sql(self):
+
         for key,values in self.model.items():
             del self.model[key]
             del self.model[values]
@@ -552,12 +573,14 @@ class SERVO_MAN(Variables,Player,Default_position,
         self.write_to_h()
     def clean_model(self):
         try:
+
             self.show_last_values.delete(0,END)
             self.model.popitem()
             print(self.model)
 
         except KeyError:
             messagebox.showwarning('ошибка','нет значений')
+            self.stop = False
         self.show_dict()
     def show_dict(self,input):
         # separate model for display on listb
