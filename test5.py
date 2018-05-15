@@ -462,22 +462,9 @@ class SERVO_MAN(Variables,Player,Default_position,
                         time_begin,time_over,fi,):
         # create execution from 2 serifs with minimal
         self.min_interval = self.find_minimal_interval(self.adden_intervals_for_keys())
-        print(self.min_interval)
-        execute = self.generateNumber(time_begin,time_over,int(self.min_interval)*100,fi)
+        execute = self.generateNumber(time_begin,time_over,int(self.min_interval),fi)
+        print(str(execute)+'this is beginer execute')
         return execute
-
-
-
-    def changer(self):
-        # if loop check button is pushed
-        # with quantity in one angle after him begin another angle
-        pass
-
-
-
-    def put_values_on_minimal_intervals(self,begin,over,min_interval):
-        # bring scale witn min interval draw key from interval and after
-        pass
 
 
 
@@ -490,6 +477,7 @@ class SERVO_MAN(Variables,Player,Default_position,
             messagebox.showinfo("значение", "записано первое значение")
             self.first_p = self.adden_key_to_model()
         if self.count == 2:
+
             self.count = 0
             messagebox.showinfo("значение", "записано второе значение ")
 
@@ -498,6 +486,7 @@ class SERVO_MAN(Variables,Player,Default_position,
             self.second_p = self.adden_key_to_model()
             interval_servo = self.adden_intervals_for_keys()
             execute = self.calculate_scale(self.primary_time,final_time,self.first_p)
+            print(execute)
             final_execute = self.servo_on_min_interval(execute,self.first_p,self.second_p
                                                         ,0,2,4,6,8,10,12,14,16,
                                                         self.second_p[0],self.second_p[2],self.second_p[4],

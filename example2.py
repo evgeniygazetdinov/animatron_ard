@@ -41,37 +41,15 @@ class EXAMPLER:
         return f,s
 
     def generateNumber(self,num,over,shag,values):
-        # generate model execute for compare with servo execute
+        model ={}
         model ={str(i): values for i in range(int(num),int(over),int(shag))}
-
         return model
-
-
-
-    def create_intervals(self):
-        #obviously create list intervals of all servos
-        my_randoms=[random.randrange(1,101,1) for _ in range (100)]
-        return my_randoms
-
 
     def find_minimal_interval(self,interval):
         # compare all intervals
         my_intervals = interval
         min_interval = min(my_intervals)
         return min_interval
-
-
-    def create_min_keys(self):
-        min_interval = 0.2
-        time_execute = self.generateNumber(0,80,1,self.default_begin)
-        return time_execute
-
-
-    def create_some_servo_angles(self):
-        # generate servo execute list
-        servo_angle = self.generateNumber(0,10,5,self.servo_angles_defaults)
-        return servo_angle
-
 
     def call_just_one_angle(self,one_angle,another_angle):
         # return one value by counter
@@ -97,7 +75,6 @@ class EXAMPLER:
 
         some_execute = []
         for i in range(key_number):
-
             some_execute.append(angle_for_repeat)
         return some_execute
 
@@ -105,13 +82,7 @@ class EXAMPLER:
                           begin_divider,key_number):
         min_interval = min
         interval_servo = interval_servo
-        try:
-            interval_div = int(int(interval_servo*10 ) / int(min_interval*10))
-        except ZeroDivisionError:
-            pass
-        finally:
-            interval_servo = 1
-            begin_divider = 1
+        interval_div = int(int(interval_servo) / int(min_interval))
         div_angle = begin_divider
         interval = round(basic_angle / interval_div)
         some_execute = [div_angle]
@@ -144,52 +115,9 @@ class EXAMPLER:
             return loop
     def find_right_way(self,list1,list2):
         # sorting in begin one value after second
+        # [50][60] ==> [50,60]
         right_sequense = list(chain.from_iterable(zip(list1,list2)))
         return right_sequense
-
-
-    def switcher(self,first_angle,min,interval_servo,
-                 begin_divider,key_number,second_angle = 90):
-        loop1 = 0
-        loop2 = 0
-        total_loop = 0
-        final_loop = 0
-        # this func must be change angle passing just one  loop with quantity keys
-        # this stuff be responsibility by loop
-        # in my mind just one sequence divide angle after she begin anothe with another angle
-        # for example first angle 180 begin by 20 and interval =10 second angle 60 begin by 20 and interval 5
-        # 20 30 40 50 60 70 80 90  etc 180 170 160 150 etc 20 25 30 35 etc 60 55 50 45 40 35 30 25 20  etc 180
-        # simple implementation is divider angle launched 2
-        loop1 = (self.divider_angle(first_angle,min,interval_servo,
-                          begin_divider,key_number))
-
-        loop2 = (self.divider_angle(second_angle,min,interval_servo,
-                          begin_divider,key_number))
-        total_loop = self.find_right_way(loop1,loop2)
-        for i in total_loop:
-            final_loop += i
-        # it second right length
-        final_loop = self.limiter_for_switcher(total_loop,key_number)
-        print(key_number)
-        print(total_loop)
-        print("switcher")
-            # rebuild stuff in side 2divider angle create common list with values.lenght this list depend on quantity keys
-            # after return list with values .Which is will add on commom scale with minamal interval.
-
-
-
-    def selector(self,loop,basic_angle,min,interval_servo,
-                      begin_divider,key_number):
-        # choose prefer method put values on scale_with_interval
-        if loop == True:
-            return switcher(first_angle,second_angle,min,interval_servo,
-                         begin_divider,key_number)
-            print("selector")
-        else:
-            print('divider')
-            return self.divider_angle(basic_angle,min,interval_servo,
-                              begin_divider,key_number)
-
 
 
     def compare_values(self,first_list,second_list,position,basic_angle,min,interval_servo,
@@ -251,9 +179,12 @@ class EXAMPLER:
                             begin_divider3,begin_divider4,begin_divider5,
                             begin_divider6,begin_divider7,begin_divider8,
                             begin_divider9,key_number):
-        execute  = {str(i): self.adden_key_to_model() for i in range(key_number)}
 
-        servo_execute = self.compare_values(first_serif,second_serif,position,basic_angle1,min,interval_servo1,begin_divider1,key_number)
+
+        servo_execute = self.compare_values(first_serif,
+                                            second_serif,position,
+                                            basic_angle1,min,interval_servo1,
+                                            begin_divider1,key_number)
         servo_execute1 = self.compare_values(first_serif,second_serif,position1,basic_angle2,min,interval_servo2,basic_angle2,key_number)
         servo_execute2 = self.compare_values(first_serif,second_serif,position2,basic_angle3,min,interval_servo3,basic_angle3,key_number)
         servo_execute3 = self.compare_values(first_serif,second_serif,position3,basic_angle4,min,interval_servo4,basic_angle4,key_number)
@@ -263,6 +194,15 @@ class EXAMPLER:
         servo_execute7 = self.compare_values(first_serif,second_serif,position7,basic_angle8,min,interval_servo7,basic_angle8,key_number)
         servo_execute8 = self.compare_values(first_serif,second_serif,position8,basic_angle9,min,interval_servo8,basic_angle9,key_number)
         print(servo_execute)
+        print(servo_execute1)
+        print(servo_execute2)
+        print(servo_execute3)
+        print(servo_execute4)
+        print(servo_execute5)
+        print(servo_execute6)
+        print(servo_execute7)
+        print(servo_execute8)
+
         for i ,value in enumerate(execute.values()):
             value[0] = servo_execute[i]
             value[2] = servo_execute1[i]
@@ -274,13 +214,7 @@ class EXAMPLER:
             value[14] = servo_execute7[i]
             value[16] = servo_execute8[i]
 
-        print(execute)
         return execute
-    def big_while(self):
-
-        scale = self.create_execute()
-        print(scale)
-        return scale3
 
     def use_execute(self):
         execute = self.servo_on_min_interval(198,91,92,
