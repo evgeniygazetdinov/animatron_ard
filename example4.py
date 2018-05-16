@@ -237,15 +237,10 @@ class EXAMPLER:
         self.compare_values(first_serif,second_serif,position9,loop9,basic_angle9,min,interval_servo9,
                           begin_divider9,key_number)
 
-    def switcher(self,first_serif,second_serif,position):
-
-            return self.divider_angle()
-        if first_serif[position] == second_serif[position]:
-            return self.single_repeater(basic_angle1,min,interval_servo1,
-                                  begin_divider1,key_number)
 
 
-    def returner_position(self,*args):
+
+    def returner_divider_position(self,*args):
         on = []
         off = []
         for i,x in range(9):
@@ -278,7 +273,7 @@ class EXAMPLER:
 
 
 
-    def servo_on_min_interval(self,execute,first_serif,second_serif,position,
+       def servo_on_min_interval(self,execute,first_serif,second_serif,position,
                             position1,position2,position3,position4,
                             position5,position6,position7,position8,
                             basic_angle1,basic_angle2,basic_angle3,basic_angle4,
@@ -290,25 +285,18 @@ class EXAMPLER:
                             begin_divider3,begin_divider4,begin_divider5,
                             begin_divider6,begin_divider7,begin_divider8,
                             begin_divider9,key_number):
-        servo_execute = self.switcher(first_serif,second_serif,position,basic_angle,min,interval_servo,
-                              begin_divider,key_number)
-        servo_execute1 = self.switcher(basic_angle1,min,interval_servo1,
-                              begin_divider1,key_number)
-        servo_execute2 = self.switcher(basic_angle2,min,interval_servo2,
-                              begin_divider2,key_number)
-        servo_execute3 = self.switcher(basic_angle3,min,interval_servo3,
-                              begin_divider3,key_number)
-        servo_execute4 = self.switcher(basic_angle4,min,interval_servo4,
-                              begin_divider4,key_number)
-        servo_execute5 = self.switcher(basic_angle5,min,interval_servo5,
-                              begin_divider5,key_number)
-        servo_execute6 = self.switcher(basic_angle6,min,interval_servo6,
-                              begin_divider6,key_number)
-        servo_execute7 = self.switcher(basic_angle7,min,interval_servo7,
-                              begin_divider7,key_number)
-        servo_execute8 = self.switcher(basic_angle8,min,interval_servo8,
-                              begin_divider8,key_number)
+        execute  = {str(i): self.adden_key_to_model() for i in range(key_number)}
 
+        servo_execute = self.compare_values(first_serif,second_serif,position,basic_angle1,min,interval_servo1,begin_divider1,key_number)
+        servo_execute1 = self.compare_values(first_serif,second_serif,position1,basic_angle2,min,interval_servo2,basic_angle2,key_number)
+        servo_execute2 = self.compare_values(first_serif,second_serif,position2,basic_angle3,min,interval_servo3,basic_angle3,key_number)
+        servo_execute3 = self.compare_values(first_serif,second_serif,position3,basic_angle4,min,interval_servo4,basic_angle4,key_number)
+        servo_execute4 = self.compare_values(first_serif,second_serif,position4,basic_angle5,min,interval_servo5,basic_angle5,key_number)
+        servo_execute5 = self.compare_values(first_serif,second_serif,position5,basic_angle6,min,interval_servo6,basic_angle6,key_number)
+        servo_execute6 = self.compare_values(first_serif,second_serif,position6,basic_angle7,min,interval_servo6,basic_angle7,key_number)
+        servo_execute7 = self.compare_values(first_serif,second_serif,position7,basic_angle8,min,interval_servo7,basic_angle8,key_number)
+        servo_execute8 = self.compare_values(first_serif,second_serif,position8,basic_angle9,min,interval_servo8,basic_angle9,key_number)
+        print(servo_execute)
         for i ,value in enumerate(execute.values()):
             value[0] = servo_execute[i]
             value[2] = servo_execute1[i]
@@ -320,66 +308,7 @@ class EXAMPLER:
             value[14] = servo_execute7[i]
             value[16] = servo_execute8[i]
 
-        print(execute)
-        return execute
-
-    def servo_on_min_interval(self,execute,first_serif,second_serif,position,
-                            position1,position2,position3,position4,
-                            position5,position6,position7,position8,
-                            basic_angle1,basic_angle2,basic_angle3,basic_angle4,
-                            basic_angle5,basic_angle6,basic_angle7,basic_angle8,
-                            basic_angle9,min,interval_servo1,interval_servo2,
-                            interval_servo3,interval_servo4,interval_servo5,
-                            interval_servo6,interval_servo7,interval_servo8,
-                            interval_servo9,begin_divider1,begin_divider2,
-                            begin_divider3,begin_divider4,begin_divider5,
-                            begin_divider6,begin_divider7,begin_divider8,
-                            begin_divider9,key_number):
-        servo_execute = self.switcher(first_serif,second_serif,position,basic_angle,min,interval_servo,
-                              begin_divider,key_number)
-        servo_execute1 = self.switcher(basic_angle1,min,interval_servo1,
-                              begin_divider1,key_number)
-        servo_execute2 = self.switcher(basic_angle2,min,interval_servo2,
-                              begin_divider2,key_number)
-        servo_execute3 = self.switcher(basic_angle3,min,interval_servo3,
-                              begin_divider3,key_number)
-        servo_execute4 = self.switcher(basic_angle4,min,interval_servo4,
-                              begin_divider4,key_number)
-        servo_execute5 = self.switcher(basic_angle5,min,interval_servo5,
-                              begin_divider5,key_number)
-        servo_execute6 = self.switcher(basic_angle6,min,interval_servo6,
-                              begin_divider6,key_number)
-        servo_execute7 = self.switcher(basic_angle7,min,interval_servo7,
-                              begin_divider7,key_number)
-        servo_execute8 = self.switcher(basic_angle8,min,interval_servo8,
-                              begin_divider8,key_number)
-
-        for i ,value in enumerate(execute.values()):
-            value[0] = servo_execute[i]
-            value[2] = servo_execute1[i]
-            value[4] = servo_execute2[i]
-            value[6] = servo_execute3[i]
-            value[8] = servo_execute4[i]
-            value[10] = servo_execute5[i]
-            value[12] = servo_execute6[i]
-            value[14] = servo_execute7[i]
-            value[16] = servo_execute8[i]
-
-        print(execute)
-        return execute
-
-    def servo_on_min_interval(self,execute,first_serif,second_serif,position,
-                            position1,position2,position3,position4,
-                            position5,position6,position7,position8,
-                            basic_angle1,basic_angle2,basic_angle3,basic_angle4,
-                            basic_angle5,basic_angle6,basic_angle7,basic_angle8,
-                            basic_angle9,min,interval_servo1,interval_servo2,
-                            interval_servo3,interval_servo4,interval_servo5,
-                            interval_servo6,interval_servo7,interval_servo8,
-                            interval_servo9,begin_divider1,begin_divider2,
-                            begin_divider3,begin_divider4,begin_divider5,
-                            begin_divider6,begin_divider7,begin_divider8,
-                            begin_divider9,key_number):
+    def divider_any_way(self,execute,*args):
         servo_execute = self.compare_values(first_serif,second_serif,position,basic_angle1,min,interval_servo1,begin_divider1,key_number)
         servo_execute1 = self.compare_values(first_serif,second_serif,position1,basic_angle2,min,interval_servo2,basic_angle2,key_number)
         servo_execute2 = self.compare_values(first_serif,second_serif,position2,basic_angle3,min,interval_servo3,basic_angle3,key_number)
@@ -406,7 +335,11 @@ class EXAMPLER:
 
 
 
-
+        def switcher(self,first_serif,second_serif,position,):
+            # here will come decide who will divide or repeated
+            if first_serif[position] != second_serif[position]:
+                
+            if first_serif[position] == second_serif[position]:
 
 
 
