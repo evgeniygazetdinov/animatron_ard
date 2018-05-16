@@ -512,6 +512,7 @@ class SERVO_MAN(Variables,Player,Default_position,
 
 
 
+    def loop_near_loop(self):
 
 
     def stopper(self):
