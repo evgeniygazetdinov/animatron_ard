@@ -71,15 +71,15 @@ class SERVO_MAN(Variables,Player,Default_position,
         self.loop_variable7 = IntVar()
         self.loop_variable8 = IntVar()
 
-        self.loop1 = False
-        self.loop2 = False
-        self.loop3 = False
-        self.loop4 = False
-        self.loop5 = False
-        self.loop6 = False
-        self.loop7 = False
-        self.loop8 = False
-        self.loop9 = False
+        self.indicator_ = False
+        self.indicator_1 = False
+        self.indicator_2 = False
+        self.indicator_3 = False
+        self.indicator_4 = False
+        self.indicator_5 = False
+        self.indicator_6 = False
+        self.indicator_7 = False
+        self.indicator_8 = False
 
         self.loop_speed1=0
         self.loop_speed2=0
@@ -333,18 +333,6 @@ class SERVO_MAN(Variables,Player,Default_position,
         variable = IntVar()
         name = ttk.Entry(self.master, textvariable=variable, width=3)
         name.grid(row = row, column = column, padx = pad)
-
-    # def draw_entrys(self,*args):
-    #     self.one_more_window(variable1,name1,row1,column1,pad1,)
-    #     self.one_more_window(variable2,name2,row2,column2,pad2,)
-    #     self.one_more_window(variable3,name3,row3,column3,pad3,)
-    #     self.one_more_window(variable4,name4,row4,column4,pad4,)
-    #     self.one_more_window(variable5,name5,row5,column5,pad5,)
-    #     self.one_more_window(variable6,name6,row6,column6,pad6,)
-    #     self.one_more_window(variable7,name7,row7,column7,pad7,)
-    #     self.one_more_window(variable8,name8,row8,column8,pad8,)
-    #     self.one_more_window(variable9,name9,row9,column9,pad9,)
-
 
 
 
