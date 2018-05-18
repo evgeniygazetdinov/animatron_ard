@@ -489,6 +489,7 @@ class SERVO_MAN(Variables,Player,Default_position,
             interval_servo = self.adden_intervals_for_keys()
             execute = self.calculate_scale(self.primary_time,final_time,self.first_p)
             print(execute)
+            print("THIS IS EXECUTEEXECUTEEXECUTEEXECUTEEXECUTEEXECUTE"+str(len(execute)))
             final_execute = self.servo_on_min_interval(execute,self.first_p,self.second_p
                                                         ,0,2,4,6,8,10,12,14,16,
                                                         self.second_p[0],self.second_p[2],self.second_p[4],

@@ -107,12 +107,11 @@ class EXAMPLER:
         min_interval = min
         interval_servo = interval_servo
         try:
-            interval_div = int(int(interval_servo*10 ) / int(min_interval*10))
+            interval_div = int(int(interval_servo) / int(min_interval))
         except ZeroDivisionError:
             pass
         finally:
             interval_servo = 1
-            begin_divider = 1
         div_angle = begin_divider
         interval = round(basic_angle / interval_div)
         some_execute = [div_angle]
@@ -193,6 +192,10 @@ class EXAMPLER:
 
 
 
+
+
+
+
     def compare_values(self,first_list,second_list,position,basic_angle,min,interval_servo,
                       begin_divider,key_number):
         # decide which number worthy
@@ -264,6 +267,7 @@ class EXAMPLER:
         servo_execute7 = self.compare_values(first_serif,second_serif,position7,basic_angle8,min,interval_servo7,basic_angle8,key_number)
         servo_execute8 = self.compare_values(first_serif,second_serif,position8,basic_angle9,min,interval_servo8,basic_angle9,key_number)
         print(servo_execute)
+        print(str(len(execute))+"LENEXECUTETETETETETET")
         for i ,value in enumerate(execute.values()):
             value[0] = servo_execute[i]
             value[2] = servo_execute1[i]
@@ -275,7 +279,7 @@ class EXAMPLER:
             value[14] = servo_execute7[i]
             value[16] = servo_execute8[i]
 
-        print(execute)
+
         return execute
     def big_while(self):
 
